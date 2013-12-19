@@ -66,6 +66,7 @@
     <Compile Include="Exceptions\ServicoInexistenteException.cs" />
     <Compile Include="FolderCompare.cs" />
     <Compile Include="Functions.cs" />
+    <Compile Include="GerarXML.cs" />
     <Compile Include="Interface\IBetha.cs" />
     <Compile Include="Implementacoes\Betha.cs" />
     <Compile Include="Implementacoes\IPM.cs" />
@@ -73,6 +74,16 @@
     <Compile Include="Interface\IEmiteNFSe.cs" />
     <Compile Include="Interface\IEmiteNFSeIPM.cs" />
     <Compile Include="InvocarObjeto.cs" />
+    <Compile Include="Layouts\Betha\CancelarNfseEnvio.cs" />
+    <Compile Include="Layouts\Betha\CancelarNfseResposta.cs" />
+    <Compile Include="Layouts\Betha\Comuns.cs" />
+    <Compile Include="Layouts\Betha\ConsultarLoteRpsEnvio.cs" />
+    <Compile Include="Layouts\Betha\ConsultarLoteRpsResposta.cs" />
+    <Compile Include="Layouts\Betha\ConsultarSituacaoLoteRpsEnvio.cs" />
+    <Compile Include="Layouts\Betha\ConsultarSituacaoLoteRpsResposta.cs" />
+    <Compile Include="Layouts\Betha\EnviarLoteRpsEnvio.cs" />
+    <Compile Include="Layouts\Betha\EnviarLoteRpsResposta.cs" />
+    <Compile Include="Layouts\Serializador.cs" />
     <Compile Include="LerXML.cs" />
     <Compile Include="MsgErro.cs" />
     <Compile Include="Municipio.cs" />
@@ -495,6 +506,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

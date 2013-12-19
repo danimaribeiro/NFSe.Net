@@ -187,8 +187,7 @@ namespace NFSE.Net
             // Registra o retorno de acordo com o status obtido
             if (cFinalArqEnvio != string.Empty && cFinalArqRetorno != string.Empty)
             {
-                //TODO Criar um método aqui para salvar o xml de retorno.
-                //typeServicoNFe.InvokeMember("XmlRetorno", System.Reflection.BindingFlags.InvokeMethod, null, oServicoNFe, new Object[] { cFinalArqEnvio + ".xml", cFinalArqRetorno + ".xml" });
+                typeServicoNFe.InvokeMember("XmlRetorno", System.Reflection.BindingFlags.InvokeMethod, null, oServicoNFe, new Object[] { cFinalArqEnvio + ".xml", cFinalArqRetorno + ".xml" });
             }
         }
         #endregion

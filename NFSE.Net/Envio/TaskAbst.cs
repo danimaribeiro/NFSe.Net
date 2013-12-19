@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NFSE.Net.Envio
@@ -12,7 +13,8 @@ namespace NFSE.Net.Envio
     {
         #region Objetos
         protected Auxiliar oAux = new Auxiliar();
-        protected InvocarObjeto oInvocarObj = new InvocarObjeto();        
+        protected InvocarObjeto oInvocarObj = new InvocarObjeto();
+        protected GerarXML oGerarXML = new GerarXML();
         #endregion
 
         #region Propriedades
@@ -748,24 +750,19 @@ namespace NFSE.Net.Envio
 
         #endregion
 
-        #region Assinado()
+        
+        #region XmlRetorno()
         /// <summary>
-        /// Verifica se o XML já está assinado digitalmente ou não
+        /// Auxiliar na geração do arquivo XML de retorno para o ERP quando estivermos utilizando o InvokeMember para chamar o método
         /// </summary>
-        /// <param name="cArquivoXML">Arquivo a ser verificado</param>
-        /// <returns>true = Arquivo XML já assinado</returns>
+        /// <param name="pFinalArqEnvio">Final do nome do arquivo de solicitação do serviço.</param>
+        /// <param name="pFinalArqRetorno">Final do nome do arquivo que é para ser gravado o retorno.</param>
+        /// <date>07/08/2009</date>
         /// <by>Wandrey Mundin Ferreira</by>
-        /// <date>03/04/2009</date>
-        protected Boolean Assinado(string cArquivoXML)
+        public void XmlRetorno(string pFinalArqEnvio, string pFinalArqRetorno)
         {
-            Boolean bAssinado = false;
-
-            //TODO: Tem que criar ainda o código que verifica se já está assinado ou não
-
-            return bAssinado;
+            oGerarXML.XmlRetorno(pFinalArqEnvio, pFinalArqRetorno, this.vStrXmlRetorno);
         }
         #endregion
-
-        
     }
 }
