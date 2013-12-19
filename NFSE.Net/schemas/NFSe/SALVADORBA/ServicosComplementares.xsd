@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://nfse.sefaz.salvador.ba.gov.br/OnLine/XSD/ServicosComplementares.xsd"
+            xmlns:abrasf="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"
+            xmlns="https://nfse.sefaz.salvador.ba.gov.br/OnLine/XSD/ServicosComplementares.xsd"
+            xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
+            attributeFormDefault="unqualified"
+            elementFormDefault="qualified">
+    <xsd:import schemaLocation="nfse_salvador.xsd" namespace="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"/>
+    <xsd:import schemaLocation="xmldsig-core-schema20020212.xsd" namespace="http://www.w3.org/2000/09/xmldsig#"/>
+
+    <xsd:element name="ConsultarSituacaoNfseEnvio">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="idNfse" type="abrasf:tcIdentificacaoNfse" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ConsultarSituacaoNfseResposta">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:sequence>
+                    <xsd:element name="idNfse" type="abrasf:tcIdentificacaoNfse" minOccurs="1" maxOccurs="1"/>
+                    <xsd:element name="situacao" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+                <xsd:element ref="abrasf:ListaMensagemRetorno" minOccurs="1" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="tsRegistroAceite">
+        <xsd:restriction base="xsd:byte">
+            <xsd:pattern value="1|2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="tsJustificativaIndeferimento">
+        <xsd:restriction base="xsd:byte">
+            <xsd:pattern value="1|2|3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="tsStatusAceiteNfse">
+        <xsd:restriction base="xsd:byte">
+            <xsd:pattern value="1|2|3|4|5"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="tcNfsePendenteAceite">
+        <xsd:sequence>
+            <xsd:element name="Prestador" type="abrasf:tcIdentificacaoPrestador" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="NumeroNfse" type="abrasf:tsNumeroNfse" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="DataEmissao" type="xsd:dateTime" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="Competencia" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="ValorServicos" type="abrasf:tsValor" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="tcRegistroAceiteNFse">
+        <xsd:sequence>
+            <xsd:element name="Prestador" type="abrasf:tcIdentificacaoPrestador" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="NumeroNfse" type="abrasf:tsNumeroNfse" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="RegistroAceite" type="tsRegistroAceite" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="JustificativaIndeferimento" type="tsJustificativaIndeferimento" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="abrasf:tsIdTag" use="required" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="tcSituacaoAceiteNfse">
+        <xsd:sequence>
+            <xsd:element name="StatusAceiteNfse" type="tsStatusAceiteNfse" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="abrasf:tsIdTag" use="required" />
+    </xsd:complexType>
+    
+    <xsd:complexType name="tcAceiteNFse">
+        <xsd:sequence>
+            <xsd:element name="Tomador" type="abrasf:tcIdentificacaoTomador" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="ListaNfse" minOccurs="1" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="RegistroAceiteNfse" type="tcRegistroAceiteNFse" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="abrasf:tsIdTag" use="required" />
+    </xsd:complexType>
+
+    <xsd:element name="ConsultarNfsePendenteAceiteEnvio">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Tomador" type="abrasf:tcIdentificacaoTomador" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="Prestador" type="abrasf:tcIdentificacaoPrestador" minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="NumeroNfse" type="abrasf:tsNumeroNfse" minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="Competencia" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ConsultarNfsePendenteAceiteResposta">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="ListaNfse" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="NfsePendenteAceite" type="tcNfsePendenteAceite" minOccurs="0" maxOccurs="unbounded" />
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element ref="abrasf:ListaMensagemRetorno" minOccurs="1" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="RegistrarAceiteTomadorEnvio">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="RegistroAceiteNFse" type="tcRegistroAceiteNFse" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="dsig:Signature" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="RegistrarAceiteTomadorResposta">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="ListaNfse" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="SituacaoRegistro" type="tcSituacaoAceiteNfse" minOccurs="1" maxOccurs="unbounded" />
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element ref="abrasf:ListaMensagemRetorno" minOccurs="1" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

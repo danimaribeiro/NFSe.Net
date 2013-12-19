@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFSE.Net", "NFSE.Net\NFSE.Net.csproj", "{49BAA5A9-C377-4E16-BCB3-A6202CA5973D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFSE.Net.Tests", "NFSE.Net.Tests\NFSE.Net.Tests.csproj", "{5F48DC48-BF24-4A9E-875A-A8BB8C603DE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49BAA5A9-C377-4E16-BCB3-A6202CA5973D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BAA5A9-C377-4E16-BCB3-A6202CA5973D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49BAA5A9-C377-4E16-BCB3-A6202CA5973D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49BAA5A9-C377-4E16-BCB3-A6202CA5973D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F48DC48-BF24-4A9E-875A-A8BB8C603DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F48DC48-BF24-4A9E-875A-A8BB8C603DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F48DC48-BF24-4A9E-875A-A8BB8C603DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F48DC48-BF24-4A9E-875A-A8BB8C603DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://nfse.sefaz.salvador.ba.gov.br/OnLine/XSD/DadosComplementares.xsd"
+	        xmlns:abrasf="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"
+            xmlns="https://nfse.sefaz.salvador.ba.gov.br/OnLine/XSD/DadosComplementares.xsd"
+            xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"
+            attributeFormDefault="unqualified"
+            elementFormDefault="qualified">
+    <xsd:import schemaLocation="nfse_salvador.xsd" namespace="http://www.abrasf.org.br/ABRASF/arquivos/nfse.xsd"/>
+    <xsd:import schemaLocation="xmldsig-core-schema20020212.xsd" namespace="http://www.w3.org/2000/09/xmldsig#"/>
+  
+  <xsd:simpleType name="tsSimNao">
+    <xsd:restriction base="xsd:byte">
+      <xsd:pattern value="1|2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+    <xsd:element name="EnvioDadosComplementares">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" maxOccurs="1" name="DadosComplementares" type="tcDadosComplementares" />
+                <xsd:element minOccurs="0" maxOccurs="1" ref="dsig:Signature" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+  
+    <xsd:complexType name="tcDadosComplementares">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="NumeroLote" type="xsd:string" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="ListaRPSComplementar" type="ListaRPSComplementar" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="abrasf:tsIdTag"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ListaRPSComplementar">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="RPSComplementar" nillable="true" type="tcRPSComplementar" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="tcRPSComplementar">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="InfRPSComplementar" type="tcInfRPSComplementar" />
+            <xsd:element minOccurs="0" maxOccurs="1" ref="dsig:Signature" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="tcInfRPSComplementar">
+        <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="IdentificacaoRps" type="abrasf:tcIdentificacaoRps" />
+            <xsd:choice>
+                <xsd:element minOccurs="1" maxOccurs="1" name="AtividadePortuaria" type="tcAtividadePortuaria" />
+                <xsd:element minOccurs="1" maxOccurs="1" name="ConstrucaoCivil" type="tcConstrucaoCivil" />
+                <xsd:element minOccurs="1" maxOccurs="1" name="AtividadeEducacao" type="tcAtividadeEducacao" />
+            </xsd:choice>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="abrasf:tsIdTag"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="tcAtividadePortuaria">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="NomeRazaoSocialProprietarioRepresentante" type="xsd:string" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="CpfCnpj" type="abrasf:tcCpfCnpj" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="Endereco" type="abrasf:tcEndereco" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="stProprietario" type="xsd:byte" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="NomeEmbarcacao" type="xsd:string" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="BandeiraEmbarcacao" type="xsd:string" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="NomePorto" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="DataEntrada" type="xsd:dateTime" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="DataSaida" type="xsd:dateTime" />
+        </xsd:sequence>
+    </xsd:complexType>
+  
+    <xsd:complexType name="tcConstrucaoCivil">
+        <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="NomeObra" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Endereco" type="abrasf:tcEndereco" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="DeducaoMaterial" type="abrasf:tsValor" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="DeducaoSubempreitada" type="abrasf:tsValor" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="tcAtividadeEducacao">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="FlServicoConveniado" type="tsSimNao" />
+     </xsd:sequence>
+  </xsd:complexType>
+
+    <xsd:complexType name="tcInfNfseComplementar">
+        <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Numero" type="abrasf:tsNumeroNfse" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="IdentificacaoRps" type="abrasf:tcIdentificacaoRps" />
+            <xsd:choice>
+                <xsd:element minOccurs="1" maxOccurs="1" name="AtividadePortuaria" type="tcAtividadePortuaria" />
+                <xsd:element minOccurs="1" maxOccurs="1" name="ConstrucaoCivil" type="tcConstrucaoCivil" />
+                <xsd:element minOccurs="1" maxOccurs="1" name="AtividadeEducacao" type="tcAtividadeEducacao" />
+            </xsd:choice>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="abrasf:tsIdTag"/>
+    </xsd:complexType>
+  
+    <xsd:complexType name="tcNfseComplementar">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="InfNfseComplementar" type="tcInfNfseComplementar" />
+            <xsd:element minOccurs="0" maxOccurs="1" ref="dsig:Signature" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="ConsultarNfseRPSComplementarResposta">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="NfseComplementar" type="tcNfseComplementar" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="abrasf:ListaMensagemRetorno" minOccurs="1" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+  
+    <xsd:element name="ConsultarNfseComplementarResposta">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="ListaNfseComplementar" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="NfseComplementar" maxOccurs="unbounded" type="tcNfseComplementar" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element ref="abrasf:ListaMensagemRetorno" minOccurs="1" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+  
+    <xsd:element name="ConsultarLoteRpsComplementarResposta">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="ListaNfseComplementar" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="NfseComplementar" maxOccurs="unbounded" type="tcNfseComplementar" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element ref="abrasf:ListaMensagemRetorno" minOccurs="1" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+  
+</xsd:schema>

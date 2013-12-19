@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49BAA5A9-C377-4E16-BCB3-A6202CA5973D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NFSE.Net</RootNamespace>
+    <AssemblyName>NFSE.Net</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Auxiliar.cs" />
+    <Compile Include="Certificado\AssinaturaDigital.cs" />
+    <Compile Include="Certificado\CertificadoDigital.cs" />
+    <Compile Include="Certificado\Criptografia.cs" />
+    <Compile Include="ComboElemen.cs" />
+    <Compile Include="Core\Classes.cs" />
+    <Compile Include="Core\ConfiguracaoApp.cs" />
+    <Compile Include="Core\Empresa.cs" />
+    <Compile Include="DiretorioSalvarComo.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Envio\Processar.cs" />
+    <Compile Include="Envio\TaskAbst.cs" />
+    <Compile Include="Envio\TaskCancelarNfse.cs" />
+    <Compile Include="Envio\TaskConsultarLoteRps.cs" />
+    <Compile Include="Envio\TaskConsultarNfse.cs" />
+    <Compile Include="Envio\TaskConsultarNfsePorRps.cs" />
+    <Compile Include="Envio\TaskConsultarURLNfse.cs" />
+    <Compile Include="Envio\TaskConsultaSituacaoLoteRps.cs" />
+    <Compile Include="Envio\TaskRecepcionarLoteRps.cs" />
+    <Compile Include="Exceptions\ExceptionCertificadoDigital.cs" />
+    <Compile Include="Exceptions\ExceptionEnvioXML.cs" />
+    <Compile Include="Exceptions\ExceptionSemInternet.cs" />
+    <Compile Include="Exceptions\ServicoInexistenteException.cs" />
+    <Compile Include="FolderCompare.cs" />
+    <Compile Include="Functions.cs" />
+    <Compile Include="Interface\IBetha.cs" />
+    <Compile Include="Implementacoes\Betha.cs" />
+    <Compile Include="Implementacoes\IPM.cs" />
+    <Compile Include="Interface\IEmiteNfIPM.cs" />
+    <Compile Include="Interface\IEmiteNFSe.cs" />
+    <Compile Include="Interface\IEmiteNFSeIPM.cs" />
+    <Compile Include="InvocarObjeto.cs" />
+    <Compile Include="LerXML.cs" />
+    <Compile Include="MsgErro.cs" />
+    <Compile Include="Municipio.cs" />
+    <Compile Include="POSTRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Propriedade.cs" />
+    <Compile Include="Proxy.cs" />
+    <Compile Include="SchemaXML.cs" />
+    <Compile Include="SchemaXMLNFSe.cs" />
+    <Compile Include="Smf.cs" />
+    <Compile Include="TFunctions.cs" />
+    <Compile Include="TipoArquivoXML.cs" />
+    <Compile Include="Validacoes\ValidarXML.cs" />
+    <Compile Include="WebServiceNFSe.cs" />
+    <Compile Include="WebServiceProxy.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="schemas\NFSe\ABACO\nfse_v2010.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ABACO\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ABRASF\nfse.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ABRASF\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\nfse_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_cancelar_nfse_envio_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_cancelar_nfse_resposta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_lote_rps_envio_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_lote_rps_resposta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_nfse_envio_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_nfse_resposta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_nfse_rps_envio_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_nfse_rps_resposta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_situacao_lote_rps_envio_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_consultar_situacao_lote_rps_resposta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_enviar_lote_rps_envio_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\servico_enviar_lote_rps_resposta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\TiposNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BETHA\xmldsig-core-schema_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BHISS\nfse.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BHISS\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoCancelamentoLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoCancelamentoNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoConsultaCNPJ_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoConsultaLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoConsultaNFePeriodo_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoConsultaNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoEnvioLoteRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoEnvioRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\PedidoInformacoesLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\RetornoCancelamentoNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\RetornoConsultaCNPJ_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\RetornoConsulta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\RetornoEnvioLoteRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\RetornoEnvioRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\RetornoInformacoesLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\TiposNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\BLUMENAUSC\xmldsig-core-schema_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\CoreSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\Schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_cancelar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_cancelar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_nfse_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_nfse_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_situacao_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_consultar_situacao_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_enviar_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\servico_enviar_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\tipos_complexos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\tipos_simples.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\DUETO\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GIF\NFSe-Infisc-v1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GIF\nfse-parobe-v1-1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GIF\xmldsig-core-schema_v1.01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\cabecalho_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_cancelar_nfse_envio_v02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_cancelar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_cancelar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_nfse_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_nfse_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_situacao_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_consultar_situacao_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_enviar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\servico_enviar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\tipos_v02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\tipos_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\xmldsig-core-schema20020212_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\GINFES\xmldsig-core-schema_v02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_cancelar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_cancelar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_nfse_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_nfse_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_situacao_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_situacao_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_url_visualizacao_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_consultar_url_visualizacao_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_enviar_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\servico_enviar_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\tipos_complexos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\tipos_simples.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\ISSNET\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoCancelamentoNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoConsultaCNPJ_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoConsultaLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoConsultaNFePeriodo_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoConsultaNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoEnvioLoteRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoEnvioRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\PedidoInformacoesLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\RetornoCancelamentoNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\RetornoConsultaCNPJ_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\RetornoConsulta_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\RetornoEnvioLoteRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\RetornoEnvioRPS_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\RetornoInformacoesLote_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\TiposNFe_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PAULISTANA\xmldsig-core-schema_v01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PRONIN\nfse.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\PRONIN\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\SALVADORBA\DadosComplementares.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\SALVADORBA\Deducoes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\SALVADORBA\nfse_salvador.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\SALVADORBA\ServicosComplementares.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\SALVADORBA\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_cancelar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_cancelar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_nfse_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_nfse_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_situacao_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_consultar_situacao_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_enviar_lote_rps_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_enviar_lote_rps_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_gerar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\servico_gerar_nfse_resposta.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\tipos_complexos.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\tipos_simples.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="schemas\NFSe\WEBISS\xmldsig-core-schema20020212.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
