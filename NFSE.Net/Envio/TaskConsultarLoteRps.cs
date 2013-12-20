@@ -14,7 +14,7 @@ namespace NFSE.Net.Envio
     /// </summary>
     public class TaskConsultarLoteRps : TaskAbst
     {
-        public override void Execute()
+        public override void Execute(Empresa empresa)
         {
             int emp = Functions.FindEmpresaByThread();
 

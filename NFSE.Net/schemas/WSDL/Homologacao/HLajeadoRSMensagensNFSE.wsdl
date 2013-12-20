@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://server.nfse.thema.inf.br" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://server.nfse.thema.inf.br">
+    <wsdl:documentation>
+		Lista de mensagens aos prestadores de Servico
+	</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://server.nfse.thema.inf.br">
+            <xs:element name="listarMensagens">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="listarMensagensResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="listarMensagensRequest">
+        <wsdl:part name="parameters" element="ns:listarMensagens"/>
+    </wsdl:message>
+    <wsdl:message name="listarMensagensResponse">
+        <wsdl:part name="parameters" element="ns:listarMensagensResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="NFSEmensagensPortType">
+        <wsdl:operation name="listarMensagens">
+            <wsdl:input message="ns:listarMensagensRequest" wsaw:Action="urn:listarMensagens"/>
+            <wsdl:output message="ns:listarMensagensResponse" wsaw:Action="urn:listarMensagensResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NFSEmensagensSoap11Binding" type="ns:NFSEmensagensPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="listarMensagens">
+            <soap:operation soapAction="urn:listarMensagens" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NFSEmensagensSoap12Binding" type="ns:NFSEmensagensPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="listarMensagens">
+            <soap12:operation soapAction="urn:listarMensagens" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NFSEmensagensHttpBinding" type="ns:NFSEmensagensPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="listarMensagens">
+            <http:operation location="listarMensagens"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="NFSEmensagens">
+        <wsdl:port name="NFSEmensagensHttpSoap11Endpoint" binding="ns:NFSEmensagensSoap11Binding">
+            <soap:address location="http://nfsehml.lajeado.rs.gov.br/thema-nfse/services/NFSEmensagens.NFSEmensagensHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="NFSEmensagensHttpSoap12Endpoint" binding="ns:NFSEmensagensSoap12Binding">
+            <soap12:address location="http://nfsehml.lajeado.rs.gov.br/thema-nfse/services/NFSEmensagens.NFSEmensagensHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="NFSEmensagensHttpEndpoint" binding="ns:NFSEmensagensHttpBinding">
+            <http:address location="http://nfsehml.lajeado.rs.gov.br/thema-nfse/services/NFSEmensagens.NFSEmensagensHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

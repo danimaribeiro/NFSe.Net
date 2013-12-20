@@ -88,14 +88,7 @@ namespace NFSE.Net
             //Isso talvez evite de não conseguir o número do recibo se o serviço do SEFAZ estiver lento.
             if (padraoNFSe != PadroesNFSe.BETHA)
                 oWSProxy.SetProp(oServicoWS, "Timeout", 60000);
-
-            //Verificar antes se tem conexão com a internet, se não tiver já gera uma exceção no padrão já esperado pelo ERP
-            if (!Functions.IsConnectedToInternet())
-            {
-                //Registrar o erro da validação para o sistema ERP
-                throw new ExceptionSemInternet(ErroPadrao.FalhaInternet, "\r\nArquivo: " + XmlNfeDadosMsg);
-            }
-
+                     
             //Invocar o membro
             switch (padraoNFSe)
             {

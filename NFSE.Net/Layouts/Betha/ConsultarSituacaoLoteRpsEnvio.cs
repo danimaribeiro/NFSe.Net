@@ -11,8 +11,8 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/servico_consultar_situacao_lote_rps_envio.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://tempuri.org/servico_consultar_situacao_lote_rps_envio.xsd", IsNullable = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.betha.com.br/e-nota-contribuinte-ws", IsNullable = false)]
     public class ConsultarSituacaoLoteRpsEnvio
     {
 

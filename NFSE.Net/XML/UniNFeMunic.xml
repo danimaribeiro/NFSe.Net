@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nfes_municipios>
+<Registro ID="4125506" Nome="São José dos Pinais - PR" Padrao="GINFES" />
+<Registro ID="3549904" Nome="São José dos Campos - SP" Padrao="GINFES" />
+<Registro ID="3525300" Nome="Jaú - SP" Padrao="GINFES" />
+<Registro ID="4128104" Nome="Umuarama - PR" Padrao="GINFES" />
+<Registro ID="3503208" Nome="Araraquara - SP" Padrao="GINFES" />
+<Registro ID="3513009" Nome="Cotia - SP" Padrao="GINFES" />
+<Registro ID="3516200" Nome="Franca - SP" Padrao="GINFES" />
+<Registro ID="3518800" Nome="Guarulhos - SP" Padrao="GINFES" />
+<Registro ID="3519071" Nome="Hortolândia - SP" Padrao="GINFES" />
+<Registro ID="3525904" Nome="Jundiaí - SP" Padrao="GINFES" />
+<Registro ID="3533908" Nome="Olímpia - SP" Padrao="GINFES" />
+<Registro ID="3543402" Nome="Ribeirão Preto - SP" Padrao="GINFES" />
+<Registro ID="3547809" Nome="Santo André - SP" Padrao="GINFES" />
+<Registro ID="3548906" Nome="São Carlos - SP" Padrao="GINFES" />
+<Registro ID="3548708" Nome="São Bernardo do Campo - SP" Padrao="GINFES" />
+<Registro ID="3549805" Nome="São José do Rio Preto - SP" Padrao="GINFES" />
+<Registro ID="3554003" Nome="Tatuí - SP" Padrao="GINFES" />
+<Registro ID="3557105" Nome="Votuporanga - SP" Padrao="GINFES" />
+<Registro ID="3523909" Nome="Itu - SP" Padrao="GINFES" />
+<Registro ID="3300456" Nome="Belford Roxo - RJ" Padrao="GINFES" />
+<Registro ID="3115300" Nome="Cataguases - MG" Padrao="GINFES" />
+<Registro ID="3131307" Nome="Ipatinga - MG" Padrao="GINFES" />
+<Registro ID="3137601" Nome="Lagoa Santa - MG" Padrao="GINFES" />
+<Registro ID="3147105" Nome="Pará de Minas - MG" Padrao="GINFES" />
+<Registro ID="2304400" Nome="Fortaleza - CE" Padrao="GINFES" />
+<Registro ID="2507507" Nome="João Pessoa - PB" Padrao="GINFES" />
+<Registro ID="2704302" Nome="Maceió - AL" Padrao="GINFES" />
+<Registro ID="3170701" Nome="Varginha - MG" Padrao="GINFES" />
+<Registro ID="1500800" Nome="Ananindeua - PA" Padrao="GINFES" />
+<Registro ID="3506359" Nome="Bertioga - SP" Padrao="GINFES" />
+<Registro ID="2604106" Nome="Caruaru - PE" Padrao="GINFES" />
+<Registro ID="3301009" Nome="Campos dos Goytacazes - RJ" Padrao="GINFES" />
+<Registro ID="3511300" Nome="Cedral - SP" Padrao="GINFES" />
+<Registro ID="3513801" Nome="Diadema - SP" Padrao="GINFES" />
+<Registro ID="4309308" Nome="Guaíba - RS" Padrao="GINFES" />
+<Registro ID="3524709" Nome="Jaguariúna - SP" Padrao="GINFES" />
+<Registro ID="2704708" Nome="Marechal Deodoro - AL" Padrao="GINFES" />
+<Registro ID="3302700" Nome="Maricá - RJ" Padrao="GINFES" />
+<Registro ID="3529401" Nome="Mauá - SP" Padrao="GINFES" />
+<Registro ID="3530508" Nome="Mococa - SP" Padrao="GINFES" />
+<Registro ID="4118204" Nome="Paranaguá - PR" Padrao="GINFES" />
+<Registro ID="1505536" Nome="Parauapebas - PA" Padrao="GINFES" />
+<Registro ID="4314407" Nome="Pelotas - RS" Padrao="GINFES" />
+<Registro ID="3542602" Nome="Registro - SP" Padrao="GINFES" />
+<Registro ID="3154606" Nome="Ribeirão das Neves - MG" Padrao="GINFES" />
+<Registro ID="3548500" Nome="Santos - SP" Padrao="GINFES" />
+<Registro ID="3548807" Nome="São Caetano do Sul - SP" Padrao="GINFES" />
+<Registro ID="3169901" Nome="Ubá - MG" Padrao="GINFES" />
+<Registro ID="4118402" Nome="Paranavaí - PR" Padrao="BETHA" />
+<Registro ID="4100400" Nome="Almirante Tamandaré - PR" Padrao="BETHA" />
+<Registro ID="4209300" Nome="Lages - SC" Padrao="BETHA" />
+<Registro ID="4208302" Nome="Itapema - SC" Padrao="BETHA" />
+<Registro ID="4204608" Nome="Criciúma - SC" Padrao="BETHA" />
+<Registro ID="4302105" Nome="Bento Gonçalves - RS" Padrao="BETHA" />
+<Registro ID="4318705" Nome="São Leopoldo - RS" Padrao="THEMA" />
+<Registro ID="4303103" Nome="Cachoeirinha - RS" Padrao="THEMA" />
+<Registro ID="4313409" Nome="Novo Hamburgo - RS" Padrao="ISSNET" />
+<Registro ID="5201108" Nome="Anapolis - GO" Padrao="ISSNET" />
+<Registro ID="4101408" Nome="Apucarana - PR" Padrao="ISSONLINE" />
+<Registro ID="3502804" Nome="Aracatuba - SP" Padrao="ISSONLINE" />
+<Registro ID="3537305" Nome="Penapois - SP" Padrao="ISSONLINE" />
+<Registro ID="4313375" Nome="Nova Santa Rita - RS" Padrao="DUETO" />
+<Registro ID="4310207" Nome="Ijui - RS" Padrao="DUETO" />
+<Registro ID="3106200" Nome="Belo Horizonte - MG" Padrao="BHISS" />
+<Registro ID="2910800" Nome="Feira de Santana - BA" Padrao="WEBISS" />
+<Registro ID="3550308" Nome="São Paulo - SP" Padrao="PAULISTANA" />
+<Registro ID="4314050" Nome="Parobé - RS" Padrao="GIF" />
+<Registro ID="4204202" Nome="Chapecó - SC" Padrao="BETHA" />
+</nfes_municipios>

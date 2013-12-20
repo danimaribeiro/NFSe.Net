@@ -37,13 +37,6 @@ namespace NFSE.Net
                         "Esta falha pode ter sido ocasionada por falha na internet ou erro no servidor do SEFAZ. ";
                     break;
 
-                //danasa 21/10/2010
-                case ErroPadrao.FalhaEnvioXmlWSDPEC:
-                    Mensagem = "Não foi possível processar o DPEC, pois ocorreu uma falha no exato momento que o XML foi enviado. " +
-                        "Esta falha pode ter sido ocasionada por falha na internet ou erro no servidor do SEFAZ. " +
-                        "A única forma de finalizar é através da consulta situação do DPEC (-consDPEC.xml).";
-                    break;
-
                 case ErroPadrao.CertificadoVencido:
                     Mensagem = "Validade do certificado digital está vencida.";
                     break;

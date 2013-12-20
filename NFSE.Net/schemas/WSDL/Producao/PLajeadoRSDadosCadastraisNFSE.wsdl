@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://server.nfse.thema.inf.br" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://entidade.server.nfse.thema.inf.br/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://server.nfse.thema.inf.br">
+    <wsdl:documentation>
+		Dados cadastrais dos prestadores de Servico autorizados a emissão de NFS-e
+	</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://entidade.server.nfse.thema.inf.br/xsd">
+            <xs:complexType name="DadosCadastrais">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="atividadeCnae" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="bairro" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="cep" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="cidade" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="cnpjCpf" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="codigoBairro" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="codigoCidade" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="codigoLogradouro" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="complementoEndereco" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="contato" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="email" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="endereco" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="fantasia" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="identificacao" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="inscricao" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="numeroEndereco" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="razaoSocial" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="telefone" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="uf" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://entidade.server.nfse.thema.inf.br/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://server.nfse.thema.inf.br">
+            <xs:import namespace="http://entidade.server.nfse.thema.inf.br/xsd"/>
+            <xs:element name="retornarDadosCadastrais">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="cnpjCpf" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="cpf" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="retornarDadosCadastraisResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax21:DadosCadastrais"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="retornarDadosCadastraisRequest">
+        <wsdl:part name="parameters" element="ns:retornarDadosCadastrais"/>
+    </wsdl:message>
+    <wsdl:message name="retornarDadosCadastraisResponse">
+        <wsdl:part name="parameters" element="ns:retornarDadosCadastraisResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="NFSEdadosCadastraisPortType">
+        <wsdl:operation name="retornarDadosCadastrais">
+            <wsdl:input message="ns:retornarDadosCadastraisRequest" wsaw:Action="urn:retornarDadosCadastrais"/>
+            <wsdl:output message="ns:retornarDadosCadastraisResponse" wsaw:Action="urn:retornarDadosCadastraisResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NFSEdadosCadastraisSoap11Binding" type="ns:NFSEdadosCadastraisPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="retornarDadosCadastrais">
+            <soap:operation soapAction="urn:retornarDadosCadastrais" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NFSEdadosCadastraisSoap12Binding" type="ns:NFSEdadosCadastraisPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="retornarDadosCadastrais">
+            <soap12:operation soapAction="urn:retornarDadosCadastrais" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NFSEdadosCadastraisHttpBinding" type="ns:NFSEdadosCadastraisPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="retornarDadosCadastrais">
+            <http:operation location="retornarDadosCadastrais"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="NFSEdadosCadastrais">
+        <wsdl:port name="NFSEdadosCadastraisHttpSoap11Endpoint" binding="ns:NFSEdadosCadastraisSoap11Binding">
+            <soap:address location="http://nfse.lajeado.rs.gov.br/thema-nfse/services/NFSEdadosCadastrais.NFSEdadosCadastraisHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="NFSEdadosCadastraisHttpSoap12Endpoint" binding="ns:NFSEdadosCadastraisSoap12Binding">
+            <soap12:address location="http://nfse.lajeado.rs.gov.br/thema-nfse/services/NFSEdadosCadastrais.NFSEdadosCadastraisHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="NFSEdadosCadastraisHttpEndpoint" binding="ns:NFSEdadosCadastraisHttpBinding">
+            <http:address location="http://nfse.lajeado.rs.gov.br/thema-nfse/services/NFSEdadosCadastrais.NFSEdadosCadastraisHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

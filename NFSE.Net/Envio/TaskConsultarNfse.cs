@@ -19,7 +19,7 @@ namespace NFSE.Net.Envio
         #endregion
 
         #region Execute
-        public override void Execute()
+        public override void Execute(Empresa empresa)
         {
             int emp = Functions.FindEmpresaByThread();
 

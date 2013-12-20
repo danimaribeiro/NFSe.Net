@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://nfse.blumenau.sc.gov.br" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://nfse.blumenau.sc.gov.br" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://nfse.blumenau.sc.gov.br">
+      <s:element name="EnvioRPSRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnvioRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnvioLoteRPSRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnvioLoteRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TesteEnvioLoteRPSRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TesteEnvioLoteRPSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelamentoNFeRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelamentoNFeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFeRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFeRecebidasRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFeRecebidasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFeEmitidasRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFeEmitidasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaLoteRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaLoteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaInformacoesLoteRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaInformacoesLoteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaCNPJRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VersaoSchema" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MensagemXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaCNPJResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RetornoXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EnvioRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:EnvioRPSRequest" />
+  </wsdl:message>
+  <wsdl:message name="EnvioRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:EnvioRPSResponse" />
+  </wsdl:message>
+  <wsdl:message name="EnvioLoteRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:EnvioLoteRPSRequest" />
+  </wsdl:message>
+  <wsdl:message name="EnvioLoteRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:EnvioLoteRPSResponse" />
+  </wsdl:message>
+  <wsdl:message name="TesteEnvioLoteRPSSoapIn">
+    <wsdl:part name="parameters" element="tns:TesteEnvioLoteRPSRequest" />
+  </wsdl:message>
+  <wsdl:message name="TesteEnvioLoteRPSSoapOut">
+    <wsdl:part name="parameters" element="tns:TesteEnvioLoteRPSResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelamentoNFeSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelamentoNFeRequest" />
+  </wsdl:message>
+  <wsdl:message name="CancelamentoNFeSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelamentoNFeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFeSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaNFeRequest" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFeSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaNFeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFeRecebidasSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaNFeRecebidasRequest" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFeRecebidasSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaNFeRecebidasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFeEmitidasSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaNFeEmitidasRequest" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFeEmitidasSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaNFeEmitidasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaLoteSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaLoteRequest" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaLoteSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaLoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaInformacoesLoteSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaInformacoesLoteRequest" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaInformacoesLoteSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaInformacoesLoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaCNPJSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaCNPJRequest" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaCNPJSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaCNPJResponse" />
+  </wsdl:message>
+  <wsdl:portType name="LoteNFeSoap">
+    <wsdl:operation name="EnvioRPS">
+      <wsdl:input message="tns:EnvioRPSSoapIn" />
+      <wsdl:output message="tns:EnvioRPSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnvioLoteRPS">
+      <wsdl:input message="tns:EnvioLoteRPSSoapIn" />
+      <wsdl:output message="tns:EnvioLoteRPSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TesteEnvioLoteRPS">
+      <wsdl:input message="tns:TesteEnvioLoteRPSSoapIn" />
+      <wsdl:output message="tns:TesteEnvioLoteRPSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelamentoNFe">
+      <wsdl:input message="tns:CancelamentoNFeSoapIn" />
+      <wsdl:output message="tns:CancelamentoNFeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFe">
+      <wsdl:input message="tns:ConsultaNFeSoapIn" />
+      <wsdl:output message="tns:ConsultaNFeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFeRecebidas">
+      <wsdl:input message="tns:ConsultaNFeRecebidasSoapIn" />
+      <wsdl:output message="tns:ConsultaNFeRecebidasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFeEmitidas">
+      <wsdl:input message="tns:ConsultaNFeEmitidasSoapIn" />
+      <wsdl:output message="tns:ConsultaNFeEmitidasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaLote">
+      <wsdl:input message="tns:ConsultaLoteSoapIn" />
+      <wsdl:output message="tns:ConsultaLoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacoesLote">
+      <wsdl:input message="tns:ConsultaInformacoesLoteSoapIn" />
+      <wsdl:output message="tns:ConsultaInformacoesLoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaCNPJ">
+      <wsdl:input message="tns:ConsultaCNPJSoapIn" />
+      <wsdl:output message="tns:ConsultaCNPJSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LoteNFeSoap" type="tns:LoteNFeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EnvioRPS">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/envioRPS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnvioLoteRPS">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/envioLoteRPS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TesteEnvioLoteRPS">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/testeenvio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelamentoNFe">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/cancelamentoNFe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFe">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/consultaNFe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFeRecebidas">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/consultaNFeRecebidas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFeEmitidas">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/consultaNFeEmitidas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaLote">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/consultaLote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacoesLote">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/consultaInformacoesLote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaCNPJ">
+      <soap:operation soapAction="http://nfse.blumenau.sc.gov.br/ws/consultaCNPJ" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LoteNFe">
+    <wsdl:port name="LoteNFeSoap" binding="tns:LoteNFeSoap">
+      <soap:address location="https://nfse.blumenau.sc.gov.br/ws/lotenfe.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

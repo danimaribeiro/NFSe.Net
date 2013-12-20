@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ConsultarNfsePorRps" targetNamespace="http://www.e-nfs.com.br" xmlns:wsdlns="http://www.e-nfs.com.br" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.e-nfs.com.br">
+	<types>
+		<schema targetNamespace="http://www.e-nfs.com.br" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="ConsultarNfsePorRps.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Nfsecabecmsg" type="xsd:string"/>
+						<element minOccurs="1" maxOccurs="1" name="Nfsedadosmsg" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ConsultarNfsePorRps.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Outputxml" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="ConsultarNfsePorRps.ExecuteSoapIn">
+		<part name="parameters" element="tns:ConsultarNfsePorRps.Execute"/>
+	</message>
+	<message name="ConsultarNfsePorRps.ExecuteSoapOut">
+		<part name="parameters" element="tns:ConsultarNfsePorRps.ExecuteResponse"/>
+	</message>
+	<portType name="ConsultarNfsePorRpsSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:ConsultarNfsePorRps.ExecuteSoapIn"/>
+			<output message="wsdlns:ConsultarNfsePorRps.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="ConsultarNfsePorRpsSoapBinding" type="wsdlns:ConsultarNfsePorRpsSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="http://www.e-nfs.com.braction/ACONSULTARNFSEPORRPS.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="ConsultarNfsePorRps">
+		<port name="ConsultarNfsePorRpsSoapPort" binding="wsdlns:ConsultarNfsePorRpsSoapBinding">
+			<soap:address location="http://www.e-nfs.com.br/canoas_homologa/servlet/aconsultarnfseporrps"/>
+		</port>
+	</service>
+</definitions>

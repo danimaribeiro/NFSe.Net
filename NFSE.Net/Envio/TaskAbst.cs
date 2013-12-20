@@ -65,7 +65,7 @@ namespace NFSE.Net.Envio
         }
         #endregion
 
-        public abstract void Execute();
+        public abstract void Execute(Empresa empresa);
 
         #region Métodos para definição dos nomes das classes e métodos da NFe, CTe, NFSe e MDFe
 
@@ -761,6 +761,7 @@ namespace NFSE.Net.Envio
         /// <by>Wandrey Mundin Ferreira</by>
         public void XmlRetorno(string pFinalArqEnvio, string pFinalArqRetorno)
         {
+            oGerarXML.NomeXMLDadosMsg = this.NomeArquivoXML;
             oGerarXML.XmlRetorno(pFinalArqEnvio, pFinalArqRetorno, this.vStrXmlRetorno);
         }
         #endregion

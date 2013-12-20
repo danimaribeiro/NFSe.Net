@@ -133,11 +133,11 @@ namespace NFSE.Net.Certificado
         /// </summary>
         /// <param name="emp">Empresa que é para ser verificado o certificado</param>
         /// <returns>true = Certificado Vencido</returns>
-        public bool Vencido(int emp)
+        public bool Vencido(Empresa empresa)
         {
             bool retorna = false;
 
-            PrepInfCertificado(Empresa.Configuracoes[emp].X509Certificado);
+            PrepInfCertificado(empresa.X509Certificado);
 
             if (lLocalizouCertificado == true)
             {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ConsultarLoteRps" targetNamespace="http://www.e-nfs.com.br" xmlns:wsdlns="http://www.e-nfs.com.br" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.e-nfs.com.br">
+	<types>
+		<schema targetNamespace="http://www.e-nfs.com.br" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="ConsultarLoteRps.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Nfsecabecmsg" type="xsd:string"/>
+						<element minOccurs="1" maxOccurs="1" name="Nfsedadosmsg" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ConsultarLoteRps.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Outputxml" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="ConsultarLoteRps.ExecuteSoapIn">
+		<part name="parameters" element="tns:ConsultarLoteRps.Execute"/>
+	</message>
+	<message name="ConsultarLoteRps.ExecuteSoapOut">
+		<part name="parameters" element="tns:ConsultarLoteRps.ExecuteResponse"/>
+	</message>
+	<portType name="ConsultarLoteRpsSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:ConsultarLoteRps.ExecuteSoapIn"/>
+			<output message="wsdlns:ConsultarLoteRps.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="ConsultarLoteRpsSoapBinding" type="wsdlns:ConsultarLoteRpsSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="http://www.e-nfs.com.braction/ACONSULTARLOTERPS.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="ConsultarLoteRps">
+		<port name="ConsultarLoteRpsSoapPort" binding="wsdlns:ConsultarLoteRpsSoapBinding">
+			<soap:address location="http://www.e-nfs.com.br/canoas_homologa/servlet/aconsultarloterps"/>
+		</port>
+	</service>
+</definitions>

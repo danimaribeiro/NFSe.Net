@@ -71,60 +71,7 @@ namespace NFSE.Net
                                 InfSchema schema = null;
                                 try
                                 {
-                                    string nome = oLerXml.Name;
-                                    if (Propriedade.TipoAplicativo == TipoAplicativo.Nfe)
-                                    {
-                                        string name = oLerXml.Name;
-
-                                        if (name.Equals("envEvento") || name.Equals("eventoCTe"))
-                                        {
-                                            XmlDocument xml = new XmlDocument();
-                                            xml.Load(oLerXml);
-
-                                            XmlElement cl = (XmlElement)xml.GetElementsByTagName("tpEvento")[0];
-                                            if (cl != null)
-                                            {
-                                                string evento = cl.InnerText;
-
-                                                switch (evento)
-                                                {
-                                                    case "110110": //XML de Evento da CCe
-                                                        nome = name + evento;
-                                                        break;
-
-                                                    case "110111": //XML de Envio de evento de cancelamento
-                                                        nome = name + evento;
-                                                        break;
-
-                                                    case "110113": //XML de Envio do evento de contingencia EPEC, CTe
-                                                        nome = name + evento;
-                                                        break;
-
-                                                    case "110160": //XML de Envio do evento de Registro Multimodal, CTe
-                                                        nome = name + evento;
-                                                        break;
-
-                                                    case "210200": //XML Evento de manifestação do destinatário
-                                                    case "210210": //XML Evento de manifestação do destinatário
-                                                    case "210220": //XML Evento de manifestação do destinatário
-                                                    case "210240": //XML Evento de manifestação do destinatário
-                                                        nome = "envConfRecebto";
-                                                        break;
-                                                }
-                                            }
-                                        }
-                                        else if (oLerXml.Name.Equals("eventoMDFe"))
-                                        {
-                                            XmlDocument xml = new XmlDocument();
-                                            xml.Load(oLerXml);
-
-                                            XmlElement cl = (XmlElement)xml.GetElementsByTagName("tpEvento")[0];
-                                            if (cl != null)
-                                            {
-                                                nome = "eventoMDFe" + cl.InnerText;
-                                            }
-                                        }
-                                    }
+                                    string nome = oLerXml.Name;                                                                        
                                     schema = SchemaXML.InfSchemas[Propriedade.TipoAplicativo.ToString().ToUpper() + "-" + padraoNFSe + nome];
                                 }
                                 catch

@@ -84,11 +84,7 @@ namespace NFSE.Net.Core
         /// <summary>
         /// Pasta onde é gravado os XML´s da NFE somente para validação
         /// </summary>
-        public string PastaValidar { get; set; }
-        /// <summary>
-        /// Pasta para onde será gravado os XML´s de NFe para o DANFEMon fazer a impressão do DANFe
-        /// </summary>
-        public string PastaDanfeMon { get; set; }
+        public string PastaValidar { get; set; }        
         /// <summary>
         /// Pasta para onde será gravado os XML´s de download das NFe de destinatarios
         /// </summary>
@@ -140,6 +136,7 @@ namespace NFSE.Net.Core
         /// <summary>
         /// Certificado digital
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public X509Certificate2 X509Certificado { get; set; }
         /// <summary>
         /// Gravar o retorno da NFe também em TXT
@@ -193,29 +190,6 @@ namespace NFSE.Net.Core
         public bool GravarEventosNaPastaEnviadosNFe { get; set; }
         public bool GravarEventosCancelamentoNaPastaEnviadosNFe { get; set; }
         public bool GravarEventosDeTerceiros { get; set; }
-        #endregion
-
-        #region Propriedades para controle da impressão do DANFE
-        /// <summary>
-        /// Pasta do executável do UniDanfe
-        /// </summary>
-        public string PastaExeUniDanfe { get; set; }
-        /// <summary>
-        /// Pasta do arquivo de configurações do UniDanfe (Tem que ser sem o \dados)
-        /// </summary>
-        public string PastaConfigUniDanfe { get; set; }
-        /// <summary>
-        /// Copiar o XML da NFe (-nfe.xml) para a pasta do danfemon? 
-        /// </summary>
-        public bool XMLDanfeMonNFe { get; set; }
-        /// <summary>
-        /// Copiar o XML de Distribuição da NFe (-procNfe.xml) para a pasta do danfemon?
-        /// </summary>
-        public bool XMLDanfeMonProcNFe { get; set; }
-        /// <summary>
-        /// Copiar o XML de denegacao da NFe (-procNfe.xml) para a pasta do danfemon?
-        /// </summary>
-        public bool XMLDanfeMonDenegadaNFe { get; set; }//danasa 11-4-2012
         #endregion
 
         #region Propriedade para controle do nome da pasta a serem salvos os XML´s enviados
@@ -400,15 +374,7 @@ namespace NFSE.Net.Core
                         System.IO.Directory.CreateDirectory(empresa.PastaEnvioEmLote + Propriedade.NomePastaXMLAssinado);
                     }
                 }
-
-                //Criar pasta para monitoramento do DANFEMon e impressão do DANFE
-                if (!string.IsNullOrEmpty(empresa.PastaDanfeMon))
-                {
-                    if (!Directory.Exists(empresa.PastaDanfeMon))
-                    {
-                        System.IO.Directory.CreateDirectory(empresa.PastaDanfeMon);
-                    }
-                }
+                              
 
                 //Criar pasta para gravar as nfe de destinatarios
                 if (!string.IsNullOrEmpty(empresa.PastaDownloadNFeDest))
@@ -518,7 +484,7 @@ namespace NFSE.Net.Core
                             empresa.CNPJ = registroElemento.GetAttribute("CNPJ").Trim();
                             empresa.Nome = registroElemento.GetElementsByTagName("Nome")[0].InnerText.Trim();
 
-                            empresa.Servico = TipoAplicativo.Nfe;
+                            empresa.Servico = TipoAplicativo.Nfse;
                             if (registroElemento.GetAttribute("Servico") != "")
                                 empresa.Servico = (TipoAplicativo)Convert.ToInt16(registroElemento.GetAttribute("Servico").Trim());
 
@@ -527,9 +493,6 @@ namespace NFSE.Net.Core
 
                             switch (empresa.Servico)
                             {
-                                case TipoAplicativo.Nfe:
-                                    break;
-
                                 default:
                                     empresa.PastaEmpresa += "\\" + empresa.Servico.ToString().ToLower();
                                     break;
@@ -583,6 +546,36 @@ namespace NFSE.Net.Core
         }
         #endregion
 
+        #region "Carrega Configurações de empresa"
+
+        /// <summary>
+        /// Busca as configurações da empresa dentro de sua pasta gravadas em um XML chamado UniNfeConfig.Xml
+        /// </summary>
+        public static void CarregarEmpresasConfiguradas()
+        {
+            Empresa.Configuracoes.Clear();
+            var empresas = Empresas.CarregarEmpresasCadastradas();            
+            foreach (var item in empresas.ListaEmpresas)
+            {
+                string caminhoConfiguracaoEmpresa = System.IO.Path.Combine(Propriedade.PastaExecutavel ,item.Key, "nfse", Propriedade.NomeArqConfig);
+                if (System.IO.File.Exists(caminhoConfiguracaoEmpresa))
+                {
+                    var serializador = new Layouts.Serializador();
+                    var empresa = serializador.LerXml<Empresa>(caminhoConfiguracaoEmpresa);
+                    empresa.CertificadoSenha = Criptografia.descriptografaSenha(empresa.CertificadoSenha);
+                    empresa.X509Certificado = BuscaConfiguracaoCertificado(empresa);
+
+                    Empresa.Configuracoes.Add(empresa);
+                }
+                else
+                    throw new Exception( string.Format( "O arquivo de configuração da empresa: {0} - {1} não existe ", item.Value, item.Key ));
+            }
+        }
+
+        #endregion
+
+
+
         #region BuscaConfiguracao()
         /// <summary>
         /// Busca as configurações da empresa dentro de sua pasta gravadas em um XML chamado UniNfeConfig.Xml
@@ -608,9 +601,6 @@ namespace NFSE.Net.Core
                 empresa.PastaBackup =
                 empresa.PastaEnvioEmLote =
                 empresa.PastaValidar =
-                empresa.PastaDanfeMon =
-                empresa.PastaExeUniDanfe =
-                empresa.PastaConfigUniDanfe =
                 empresa.PastaDownloadNFeDest =
                 empresa.Certificado =
                 empresa.CertificadoThumbPrint = string.Empty;
@@ -629,10 +619,7 @@ namespace NFSE.Net.Core
             empresa.GravarRetornoTXTNFe =
                 empresa.GravarEventosNaPastaEnviadosNFe =
                 empresa.GravarEventosCancelamentoNaPastaEnviadosNFe =
-                empresa.GravarEventosDeTerceiros =
-                empresa.XMLDanfeMonNFe =
-                empresa.XMLDanfeMonProcNFe =
-                empresa.XMLDanfeMonDenegadaNFe = false;
+                empresa.GravarEventosDeTerceiros = false;                
             empresa.DiretorioSalvarComo = "AM";
 
             empresa.CertificadoInstalado = true;
@@ -675,14 +662,7 @@ namespace NFSE.Net.Core
                         empresa.PastaEnvioEmLote = Functions.LerTag(configElemento, NFeStrConstants.PastaXmlEmLote, false);
                         empresa.PastaValidar = Functions.LerTag(configElemento, NFeStrConstants.PastaValidar, false);
                         empresa.PastaDownloadNFeDest = Functions.LerTag(configElemento, NFeStrConstants.PastaDownloadNFeDest, false);
-
-                        empresa.PastaExeUniDanfe = Functions.LerTag(configElemento, NFeStrConstants.PastaExeUniDanfe, false);
-                        empresa.PastaConfigUniDanfe = Functions.LerTag(configElemento, NFeStrConstants.PastaConfigUniDanfe, false);
-                        empresa.PastaDanfeMon = Functions.LerTag(configElemento, NFeStrConstants.PastaDanfeMon, false);
-                        empresa.XMLDanfeMonNFe = Convert.ToBoolean(Functions.LerTag(configElemento, NFeStrConstants.XMLDanfeMonNFe, "False"));
-                        empresa.XMLDanfeMonProcNFe = Convert.ToBoolean(Functions.LerTag(configElemento, NFeStrConstants.XMLDanfeMonProcNFe, "False"));
-                        empresa.XMLDanfeMonDenegadaNFe = Convert.ToBoolean(Functions.LerTag(configElemento, NFeStrConstants.XMLDanfeMonDenegadaNFe, "False"));
-
+              
                         empresa.Certificado = Functions.LerTag(configElemento, NFeStrConstants.CertificadoDigital, false);
                         empresa.CertificadoArquivo = Functions.LerTag(configElemento, NFeStrConstants.CertificadoArquivo, false);
                         empresa.CertificadoThumbPrint = Functions.LerTag(configElemento, NFeStrConstants.CertificadoDigitalThumbPrint, false);

@@ -1,0 +1,336 @@
+<definitions name='ServicosService' targetNamespace='http://ws.pc.gif.com.br/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ws.pc.gif.com.br/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types></types>
+ <message name='Servicos_obterNotasEmPNGResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterLoteNotaFiscal'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_inutilizacao'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_inutilizacaoResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterCriticaLoteDmsResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_pingResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_enviarLoteNotas'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterStatusLoteDms'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_enviarLoteDmsResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_pedidoGuiaResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_enviarLoteNotasResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_consultarNotaFiscal'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterNotaFiscalResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterReciboLote'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_cancelarNotaFiscal'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_anularNotaFiscal'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterCriticaLoteDms'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_ping'>
+  <part name='bd' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_consultarNotaFiscalResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterStatusLoteDmsResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_cancelarLote'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_licencaTLSResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterLoteNotaFiscalResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_licencaTLS'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_enviarLoteDms'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterCriticaLoteResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterCriticaLote'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterNotaFiscal'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_cancelarNotaFiscalResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_pedidoGuia'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterNotasEmPNG'>
+  <part name='xml' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_anularNotaFiscalResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_obterReciboLoteResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <message name='Servicos_cancelarLoteResponse'>
+  <part name='return' type='xsd:string'></part>
+ </message>
+ <portType name='Servicos'>
+  <operation name='anularNotaFiscal' parameterOrder='xml'>
+   <input message='tns:Servicos_anularNotaFiscal'></input>
+   <output message='tns:Servicos_anularNotaFiscalResponse'></output>
+  </operation>
+  <operation name='cancelarLote' parameterOrder='xml'>
+   <input message='tns:Servicos_cancelarLote'></input>
+   <output message='tns:Servicos_cancelarLoteResponse'></output>
+  </operation>
+  <operation name='cancelarNotaFiscal' parameterOrder='xml'>
+   <input message='tns:Servicos_cancelarNotaFiscal'></input>
+   <output message='tns:Servicos_cancelarNotaFiscalResponse'></output>
+  </operation>
+  <operation name='consultarNotaFiscal' parameterOrder='xml'>
+   <input message='tns:Servicos_consultarNotaFiscal'></input>
+   <output message='tns:Servicos_consultarNotaFiscalResponse'></output>
+  </operation>
+  <operation name='enviarLoteDms' parameterOrder='xml'>
+   <input message='tns:Servicos_enviarLoteDms'></input>
+   <output message='tns:Servicos_enviarLoteDmsResponse'></output>
+  </operation>
+  <operation name='enviarLoteNotas' parameterOrder='xml'>
+   <input message='tns:Servicos_enviarLoteNotas'></input>
+   <output message='tns:Servicos_enviarLoteNotasResponse'></output>
+  </operation>
+  <operation name='inutilizacao' parameterOrder='xml'>
+   <input message='tns:Servicos_inutilizacao'></input>
+   <output message='tns:Servicos_inutilizacaoResponse'></output>
+  </operation>
+  <operation name='licencaTLS' parameterOrder='xml'>
+   <input message='tns:Servicos_licencaTLS'></input>
+   <output message='tns:Servicos_licencaTLSResponse'></output>
+  </operation>
+  <operation name='obterCriticaLote' parameterOrder='xml'>
+   <input message='tns:Servicos_obterCriticaLote'></input>
+   <output message='tns:Servicos_obterCriticaLoteResponse'></output>
+  </operation>
+  <operation name='obterCriticaLoteDms' parameterOrder='xml'>
+   <input message='tns:Servicos_obterCriticaLoteDms'></input>
+   <output message='tns:Servicos_obterCriticaLoteDmsResponse'></output>
+  </operation>
+  <operation name='obterLoteNotaFiscal' parameterOrder='xml'>
+   <input message='tns:Servicos_obterLoteNotaFiscal'></input>
+   <output message='tns:Servicos_obterLoteNotaFiscalResponse'></output>
+  </operation>
+  <operation name='obterNotaFiscal' parameterOrder='xml'>
+   <input message='tns:Servicos_obterNotaFiscal'></input>
+   <output message='tns:Servicos_obterNotaFiscalResponse'></output>
+  </operation>
+  <operation name='obterNotasEmPNG' parameterOrder='xml'>
+   <input message='tns:Servicos_obterNotasEmPNG'></input>
+   <output message='tns:Servicos_obterNotasEmPNGResponse'></output>
+  </operation>
+  <operation name='obterReciboLote' parameterOrder='xml'>
+   <input message='tns:Servicos_obterReciboLote'></input>
+   <output message='tns:Servicos_obterReciboLoteResponse'></output>
+  </operation>
+  <operation name='obterStatusLoteDms' parameterOrder='xml'>
+   <input message='tns:Servicos_obterStatusLoteDms'></input>
+   <output message='tns:Servicos_obterStatusLoteDmsResponse'></output>
+  </operation>
+  <operation name='pedidoGuia' parameterOrder='xml'>
+   <input message='tns:Servicos_pedidoGuia'></input>
+   <output message='tns:Servicos_pedidoGuiaResponse'></output>
+  </operation>
+  <operation name='ping' parameterOrder='bd'>
+   <input message='tns:Servicos_ping'></input>
+   <output message='tns:Servicos_pingResponse'></output>
+  </operation>
+ </portType>
+ <binding name='ServicosBinding' type='tns:Servicos'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='anularNotaFiscal'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='cancelarLote'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='cancelarNotaFiscal'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='consultarNotaFiscal'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='enviarLoteDms'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='enviarLoteNotas'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='inutilizacao'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='licencaTLS'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterCriticaLote'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterCriticaLoteDms'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterLoteNotaFiscal'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterNotaFiscal'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterNotasEmPNG'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterReciboLote'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='obterStatusLoteDms'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='pedidoGuia'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+  <operation name='ping'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://ws.pc.gif.com.br/' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='ServicosService'>
+  <port binding='tns:ServicosBinding' name='ServicosPort'>
+   <soap:address location='http://idc-prb-jboss1.infisc.local:8080/portal/Servicos'/>
+  </port>
+ </service>
+</definitions>

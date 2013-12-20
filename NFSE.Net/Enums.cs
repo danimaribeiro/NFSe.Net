@@ -87,21 +87,9 @@ namespace NFSE.Net
     public enum TipoAplicativo
     {
         /// <summary>
-        /// Aplicativo ou serviços para processamento dos XMLs da NF-e
-        /// </summary>
-        Nfe = 0,
-        /// <summary>
-        /// Aplicativo ou serviços para processamento dos XMLs do CT-e
-        /// </summary>
-        Cte = 1,
-        /// <summary>
         /// Aplicativo ou servicos para processamento dos XMLs da NFS-e
         /// </summary>
         Nfse = 2,
-        /// <summary>
-        /// Aplicativo ou serviços para processamento dos XMLs do MDF-e
-        /// </summary>
-        MDFe = 3,
         Nulo = 100
     }
     #endregion
@@ -198,7 +186,6 @@ namespace NFSE.Net
         FalhaInternet = 1,
         FalhaEnvioXmlWS = 2,
         CertificadoVencido = 3,
-        FalhaEnvioXmlWSDPEC = 4, //danasa 21/10/2010
         FalhaEnvioXmlNFeWS = 5
     }
     #endregion

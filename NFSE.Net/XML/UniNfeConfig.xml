@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nfe_configuracoes>
+<Proxy>False</Proxy>
+<ProxyServidor />
+<ProxyUsuario />
+<ProxySenha />
+<ProxyPorta>0</ProxyPorta>
+<ChecarConexaoInternet>True</ChecarConexaoInternet>
+<GravarLogOperacaoRealizada>False</GravarLogOperacaoRealizada>
+</nfe_configuracoes>

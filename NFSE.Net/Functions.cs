@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace NFSE.Net
 {
-   public  class Functions
+    public class Functions
     {
         #region MemoryStream
         /// <summary>
@@ -192,7 +192,7 @@ namespace NFSE.Net
         {
             FileInfo fi = new FileInfo(pPastaArq);
             string ret = fi.Name;
-            ret = ret.Substring(0, ret.Length - pFinalArq.Length);
+            ret = ret.Length > pFinalArq.Length ? ret.Substring(0, ret.Length - pFinalArq.Length) : ret;
             return ret;
         }
         #endregion
@@ -341,7 +341,7 @@ namespace NFSE.Net
                 ).FirstOrDefault();
 
             return ip;
-        } 
+        }
 
         #endregion
     }

@@ -42,33 +42,9 @@ namespace NFSE.Net
         /// </summary>
         public const string NomeArqConfig = "UniNfeConfig.xml";
         /// <summary>
-        /// Nome do arquivo XML de configurações da tela de sobre
-        /// </summary>
-        public const string NomeArqConfigSobre = "UniNfeSobre.xml";
-        /// <summary>
         /// Nome do arquivo XML que é gravado as empresas cadastradas
         /// </summary>
         public static readonly string NomeArqEmpresa = Propriedade.PastaExecutavel + "\\UniNfeEmpresa.xml";
-        /// <summary>     
-        /// Nome do arquivo para controle da numeração sequencial do lote.
-        /// </summary>
-        public const string NomeArqXmlLote = "UniNfeLote.xml";
-        /// <summary>
-        /// Nome do arquivo 1 de backup de segurança do arquivo de controle da numeração sequencial do lote
-        /// </summary>
-        public const string NomeArqXmlLoteBkp1 = "Bkp1_UniNfeLote.xml";
-        /// <summary>
-        /// Nome do arquivo 2 de backup de segurança do arquivo de controle da numeração sequencial do lote
-        /// </summary>
-        public const string NomeArqXmlLoteBkp2 = "Bkp2_UniNfeLote.xml";
-        /// <summary>
-        /// Nome do arquivo 3 de backup de segurança do arquivo de controle da numeração sequencial do lote
-        /// </summary>
-        public const string NomeArqXmlLoteBkp3 = "Bkp3_UniNfeLote.xml";
-        /// <summary>
-        /// Nome do arquivo que grava as notas fiscais em fluxo de envio
-        /// </summary>
-        public const string NomeArqXmlFluxoNfe = "fluxonfe.xml";
 
         /// <summary>
         /// Retorna o nome do XML dos municipios

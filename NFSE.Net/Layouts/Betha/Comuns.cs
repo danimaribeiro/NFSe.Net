@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace NFSE.Net.Layouts.Betha
 {
@@ -95,7 +96,7 @@ namespace NFSE.Net.Layouts.Betha
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string id
+        public string Id
         {
             get
             {
@@ -183,8 +184,8 @@ namespace NFSE.Net.Layouts.Betha
                 this.identificacaoRpsField = value;
             }
         }
-
-        /// <remarks/>
+                
+        [System.Xml.Serialization.XmlIgnore]
         public System.DateTime DataEmissao
         {
             get
@@ -195,6 +196,13 @@ namespace NFSE.Net.Layouts.Betha
             {
                 this.dataEmissaoField = value;
             }
+        }
+
+        [XmlElement("DataEmissao")]
+        public string DataEmissaoString
+        {
+            get { return this.DataEmissao.ToString("yyyy-MM-ddTHH:mm:ss"); }
+            set { this.DataEmissao = DateTime.Parse(value); }
         }
 
         /// <remarks/>
@@ -356,7 +364,7 @@ namespace NFSE.Net.Layouts.Betha
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string id
+        public string Id
         {
             get
             {

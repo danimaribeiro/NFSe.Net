@@ -17,146 +17,80 @@ namespace NFSE.Net.Envio
     {
         #region Métodos gerais
 
-        #region ProcessaArquivo()
-        public void ProcessaArquivo(int emp, string arquivo)//, Servicos servico)
+        public Processar()
         {
-            try
-            {
-                Servicos servico = DefinirTipoServico(emp, arquivo);
-                try
-                {
-                    if (servico == Servicos.Nulo)
-                        throw new Exception("Não pode identificar o tipo de serviço baseado no arquivo " + arquivo);
-
-                    if (Propriedade.TipoAplicativo == TipoAplicativo.Nfse)
-                    {
-                        #region Executar o serviço da NFS-e
-                        switch (servico)
-                        {
-                            case Servicos.ConsultarLoteRps:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskConsultarLoteRps());
-                                break;
-
-                            case Servicos.CancelarNfse:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskCancelarNfse());
-                                break;
-
-                            case Servicos.ConsultarSituacaoLoteRps:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskConsultaSituacaoLoteRps());
-                                break;
-
-                            case Servicos.ConsultarNfse:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskConsultarNfse());
-                                break;
-
-                            case Servicos.ConsultarNfsePorRps:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskConsultarNfsePorRps());
-                                break;
-
-                            case Servicos.RecepcionarLoteRps:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskRecepcionarLoteRps());
-                                break;
-
-                            case Servicos.ConsultarURLNfse:
-                                CertVencido(emp);
-                                IsConnectedToInternet();
-                                this.DirecionarArquivo(arquivo, new TaskConsultarURLNfse());
-                                break;
-                        }
-                        #endregion
-                    }
-
-                }
-                catch (ExceptionSemInternet ex)
-                {
-                    GravaErroERP(arquivo, servico, ex, ex.ErrorCode);
-                }
-                catch (ExceptionCertificadoDigital ex)
-                {
-                    GravaErroERP(arquivo, servico, ex, ex.ErrorCode);
-                }
-                catch (Exception ex)
-                {
-                    GravaErroERP(arquivo, servico, ex, ErroPadrao.ErroNaoDetectado);
-                }
-            }
-            catch { }
+            SchemaXMLNFSe.CriarListaIDXML();
+            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;
         }
-        #endregion
 
-        private Servicos DefinirTipoServico(int empresa, string fullPath)
+        public void ProcessaArquivo(int emp, string arquivo, Servicos servico)
         {
-            Servicos tipoServico = Servicos.Nulo;
+            if (Empresa.Configuracoes.Count == 0)
+                Empresa.CarregarEmpresasConfiguradas();
 
-            try
+            if (Empresa.Configuracoes.Count > emp)
+                ProcessaArquivo(Empresa.Configuracoes[emp], arquivo, servico);
+            else
+                throw new Exception("Você não configurou nenhuma empresa.");
+        }
+
+        #region ProcessaArquivo()
+        public void ProcessaArquivo(Empresa empresa, string arquivo, Servicos servico)
+        {
+            if (servico == Servicos.Nulo)
+                throw new Exception("Não pode identificar o tipo de serviço baseado no arquivo " + arquivo);
+
+            if (Propriedade.TipoAplicativo == TipoAplicativo.Nfse)
             {
-                string arq = fullPath.ToLower().Trim();
-
-                FileInfo infArq = new FileInfo(arq);
-                string pastaArq = ConfiguracaoApp.RemoveEndSlash(infArq.DirectoryName).ToLower().Trim();
-                string pastaLote = ConfiguracaoApp.RemoveEndSlash(Empresa.Configuracoes[empresa].PastaEnvioEmLote).ToLower().Trim();
-                string pastaEnvio = ConfiguracaoApp.RemoveEndSlash(Empresa.Configuracoes[empresa].PastaEnvio).ToLower().Trim();
-                if (pastaArq.EndsWith("\\temp"))
-                    pastaArq = Path.GetDirectoryName(pastaArq);
-
-                XmlDocument doc = new XmlDocument();
-                doc.Load(fullPath);
-
-                switch (doc.DocumentElement.Name)
+                #region Executar o serviço da NFS-e
+                switch (servico)
                 {
-                    default:
-                        #region NFS-e
-                        if (arq.IndexOf(Propriedade.ExtEnvio.PedLoteRps) >= 0)
-                        {
-                            tipoServico = Servicos.ConsultarLoteRps;
-                        }
-                        else if (arq.IndexOf(Propriedade.ExtEnvio.PedCanNfse) >= 0)
-                        {
-                            tipoServico = Servicos.CancelarNfse;
-                        }
-                        else if (arq.IndexOf(Propriedade.ExtEnvio.PedSitLoteRps) >= 0)
-                        {
-                            tipoServico = Servicos.ConsultarSituacaoLoteRps;
-                        }
-                        else if (arq.IndexOf(Propriedade.ExtEnvio.EnvLoteRps) >= 0)
-                        {
-                            tipoServico = Servicos.RecepcionarLoteRps;
-                        }
-                        else if (arq.IndexOf(Propriedade.ExtEnvio.PedSitNfse) >= 0)
-                        {
-                            tipoServico = Servicos.ConsultarNfse;
-                        }
-                        else if (arq.IndexOf(Propriedade.ExtEnvio.PedSitNfseRps) >= 0)
-                        {
-                            tipoServico = Servicos.ConsultarNfsePorRps;
-                        }
-                        else if (arq.IndexOf(Propriedade.ExtEnvio.PedURLNfse) >= 0)
-                        {
-                            tipoServico = Servicos.ConsultarURLNfse;
-                        }
-                        #endregion
+                    case Servicos.ConsultarLoteRps:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarLoteRps());
+                        break;
 
+                    case Servicos.CancelarNfse:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskCancelarNfse());
+                        break;
+
+                    case Servicos.ConsultarSituacaoLoteRps:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultaSituacaoLoteRps());
+                        break;
+
+                    case Servicos.ConsultarNfse:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarNfse());
+                        break;
+
+                    case Servicos.ConsultarNfsePorRps:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarNfsePorRps());
+                        break;
+
+                    case Servicos.RecepcionarLoteRps:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskRecepcionarLoteRps());
+                        break;
+
+                    case Servicos.ConsultarURLNfse:
+                        CertVencido(empresa);
+                        IsConnectedToInternet();
+                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarURLNfse());
                         break;
                 }
+                #endregion
             }
-            catch
-            {
-            }
-
-            return tipoServico;
         }
+        #endregion
 
         #endregion
 
@@ -171,11 +105,11 @@ namespace NFSE.Net.Envio
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 18/04/2011
         /// </remarks>
-        private void DirecionarArquivo(List<string> arquivos, object nfe, string metodo)
+        private void DirecionarArquivo(Empresa empresa, List<string> arquivos, object nfe, string metodo)
         {
             for (int i = 0; i < arquivos.Count; i++)
             {
-                DirecionarArquivo(arquivos[i], nfe, metodo);
+                DirecionarArquivo(empresa, arquivos[i], nfe, metodo);
             }
         }
         #endregion
@@ -191,16 +125,16 @@ namespace NFSE.Net.Envio
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 18/04/2011
         /// </remarks>
-        private void DirecionarArquivo(string arquivo, object taskClass)
+        private void DirecionarArquivo(Empresa empresa, string arquivo, object taskClass)
         {
             //Processa ou envia o XML
-            EnviarArquivo(arquivo, taskClass, "Execute");
+            EnviarArquivo(empresa, arquivo, taskClass, "Execute");
         }
 
-        private void DirecionarArquivo(string arquivo, object nfe, string metodo)
+        private void DirecionarArquivo(Empresa empresa, string arquivo, object nfe, string metodo)
         {
             //Processa ou envia o XML
-            EnviarArquivo(arquivo, nfe, metodo);
+            EnviarArquivo(empresa, arquivo, nfe, metodo);
         }
         #endregion
 
@@ -210,35 +144,14 @@ namespace NFSE.Net.Envio
         /// </summary>
         /// <param name="cArquivo">Nome do arquivo XML a ser enviado ou analisado</param>
         /// <param name="oNfe">Objeto da classe UniNfeClass a ser utilizado nas operações</param>
-        private void EnviarArquivo(string arquivo, Object nfe, string metodo)
+        private void EnviarArquivo(Empresa empresa, string arquivo, Object nfe, string metodo)
         {
-            int emp = Functions.FindEmpresaByThread();
-
             //Definir o tipo do serviço
             Type tipoServico = nfe.GetType();
 
             //Definir o arquivo XML para a classe UniNfeClass
             tipoServico.InvokeMember("NomeArquivoXML", System.Reflection.BindingFlags.SetProperty, null, nfe, new object[] { arquivo });
-
-            if (Empresa.Configuracoes[emp].tpEmis != Propriedade.TipoEmissao.teContingencia &&
-                Empresa.Configuracoes[emp].tpEmis != Propriedade.TipoEmissao.teFSDA &&
-                Empresa.Configuracoes[emp].tpEmis != Propriedade.TipoEmissao.teDPEC) //Confingência em formulário de segurança e DPEC não envia na hora, tem que aguardar voltar para normal.
-            {
-                tipoServico.InvokeMember(metodo, System.Reflection.BindingFlags.InvokeMethod, null, nfe, null);
-            }
-            else
-            {
-                throw new Exception("Não sei o que fazer aqui");
-                //if (nfe is TaskRetRecepcao ||
-                //    nfe is TaskConsultaStatus ||
-                //    nfe is TaskRecepcaoDPEC ||
-                //    nfe is TaskConsultaSituacaoNFe ||
-                //    nfe is TaskConsultaDPEC ||
-                //    nfe is TaskCadastroContribuinte)
-                //{
-                //    tipoServico.InvokeMember(metodo, System.Reflection.BindingFlags.InvokeMethod, null, nfe, null);
-                //}
-            }
+            tipoServico.InvokeMember(metodo, System.Reflection.BindingFlags.InvokeMethod, null, nfe, new[] { empresa });
         }
         #endregion
 
@@ -252,10 +165,10 @@ namespace NFSE.Net.Envio
         /// <remarks>
         /// Retorna uma exceção ExceptionCertificadoDigital caso o certificado esteja vencido
         /// </remarks>
-        protected void CertVencido(int emp)
+        protected void CertVencido(Empresa empresa)
         {
             CertificadoDigital CertDig = new CertificadoDigital();
-            if (CertDig.Vencido(emp))
+            if (CertDig.Vencido(empresa))
             {
                 throw new ExceptionCertificadoDigital(ErroPadrao.CertificadoVencido, "(" + CertDig.dValidadeInicial.ToString() + " a " + CertDig.dValidadeFinal.ToString() + ")");
             }
@@ -343,25 +256,5 @@ namespace NFSE.Net.Envio
         }
         #endregion
 
-        #region ConsultaGeral()
-        protected void ConsultarGeral(string arquivo)
-        {
-            string arq = arquivo.ToLower().Trim();
-
-            if (arq.EndsWith(Propriedade.ExtEnvio.ConsCertificado))
-            {
-                ConsultaCertificados(arquivo);
-            }
-
-
-        }
-
-        protected void ConsultaCertificados(string arquivo)
-        {
-            ConfiguracaoApp oConfig = new ConfiguracaoApp();
-            oConfig.CertificadosInstalados(arquivo);
-        }
-
-        #endregion
     }
 }

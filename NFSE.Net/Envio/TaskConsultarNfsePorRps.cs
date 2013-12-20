@@ -11,7 +11,7 @@ namespace NFSE.Net.Envio
 {
     public class TaskConsultarNfsePorRps : TaskAbst
     {
-        public override void Execute()
+        public override void Execute(Empresa empresa)
         {
             int emp = Functions.FindEmpresaByThread();
 

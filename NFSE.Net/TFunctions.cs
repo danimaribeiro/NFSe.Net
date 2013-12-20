@@ -78,73 +78,8 @@ namespace NFSE.Net
                               Functions.ExtrairNomeArq(arquivo, finalArqEnvio) +
                               finalArqErro;
 
-            string erroMessage = string.Empty;
-
-            erroMessage += "ErrorCode|" + ((int)erroPadrao).ToString("0000000000");
-            erroMessage += "\r\n";
-            erroMessage += "Message|" + exception.Message;
-            erroMessage += "\r\n";
-            erroMessage += "StackTrace|" + exception.StackTrace;
-            erroMessage += "\r\n";
-            erroMessage += "Source|" + exception.Source;
-            erroMessage += "\r\n";
-            erroMessage += "Type|" + exception.GetType();
-            erroMessage += "\r\n";
-            erroMessage += "TargetSite|" + exception.TargetSite;
-            erroMessage += "\r\n";
-            erroMessage += "HashCode|" + exception.GetHashCode().ToString();
-
-            if (exception.InnerException != null)
-            {
-                erroMessage += "\r\n";
-                erroMessage += "\r\n";
-                erroMessage += "InnerException 1";
-                erroMessage += "\r\n";
-                erroMessage += "Message|" + exception.InnerException.Message;
-                erroMessage += "\r\n";
-                erroMessage += "StackTrace|" + exception.InnerException.StackTrace;
-                erroMessage += "\r\n";
-                erroMessage += "TargetSite|" + exception.InnerException.TargetSite;
-                erroMessage += "\r\n";
-                erroMessage += "Source|" + exception.InnerException.Source;
-                erroMessage += "\r\n";
-                erroMessage += "HashCode|" + exception.InnerException.GetHashCode().ToString();
-
-                if (exception.InnerException.InnerException != null)
-                {
-                    erroMessage += "\r\n";
-                    erroMessage += "\r\n";
-                    erroMessage += "InnerException 2";
-                    erroMessage += "\r\n";
-                    erroMessage += "Message|" + exception.InnerException.InnerException.Message;
-                    erroMessage += "\r\n";
-                    erroMessage += "StackTrace|" + exception.InnerException.InnerException.StackTrace;
-                    erroMessage += "\r\n";
-                    erroMessage += "TargetSite|" + exception.InnerException.InnerException.TargetSite;
-                    erroMessage += "\r\n";
-                    erroMessage += "Source|" + exception.InnerException.InnerException.Source;
-                    erroMessage += "\r\n";
-                    erroMessage += "HashCode|" + exception.InnerException.InnerException.GetHashCode().ToString();
-
-                    if (exception.InnerException.InnerException.InnerException != null)
-                    {
-                        erroMessage += "\r\n";
-                        erroMessage += "\r\n";
-                        erroMessage += "InnerException 3";
-                        erroMessage += "\r\n";
-                        erroMessage += "Message|" + exception.InnerException.InnerException.InnerException.Message;
-                        erroMessage += "\r\n";
-                        erroMessage += "StackTrace|" + exception.InnerException.InnerException.InnerException.StackTrace;
-                        erroMessage += "\r\n";
-                        erroMessage += "TargetSite|" + exception.InnerException.InnerException.InnerException.TargetSite;
-                        erroMessage += "\r\n";
-                        erroMessage += "Source|" + exception.InnerException.InnerException.InnerException.Source;
-                        erroMessage += "\r\n";
-                        erroMessage += "HashCode|" + exception.InnerException.InnerException.InnerException.GetHashCode().ToString();
-                    }
-                }
-            }
-
+            string erroMessage = exception.ToString();
+           
             try
             {
                 // Gerar log do erro
@@ -157,6 +92,8 @@ namespace NFSE.Net
 
             File.WriteAllText(arqErro, erroMessage, Encoding.Default);
         }
+        
+        
         #endregion
 
         #region MoveArqErro
@@ -348,11 +285,7 @@ namespace NFSE.Net
                             throw new Exception("Pasta de backup informada nas configurações não existe. (Pasta: " + nomePastaBackup + ")");
                         }
                     }
-                    #endregion
-
-                    #region Copiar o XML para a pasta do DanfeMon, se configurado para isso
-                    CopiarXMLPastaDanfeMon(destinoArquivo);
-                    #endregion
+                    #endregion               
                   
                 }
             }
@@ -378,39 +311,7 @@ namespace NFSE.Net
         }
         #endregion
 
-        #region CopiarXMLPastaDanfeMon()
-        /// <summary>
-        /// Copia o XML da NFe para a pasta monitorada pelo DANFEMon para que o mesmo imprima o DANFe.
-        /// A copia só é efetuada de o UniNFe estiver configurado para isso.
-        /// </summary>
-        /// <param name="arquivoCopiar">Nome do arquivo com as pastas e subpastas a ser copiado</param>
-        /// <remarks>
-        /// Autor: Wandrey Mundin Ferreira
-        /// Data: 20/04/2010
-        /// </remarks>
-        public static void CopiarXMLPastaDanfeMon(string arquivoCopiar)
-        {
-            int emp = Functions.FindEmpresaByThread();
-
-            if (!string.IsNullOrEmpty(Empresa.Configuracoes[emp].PastaDanfeMon))
-            {
-                if (Directory.Exists(Empresa.Configuracoes[emp].PastaDanfeMon))
-                {
-                    if ((arquivoCopiar.ToLower().Contains("-nfe.xml") && Empresa.Configuracoes[emp].XMLDanfeMonNFe) ||
-                        (arquivoCopiar.ToLower().Contains("-procnfe.xml") && Empresa.Configuracoes[emp].XMLDanfeMonProcNFe) ||
-                        (arquivoCopiar.ToLower().Contains("-den.xml") && Empresa.Configuracoes[emp].XMLDanfeMonDenegadaNFe))
-                    {
-                        //Montar o nome do arquivo de destino
-                        string arqDestino = Empresa.Configuracoes[emp].PastaDanfeMon + "\\" + Functions.ExtrairNomeArq(arquivoCopiar, ".xml") + ".xml";
-
-                        //Copiar o arquivo para o destino
-                        FileInfo oArquivo = new FileInfo(arquivoCopiar);
-                        oArquivo.CopyTo(arqDestino, true);
-                    }
-                }
-            }
-        }
-        #endregion
+        
 
         #region ExecutaUniDanfe()
 

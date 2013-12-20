@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ConsultarNfse" targetNamespace="http://www.e-nfs.com.br" xmlns:wsdlns="http://www.e-nfs.com.br" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.e-nfs.com.br">
+	<types>
+		<schema targetNamespace="http://www.e-nfs.com.br" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified">
+			<element name="ConsultarNfse.Execute">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Nfsecabecmsg" type="xsd:string"/>
+						<element minOccurs="1" maxOccurs="1" name="Nfsedadosmsg" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ConsultarNfse.ExecuteResponse">
+				<complexType>
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="Outputxml" type="xsd:string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="ConsultarNfse.ExecuteSoapIn">
+		<part name="parameters" element="tns:ConsultarNfse.Execute"/>
+	</message>
+	<message name="ConsultarNfse.ExecuteSoapOut">
+		<part name="parameters" element="tns:ConsultarNfse.ExecuteResponse"/>
+	</message>
+	<portType name="ConsultarNfseSoapPort">
+		<operation name="Execute">
+			<input message="wsdlns:ConsultarNfse.ExecuteSoapIn"/>
+			<output message="wsdlns:ConsultarNfse.ExecuteSoapOut"/>
+		</operation>
+	</portType>
+	<binding name="ConsultarNfseSoapBinding" type="wsdlns:ConsultarNfseSoapPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Execute">
+			<soap:operation soapAction="http://www.e-nfs.com.braction/ACONSULTARNFSE.Execute"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="ConsultarNfse">
+		<port name="ConsultarNfseSoapPort" binding="wsdlns:ConsultarNfseSoapBinding">
+			<soap:address location="http://www.e-nfs.com.br/e-nfs_canoas/servlet/aconsultarnfse"/>
+		</port>
+	</service>
+</definitions>
