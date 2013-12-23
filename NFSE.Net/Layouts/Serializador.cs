@@ -33,5 +33,26 @@ namespace NFSE.Net.Layouts
             }
         }
 
+        public T TryLerXml<T>(string caminhoXml, out bool erro)
+        {
+            erro = false;
+            using (var stream = new System.IO.StreamReader(System.IO.File.Open(caminhoXml, FileMode.Open, FileAccess.Read)))
+            {
+                try
+                {
+                    XmlSerializer infoSerializer = new XmlSerializer(typeof(T));
+                    var objeto = infoSerializer.Deserialize(stream);
+                    stream.Close();
+                    return (T)objeto;
+                }
+                catch
+                {
+                    erro = true;
+                    return default(T);
+                }
+            }
+        }
+
+
     }
 }

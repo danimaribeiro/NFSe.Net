@@ -557,7 +557,7 @@ namespace NFSE.Net.Core
             var empresas = Empresas.CarregarEmpresasCadastradas();            
             foreach (var item in empresas.ListaEmpresas)
             {
-                string caminhoConfiguracaoEmpresa = System.IO.Path.Combine(Propriedade.PastaExecutavel ,item.Key, "nfse", Propriedade.NomeArqConfig);
+                string caminhoConfiguracaoEmpresa = System.IO.Path.Combine(Propriedade.PastaExecutavel ,item.Cnpj, "nfse", Propriedade.NomeArqConfig);
                 if (System.IO.File.Exists(caminhoConfiguracaoEmpresa))
                 {
                     var serializador = new Layouts.Serializador();
@@ -568,7 +568,7 @@ namespace NFSE.Net.Core
                     Empresa.Configuracoes.Add(empresa);
                 }
                 else
-                    throw new Exception( string.Format( "O arquivo de configuração da empresa: {0} - {1} não existe ", item.Value, item.Key ));
+                    throw new Exception( string.Format( "O arquivo de configuração da empresa: {0} - {1} não existe ", item.Nome, item.Cnpj ));
             }
         }
 

@@ -8,7 +8,12 @@ namespace NFSE.Net
 {
     public class Empresas
     {
-        public Dictionary<string, string> ListaEmpresas { get; set; }
+        public Empresas()
+        {
+            this.ListaEmpresas = new List<InfoEmpresa>();
+        }
+
+        public List<InfoEmpresa> ListaEmpresas { get; set; }
 
         public static Empresas CarregarEmpresasCadastradas()
         {
@@ -37,9 +42,12 @@ namespace NFSE.Net
             if (System.IO.File.Exists(Propriedade.NomeArqEmpresa))
             {
                 var serializar = new Layouts.Serializador();
-                var empresas = serializar.LerXml<Empresas>(Propriedade.NomeArqEmpresa);
-                if (!empresas.ListaEmpresas.ContainsKey(cnpj))
-                    empresas.ListaEmpresas.Add(cnpj, nome);
+                bool erro;
+                var empresas = serializar.TryLerXml<Empresas>(Propriedade.NomeArqEmpresa, out erro);
+                if (erro)
+                    empresas = new Empresas();
+                if (!empresas.ListaEmpresas.Exists(x => x.Cnpj == cnpj))
+                    empresas.ListaEmpresas.Add(new InfoEmpresa() { Cnpj = cnpj, Nome = nome });
 
                 serializar.SalvarXml<Empresas>(empresas, Propriedade.NomeArqEmpresa);
                 serializar.SalvarXml<Core.Empresa>(empresa, caminhoConfiguracaoEmpresa);
@@ -47,11 +55,17 @@ namespace NFSE.Net
             else
             {
                 var serializar = new Layouts.Serializador();
-                var dicionarioEmpresas = new Dictionary<string, string>();
-                dicionarioEmpresas.Add(cnpj, nome);
+                var dicionarioEmpresas = new List<InfoEmpresa>();
+                dicionarioEmpresas.Add(new InfoEmpresa() { Cnpj = cnpj, Nome = nome });
                 serializar.SalvarXml<Empresas>(new Empresas() { ListaEmpresas = dicionarioEmpresas }, Propriedade.NomeArqEmpresa);
                 serializar.SalvarXml<Core.Empresa>(empresa, caminhoConfiguracaoEmpresa);
             }
         }
+    }
+
+    public class InfoEmpresa
+    {
+        public string Cnpj { get; set; }
+        public string Nome { get; set; }
     }
 }

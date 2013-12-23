@@ -186,5 +186,15 @@ namespace NFSE.Net.Tests
             var serializar = new Layouts.Serializador();
             serializar.SalvarXml<Layouts.Betha.EnviarLoteRpsEnvio>(envio, caminhoXml);
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var empresa = new Core.Empresa();
+            empresa.CertificadoArquivo = @"C:\a.txt";
+            empresa.tpAmb = 2;
+            empresa.tpEmis = 1;
+            empresa.UFCod = 42;
+            Empresas.SalvarNovaEmpresa(empresa, "03657739000169", "Infoger Sistemas");
+        }
     }
 }
