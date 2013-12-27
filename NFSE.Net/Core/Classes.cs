@@ -19,11 +19,11 @@ namespace NFSE.Net.Core
         public string Cnpj { get; set; }
         public string InscricaoMunicipal { get; set; }
 
-        public DadosPedLoteRps(int emp)
+        public DadosPedLoteRps(Core.Empresa empresa)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = empresa.tpEmis;
+            tpAmb = empresa.tpAmb;
+            cMunicipio = empresa.UFCod;
         }
     }
     #endregion
@@ -38,11 +38,11 @@ namespace NFSE.Net.Core
         public int tpAmb { get; set; }
         public int tpEmis { get; set; }
 
-        public DadosPedSitNfse(int emp)
+        public DadosPedSitNfse(Core.Empresa empresa)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = empresa.tpEmis;
+            tpAmb = empresa.tpAmb;
+            cMunicipio = empresa.UFCod;
         }
     }
     #endregion
@@ -57,11 +57,11 @@ namespace NFSE.Net.Core
         public int tpAmb { get; set; }
         public int tpEmis { get; set; }
 
-        public DadosPedSitNfseRps(int emp)
+        public DadosPedSitNfseRps(Core.Empresa empresa)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = empresa.tpEmis;
+            tpAmb = empresa.tpAmb;
+            cMunicipio = empresa.UFCod;
         }
     }
     #endregion
@@ -76,11 +76,11 @@ namespace NFSE.Net.Core
         public int tpAmb { get; set; }
         public int tpEmis { get; set; }
 
-        public DadosPedCanNfse(int emp)
+        public DadosPedCanNfse(Core.Empresa empresa)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = empresa.tpEmis;
+            tpAmb = empresa.tpAmb;
+            cMunicipio = empresa.UFCod;
         }
     }
     #endregion
@@ -95,11 +95,11 @@ namespace NFSE.Net.Core
         public int tpAmb { get; set; }
         public int tpEmis { get; set; }
 
-        public DadosPedSitLoteRps(int emp)
+        public DadosPedSitLoteRps(Core.Empresa empresa)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = empresa.tpEmis;
+            tpAmb = empresa.tpAmb;
+            cMunicipio = empresa.UFCod;
         }
     }
     #endregion
@@ -114,11 +114,11 @@ namespace NFSE.Net.Core
         public int tpAmb { get; set; }
         public int tpEmis { get; set; }
 
-        public DadosEnvLoteRps(int emp)
+        public DadosEnvLoteRps(Core.Empresa emp)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = emp.tpEmis;
+            tpAmb = emp.tpAmb;
+            cMunicipio = emp.UFCod;
         }
     }
     #endregion
@@ -133,11 +133,11 @@ namespace NFSE.Net.Core
         public int tpAmb { get; set; }
         public int tpEmis { get; set; }
 
-        public DadosPedURLNfse(int emp)
+        public DadosPedURLNfse(Core.Empresa empresa)
         {
-            tpEmis = Empresa.Configuracoes[emp].tpEmis;
-            tpAmb = Empresa.Configuracoes[emp].tpAmb;
-            cMunicipio = Empresa.Configuracoes[emp].UFCod;
+            tpEmis = empresa.tpEmis;
+            tpAmb = empresa.tpAmb;
+            cMunicipio = empresa.UFCod;
         }
     }
     #endregion

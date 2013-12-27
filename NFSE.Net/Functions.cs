@@ -290,17 +290,6 @@ namespace NFSE.Net
         }
         #endregion
 
-        #region FindEmpresaByThread
-        /// <summary>
-        /// Retorna a empresa pela thread atual
-        /// </summary>
-        /// <returns></returns>
-        public static int FindEmpresaByThread()
-        {
-            return Convert.ToInt32(Thread.CurrentThread.Name);
-        }
-        #endregion
-
         #region getMD5Hash
         /// <summary>
         /// Criptografar conteúdo com MD5

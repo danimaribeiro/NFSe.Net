@@ -19,15 +19,13 @@ namespace NFSE.Net.Envio
 
         #region Execute
         public override void Execute(Empresa empresa)
-        {
-            int emp = Functions.FindEmpresaByThread();
-
+        {   
             //Definir o serviço que será executado para a classe
             Servico = Servicos.ConsultarURLNfse;
 
             try
             {
-                oDadosPedURLNfse = new DadosPedSitNfse(emp);
+                oDadosPedURLNfse = new DadosPedSitNfse(empresa);
                 //Ler o XML para pegar parâmetros de envio
                 PedURLNfse(NomeArquivoXML);
 
@@ -40,7 +38,7 @@ namespace NFSE.Net.Envio
                 {
                     case PadroesNFSe.ISSNET:
                     case PadroesNFSe.GIF:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedURLNfse.cMunicipio, oDadosPedURLNfse.tpAmb, oDadosPedURLNfse.tpEmis);
+                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedURLNfse.cMunicipio, oDadosPedURLNfse.tpAmb, oDadosPedURLNfse.tpEmis);
                         pedURLNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedURLNfse.cMunicipio));
                         break;
 
@@ -50,17 +48,17 @@ namespace NFSE.Net.Envio
 
                 //Assinar o XML
                 AssinaturaDigital ad = new AssinaturaDigital();
-                ad.Assinar(NomeArquivoXML, emp, Convert.ToInt32(oDadosPedURLNfse.cMunicipio));
+                ad.Assinar(NomeArquivoXML, empresa, Convert.ToInt32(oDadosPedURLNfse.cMunicipio));
 
                 //Invocar o método que envia o XML para o SEFAZ
-                oInvocarObj.InvocarNFSe(wsProxy, pedURLNfse, NomeMetodoWS(Servico, oDadosPedURLNfse.cMunicipio), cabecMsg, this, "-ped-urlnfse", "-urlnfse", padraoNFSe, Servico);
+                oInvocarObj.InvocarNFSe(wsProxy, pedURLNfse, NomeMetodoWS(Servico, oDadosPedURLNfse.cMunicipio, empresa.tpAmb), cabecMsg, this, "-ped-urlnfse", "-urlnfse", padraoNFSe, Servico, empresa);
             }
             catch (Exception ex)
             {
                 try
                 {
                     //Gravar o arquivo de erro de retorno para o ERP, caso ocorra
-                    TFunctions.GravarArqErroServico(NomeArquivoXML, Propriedade.ExtEnvio.PedURLNfse, Propriedade.ExtRetorno.Urlnfse_ERR, ex);
+                    TFunctions.GravarArqErroServico(empresa, NomeArquivoXML, Propriedade.ExtEnvio.PedURLNfse, Propriedade.ExtRetorno.Urlnfse_ERR, ex);
                 }
                 catch
                 {
@@ -91,7 +89,7 @@ namespace NFSE.Net.Envio
         /// <param name="arquivoXML">Arquivo XML que é para efetuar a leitura</param>
         private void PedURLNfse(string arquivoXML)
         {
-            int emp = Functions.FindEmpresaByThread();
+            //TODO Fazer a leitura
         }
         #endregion
     }

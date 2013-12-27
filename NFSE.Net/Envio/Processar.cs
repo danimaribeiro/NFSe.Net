@@ -40,6 +40,8 @@ namespace NFSE.Net.Envio
             if (servico == Servicos.Nulo)
                 throw new Exception("Não pode identificar o tipo de serviço baseado no arquivo " + arquivo);
 
+            NFSE.Net.Core.ConfiguracaoApp.ValidarConfig(empresa);
+            NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
             if (Propriedade.TipoAplicativo == TipoAplicativo.Nfse)
             {
                 #region Executar o serviço da NFS-e
@@ -193,68 +195,7 @@ namespace NFSE.Net.Envio
         }
         #endregion
 
-        #region GravaErroERP()
-        /// <summary>
-        /// Gravar o erro ocorrido para o ERP
-        /// </summary>
-        /// <param name="arquivo">Nome do arquivo que seria processado</param>
-        /// <param name="extRet">Extensão do arquivo de erro a ser gravado</param>
-        /// <param name="servico">Serviço que está sendo executado</param>
-        /// <param name="ex">Exception gerada</param>
-        protected void GravaErroERP(string arquivo, Servicos servico, Exception ex, ErroPadrao erroPadrao)
-        {
-            string extRetERR = string.Empty;
-            string extRet = string.Empty;
-
-            switch (servico)
-            {
-                case Servicos.RecepcionarLoteRps:
-                    extRet = Propriedade.ExtEnvio.EnvLoteRps;
-                    extRetERR = Propriedade.ExtRetorno.RetLoteRps_ERR;
-                    goto default;
-
-                case Servicos.ConsultarSituacaoLoteRps:
-                    extRet = Propriedade.ExtEnvio.PedSitLoteRps;
-                    extRetERR = Propriedade.ExtRetorno.SitLoteRps_ERR;
-                    goto default;
-
-                case Servicos.ConsultarNfsePorRps:
-                    extRet = Propriedade.ExtEnvio.PedSitNfseRps;
-                    extRetERR = Propriedade.ExtRetorno.SitNfseRps_ERR;
-                    goto default;
-
-                case Servicos.ConsultarNfse:
-                    extRet = Propriedade.ExtEnvio.PedSitNfse;
-                    extRetERR = Propriedade.ExtRetorno.SitNfse_ERR;
-                    goto default;
-
-                case Servicos.ConsultarLoteRps:
-                    extRet = Propriedade.ExtEnvio.PedLoteRps;
-                    extRetERR = Propriedade.ExtRetorno.LoteRps_ERR;
-                    goto default;
-
-                case Servicos.CancelarNfse:
-                    extRet = Propriedade.ExtEnvio.PedCanNfse;
-                    extRetERR = Propriedade.ExtRetorno.CanNfse_ERR;
-                    goto default;
-
-                default:
-                    try
-                    {
-                        //Gravar o arquivo de erro de retorno para o ERP, caso ocorra
-                        TFunctions.GravarArqErroServico(arquivo, extRet, extRetERR, ex, erroPadrao, true);
-
-                        //new Task().GravarArqErroServico(arquivo, extRet, extRetERR, ex, erroPadrao, true);
-                    }
-                    catch
-                    {
-                        //Se falhou algo na hora de gravar o retorno .ERR (de erro) para o ERP, infelizmente não posso fazer mais nada.
-                        //Wandrey 02/06/2011
-                    }
-                    break;
-            }
-        }
-        #endregion
+        
 
     }
 }

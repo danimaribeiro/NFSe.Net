@@ -140,7 +140,7 @@ namespace NFSE.Net.Implementacoes
         {
             string XMLRetorno = string.Empty;
             string xmlSoap = Envelopar(xml);
-
+            
             Uri uri = new Uri(url);
 
             WebRequest webRequest = WebRequest.Create(url);

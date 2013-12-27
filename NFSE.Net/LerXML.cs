@@ -21,14 +21,14 @@ namespace NFSE.Net
         /// <summary>
         /// Esta herança que deve ser utilizada fora da classe para obter os valores das tag´s da consulta lote rps
         /// </summary>
-        public DadosPedLoteRps oDadosPedLoteRps = new DadosPedLoteRps(Functions.FindEmpresaByThread());
+        public DadosPedLoteRps oDadosPedLoteRps;
         #endregion
 
         #region Objeto com os dados do XML da consulta nfse por RPS
         /// <summary>
         /// Esta herança que deve ser utilizada fora da classe para obter os valores das tag´s da consulta nfse por rps
         /// </summary>
-        public DadosPedSitNfseRps oDadosPedSitNfseRps = new DadosPedSitNfseRps(Functions.FindEmpresaByThread());
+        public DadosPedSitNfseRps oDadosPedSitNfseRps;
         #endregion
 
         #endregion
@@ -46,9 +46,9 @@ namespace NFSE.Net
         /// Fazer a leitura do conteúdo do XML de consulta lote rps e disponibilizar conteúdo em um objeto para analise
         /// </summary>
         /// <param name="arquivoXML">Arquivo XML que é para efetuar a leitura</param>
-        public void PedLoteRps(string arquivoXML)
+        public void PedLoteRps(string arquivoXML, Core.Empresa empresa)
         {
-            int emp = Functions.FindEmpresaByThread();
+            oDadosPedLoteRps = new DadosPedLoteRps(empresa);
 
             XmlDocument doc = new XmlDocument();
             doc.Load(arquivoXML);
@@ -80,9 +80,9 @@ namespace NFSE.Net
         /// Fazer a leitura do conteúdo do XML de consulta nfse por rps e disponibiliza conteúdo em um objeto para analise
         /// </summary>
         /// <param name="arquivoXML">Arquivo XML que é para efetuar a leitura</param>
-        public void PedSitNfseRps(string arquivoXML)
+        public void PedSitNfseRps(string arquivoXML, Core.Empresa empresa)
         {
-            int emp = Functions.FindEmpresaByThread();
+            oDadosPedSitNfseRps = new DadosPedSitNfseRps(empresa);
         }
         #endregion
 

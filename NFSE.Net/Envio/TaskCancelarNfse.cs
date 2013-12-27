@@ -22,155 +22,124 @@ namespace NFSE.Net.Envio
         #region Execute
         public override void Execute(Empresa empresa)
         {
-            int emp = Functions.FindEmpresaByThread();
-
             //Definir o serviço que será executado para a classe
             Servico = Servicos.CancelarNfse;
 
-            try
+            oDadosPedCanNfse = new DadosPedCanNfse(empresa);
+            //Ler o XML para pegar parâmetros de envio
+            //LerXML ler = new LerXML();
+            /*ler.*/
+            PedCanNfse(empresa, NomeArquivoXML);
+
+            //Criar objetos das classes dos serviços dos webservices do SEFAZ
+            WebServiceProxy wsProxy = null;
+            object pedCanNfse = null;
+            string cabecMsg = "";
+            //PadroesNFSe padraoNFSe = Functions.PadraoNFSe(/*ler.*/oDadosPedSitLoteRps.cMunicipio);
+            PadroesNFSe padraoNFSe = Functions.PadraoNFSe(/*ler.*/oDadosPedCanNfse.cMunicipio);
+            switch (padraoNFSe)
             {
-                oDadosPedCanNfse = new DadosPedCanNfse(emp);
-                //Ler o XML para pegar parâmetros de envio
-                //LerXML ler = new LerXML();
-                /*ler.*/
-                PedCanNfse(emp, NomeArquivoXML);
+                case PadroesNFSe.IPM:
+                    //código da cidade da receita federal, este arquivo pode ser encontrado em ~\uninfe\doc\Codigos_Cidades_Receita_Federal.xls</para>
+                    //O código da cidade está hardcoded pois ainda está sendo usado apenas para campo mourão
+                    IPM ipm = new IPM(empresa.UsuarioWS, empresa.SenhaWS, 7483, empresa.PastaRetornoNFse);
+                    ipm.EmitirNF(NomeArquivoXML, (TpAmb)empresa.tpAmb, true);
+                    break;
 
-                //Criar objetos das classes dos serviços dos webservices do SEFAZ
-                WebServiceProxy wsProxy = null;
-                object pedCanNfse = null;
-                string cabecMsg = "";
-                //PadroesNFSe padraoNFSe = Functions.PadraoNFSe(/*ler.*/oDadosPedSitLoteRps.cMunicipio);
-                PadroesNFSe padraoNFSe = Functions.PadraoNFSe(/*ler.*/oDadosPedCanNfse.cMunicipio);
-                switch (padraoNFSe)
-                {
-                    case PadroesNFSe.IPM:
-                        //código da cidade da receita federal, este arquivo pode ser encontrado em ~\uninfe\doc\Codigos_Cidades_Receita_Federal.xls</para>
-                        //O código da cidade está hardcoded pois ainda está sendo usado apenas para campo mourão
-                        IPM ipm = new IPM(Empresa.Configuracoes[emp].UsuarioWS, Empresa.Configuracoes[emp].SenhaWS, 7483, Empresa.Configuracoes[emp].PastaRetorno);
-                        ipm.EmitirNF(NomeArquivoXML, (TpAmb)Empresa.Configuracoes[emp].tpAmb, true);
-                        break;
+                case PadroesNFSe.GINFES:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, /*ler.*/oDadosPedCanNfse.cMunicipio, /*ler.*/oDadosPedCanNfse.tpAmb, /*ler.*/oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio));
+                    cabecMsg = ""; //Cancelamento ainda tá na versão 2.0 então não tem o cabecMsg
+                    break;
 
-                    case PadroesNFSe.GINFES:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, /*ler.*/oDadosPedCanNfse.cMunicipio, /*ler.*/oDadosPedCanNfse.tpAmb, /*ler.*/oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio));
-                        cabecMsg = ""; //Cancelamento ainda tá na versão 2.0 então não tem o cabecMsg
-                        break;
+                case PadroesNFSe.BETHA:
+                    wsProxy = new WebServiceProxy(empresa.X509Certificado);
+                    wsProxy.Betha = new Betha();
+                    break;
 
-                    case PadroesNFSe.BETHA:
-                        wsProxy = new WebServiceProxy(Empresa.Configuracoes[emp].X509Certificado);
-                        wsProxy.Betha = new Betha();
-                        break;
+                case PadroesNFSe.THEMA:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, /*ler.*/oDadosPedCanNfse.cMunicipio, /*ler.*/oDadosPedCanNfse.tpAmb, /*ler.*/oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio));
+                    break;
 
-                    case PadroesNFSe.THEMA:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, /*ler.*/oDadosPedCanNfse.cMunicipio, /*ler.*/oDadosPedCanNfse.tpAmb, /*ler.*/oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio));
-                        break;
+                case PadroesNFSe.CANOAS_RS:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, /*ler.*/oDadosPedCanNfse.cMunicipio, /*ler.*/oDadosPedCanNfse.tpAmb, /*ler.*/oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio));
+                    cabecMsg = "<cabecalho versao=\"201001\"><versaoDados>V2010</versaoDados></cabecalho>";
+                    break;
 
-                    case PadroesNFSe.CANOAS_RS:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, /*ler.*/oDadosPedCanNfse.cMunicipio, /*ler.*/oDadosPedCanNfse.tpAmb, /*ler.*/oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio));
-                        cabecMsg = "<cabecalho versao=\"201001\"><versaoDados>V2010</versaoDados></cabecalho>";
-                        break;
+                case PadroesNFSe.ISSNET:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    break;
 
-                    case PadroesNFSe.ISSNET:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        break;
+                case PadroesNFSe.ISSONLINE:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    break;
 
-                    case PadroesNFSe.ISSONLINE:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        break;
+                case PadroesNFSe.BLUMENAU_SC:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
 
-                    case PadroesNFSe.BLUMENAU_SC:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    #region Encriptar tag <Assinatura>
+                    EncryptAssinatura(empresa);
+                    #endregion
 
-                        #region Encriptar tag <Assinatura>
-                        EncryptAssinatura();
-                        #endregion
+                    break;
 
-                        break;
+                case PadroesNFSe.BHISS:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    cabecMsg = "<cabecalho xmlns=\"http://www.abrasf.org.br/nfse.xsd\" versao=\"1.00\"><versaoDados >1.00</versaoDados ></cabecalho>";
+                    break;
 
-                    case PadroesNFSe.BHISS:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        cabecMsg = "<cabecalho xmlns=\"http://www.abrasf.org.br/nfse.xsd\" versao=\"1.00\"><versaoDados >1.00</versaoDados ></cabecalho>";
-                        break;
+                case PadroesNFSe.GIF:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    break;
 
-                    case PadroesNFSe.GIF:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        break;
+                case PadroesNFSe.DUETO:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis, padraoNFSe);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    break;
 
-                    case PadroesNFSe.DUETO:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis, padraoNFSe);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        break;
+                case PadroesNFSe.WEBISS:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis, padraoNFSe);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    cabecMsg = "<cabecalho xmlns=\"http://www.abrasf.org.br/nfse.xsd\" versao=\"1.00\"><versaoDados >1.00</versaoDados ></cabecalho>";
+                    break;
 
-                    case PadroesNFSe.WEBISS:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis, padraoNFSe);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        cabecMsg = "<cabecalho xmlns=\"http://www.abrasf.org.br/nfse.xsd\" versao=\"1.00\"><versaoDados >1.00</versaoDados ></cabecalho>";
-                        break;
+                case PadroesNFSe.PAULISTANA:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
 
-                    case PadroesNFSe.PAULISTANA:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    #region Encriptar tag <Assinatura>
+                    EncryptAssinatura(empresa);
+                    #endregion
+                    break;
 
-                        #region Encriptar tag <Assinatura>
-                        EncryptAssinatura();
-                        #endregion
-                        break;
+                case PadroesNFSe.SALVADOR_BA:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    break;
 
-                    case PadroesNFSe.SALVADOR_BA:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        break;
-
-                    case PadroesNFSe.PRONIN:
-                        wsProxy = ConfiguracaoApp.DefinirWS(Servico, emp, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis, padraoNFSe);
-                        pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
-                        break;
-                    default:
-                        throw new Exception("Não foi possível detectar o padrão da NFS-e.");
-                }
-
-                if (padraoNFSe != PadroesNFSe.IPM)
-                {
-                    //Assinar o XML
-                    AssinaturaDigital ad = new AssinaturaDigital();
-                    ad.Assinar(NomeArquivoXML, emp, Convert.ToInt32(/*ler.*/oDadosPedCanNfse.cMunicipio));
-
-                    //Invocar o método que envia o XML para o SEFAZ
-                    oInvocarObj.InvocarNFSe(wsProxy, pedCanNfse, NomeMetodoWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio), cabecMsg, this, "-ped-cannfse", "-cannfse", padraoNFSe, Servico);
-                }
+                case PadroesNFSe.PRONIN:
+                    wsProxy = ConfiguracaoApp.DefinirWS(Servico, empresa, oDadosPedCanNfse.cMunicipio, oDadosPedCanNfse.tpAmb, oDadosPedCanNfse.tpEmis, padraoNFSe);
+                    pedCanNfse = wsProxy.CriarObjeto(NomeClasseWS(Servico, oDadosPedCanNfse.cMunicipio));
+                    break;
+                default:
+                    throw new Exception("Não foi possível detectar o padrão da NFS-e.");
             }
-            catch (Exception ex)
+
+            if (padraoNFSe != PadroesNFSe.IPM)
             {
-                try
-                {
-                    //Gravar o arquivo de erro de retorno para o ERP, caso ocorra
-                    TFunctions.GravarArqErroServico(NomeArquivoXML, Propriedade.ExtEnvio.PedCanNfse, Propriedade.ExtRetorno.CanNfse_ERR, ex);
-                }
-                catch
-                {
-                    //Se falhou algo na hora de gravar o retorno .ERR (de erro) para o ERP, infelizmente não posso fazer mais nada.
-                    //Wandrey 31/08/2011
-                }
-            }
-            finally
-            {
-                try
-                {
-                    Functions.DeletarArquivo(NomeArquivoXML);
-                }
-                catch
-                {
-                    //Se falhou algo na hora de deletar o XML de cancelamento de NFe, infelizmente
-                    //não posso fazer mais nada, o UniNFe vai tentar mandar o arquivo novamente para o webservice, pois ainda não foi excluido.
-                    //Wandrey 31/08/2011
-                }
+                //Assinar o XML
+                AssinaturaDigital ad = new AssinaturaDigital();
+                ad.Assinar(NomeArquivoXML, empresa, Convert.ToInt32(/*ler.*/oDadosPedCanNfse.cMunicipio));
+
+                //Invocar o método que envia o XML para o SEFAZ
+                oInvocarObj.InvocarNFSe(wsProxy, pedCanNfse, NomeMetodoWS(Servico, /*ler.*/oDadosPedCanNfse.cMunicipio, empresa.tpAmb), cabecMsg, this, "-ped-cannfse", "-cannfse", padraoNFSe, Servico, empresa);
             }
         }
         #endregion
@@ -180,10 +149,8 @@ namespace NFSE.Net.Envio
         /// Fazer a leitura do conteúdo do XML de cancelamento de NFS-e e disponibilizar conteúdo em um objeto para analise
         /// </summary>
         /// <param name="arquivoXML">Arquivo XML que é para efetuar a leitura</param>
-        private void PedCanNfse(int emp, string arquivoXML)
+        private void PedCanNfse(Core.Empresa empresa, string arquivoXML)
         {
-            //int emp = Functions.FindEmpresaByThread();
-
             XmlDocument doc = new XmlDocument();
             doc.Load(arquivoXML);
 
@@ -200,7 +167,7 @@ namespace NFSE.Net.Envio
         /// <summary>
         /// Encriptar a tag Assinatura quando for município de Blumenau - SC
         /// </summary>
-        private void EncryptAssinatura()
+        private void EncryptAssinatura(Core.Empresa empresa)
         {
             string arquivoXML = NomeArquivoXML;
 
@@ -223,7 +190,7 @@ namespace NFSE.Net.Envio
                     if (detalheElement.GetElementsByTagName("AssinaturaCancelamento").Count != 0)
                     {
                         //Encryptar a tag Assinatura
-                        detalheElement.GetElementsByTagName("AssinaturaCancelamento")[0].InnerText = Criptografia.SignWithRSASHA1(Empresa.Configuracoes[Functions.FindEmpresaByThread()].X509Certificado,
+                        detalheElement.GetElementsByTagName("AssinaturaCancelamento")[0].InnerText = Criptografia.SignWithRSASHA1(empresa.X509Certificado,
                             detalheElement.GetElementsByTagName("AssinaturaCancelamento")[0].InnerText);
                     }
                 }

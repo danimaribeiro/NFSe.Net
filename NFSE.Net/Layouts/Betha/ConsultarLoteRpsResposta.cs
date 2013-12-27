@@ -11,26 +11,42 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/servico_consultar_lote_rps_resposta.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://tempuri.org/servico_consultar_lote_rps_resposta.xsd", IsNullable = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public class ConsultarLoteRpsResposta
     {
 
-        private object itemField;
+        private ConsultarLoteRpsRespostaListaNfse listaNfseField;
+
+        private ListaMensagemRetorno listaMensagemRetornoField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ListaNfse", typeof(ConsultarLoteRpsRespostaListaNfse))]
-        [System.Xml.Serialization.XmlElementAttribute("ListaMensagemRetorno", typeof(ListaMensagemRetorno), Namespace = "http://tempuri.org/tipos_complexos.xsd")]
-        public object Item
+        public ConsultarLoteRpsRespostaListaNfse ListaNfse
         {
             get
             {
-                return this.itemField;
+                return this.listaNfseField;
             }
             set
             {
-                this.itemField = value;
+                this.listaNfseField = value;
             }
         }
+
+        /// <remarks/>
+        public ListaMensagemRetorno ListaMensagemRetorno
+        {
+            get
+            {
+                return this.listaMensagemRetornoField;
+            }
+            set
+            {
+                this.listaMensagemRetornoField = value;
+            }
+        }
+
+
+
     }
 }

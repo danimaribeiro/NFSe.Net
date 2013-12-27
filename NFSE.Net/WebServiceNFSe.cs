@@ -723,7 +723,7 @@ namespace NFSE.Net
                 oXmlGravar.Flush();
                 oXmlGravar.Close();
             }
-            catch (Exception ex)
+            catch
             {
                 //recupera a copia feita se houve erro na criacao do XML de municipios
                 if (System.IO.File.Exists(Propriedade.NomeArqXMLMunicipios + ".bck"))

@@ -17,6 +17,28 @@ namespace NFSE.Net.Tests
             InitializeComponent();
         }
 
+        private Core.Empresa RetornaEmpresa(bool criptografado)
+        {
+            var empresa = new Core.Empresa();
+            empresa.Nome = "Infoger Sistemas";
+            empresa.CNPJ = "03657739000169";
+            empresa.InscricaoMunicipal = "24082-6";
+            empresa.CertificadoArquivo = @"C:\Users\danimaribeiro\Desktop\INFOGER.pfx";
+            if (criptografado)
+                empresa.CertificadoSenha = Certificado.Criptografia.criptografaSenha("123456");
+            else
+                empresa.CertificadoSenha = "123456";
+            empresa.PastaEnvioRps = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastaEnvio");
+            empresa.PastaXmlConsultas = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastaEnviados");
+            empresa.PastaRetornoNFse = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastaRetorno");
+            
+            empresa.CriaPastasAutomaticamente = true;
+            empresa.tpAmb = 2;
+            empresa.tpEmis = 1;
+            empresa.UFCod = 4204202;
+            return empresa;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -24,9 +46,9 @@ namespace NFSE.Net.Tests
                 string caminhoXml = @"C:\Users\danimaribeiro\Documents\Nota_Servico\NOVOS_RPS\1-env.xml";
                 System.Net.ServicePointManager.Expect100Continue = false;
 
-                NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
                 var envio = new NFSE.Net.Envio.Processar();
-                envio.ProcessaArquivo(0, caminhoXml, Servicos.RecepcionarLoteRps);
+                var empresa = RetornaEmpresa(false);
+                envio.ProcessaArquivo(empresa, caminhoXml, Servicos.RecepcionarLoteRps);
             }
             catch (Exception ex)
             {
@@ -49,14 +71,13 @@ namespace NFSE.Net.Tests
 
             var serializar = new Layouts.Serializador();
             serializar.SalvarXml<Layouts.Betha.ConsultarSituacaoLoteRpsEnvio>(consultaSituacaoLote, caminhoXml);
-            
-            SchemaXMLNFSe.CriarListaIDXML();
+
+            caminhoXml = @"C:\Users\danimaribeiro\Documents\Visual Studio 2012\Projects\NFSE.Net\NFSE.Net.Tests\bin\Debug\PastaRetorno\1-env.xml-ret-loterps.xml";                        
             System.Net.ServicePointManager.Expect100Continue = false;
-            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;
-            NFSE.Net.Core.Empresa.CarregaConfiguracao();
-            NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
+
+            var empresa = RetornaEmpresa(false);           
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(0, caminhoXml, Servicos.ConsultarSituacaoLoteRps);
+            envio.ProcessaArquivo(empresa, caminhoXml, Servicos.ConsultarSituacaoLoteRps);
 
         }
 
@@ -64,8 +85,7 @@ namespace NFSE.Net.Tests
         {
             SchemaXMLNFSe.CriarListaIDXML();
             System.Net.ServicePointManager.Expect100Continue = false;
-            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;
-            NFSE.Net.Core.Empresa.CarregaConfiguracao();
+            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;            
             NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
             var envio = new NFSE.Net.Envio.Processar();
             envio.ProcessaArquivo(0, @"C:\Users\danimaribeiro\Documents\Nota_Servico\Ger\960-ped-loterps.xml", Servicos.ConsultarLoteRps);
@@ -75,6 +95,17 @@ namespace NFSE.Net.Tests
         {
             string caminhoXml = @"C:\Users\danimaribeiro\Documents\Nota_Servico\NOVOS_RPS\1-env.xml";
 
+            Layouts.Betha.EnviarLoteRpsEnvio envio = RetornarRps();
+
+            if (System.IO.File.Exists(caminhoXml))
+                System.IO.File.Delete(caminhoXml);
+
+            var serializar = new Layouts.Serializador();
+            serializar.SalvarXml<Layouts.Betha.EnviarLoteRpsEnvio>(envio, caminhoXml);
+        }
+
+        private static Layouts.Betha.EnviarLoteRpsEnvio RetornarRps()
+        {
             Layouts.Betha.EnviarLoteRpsEnvio envio = new Layouts.Betha.EnviarLoteRpsEnvio();
             envio.LoteRps = new Layouts.Betha.tcLoteRps();
             envio.LoteRps.Cnpj = "03657739000169";
@@ -179,22 +210,32 @@ namespace NFSE.Net.Tests
             envio.LoteRps.ListaRps[1].InfRps.Tomador.Contato = new Layouts.Betha.tcContato();
             envio.LoteRps.ListaRps[1].InfRps.Tomador.Contato.Email = "email@email.com.br";
             envio.LoteRps.ListaRps[1].InfRps.Tomador.Contato.Telefone = "32386621";
-
-            if (System.IO.File.Exists(caminhoXml))
-                System.IO.File.Delete(caminhoXml);
-
-            var serializar = new Layouts.Serializador();
-            serializar.SalvarXml<Layouts.Betha.EnviarLoteRpsEnvio>(envio, caminhoXml);
+            return envio;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var empresa = new Core.Empresa();
-            empresa.CertificadoArquivo = @"C:\a.txt";
-            empresa.tpAmb = 2;
-            empresa.tpEmis = 1;
-            empresa.UFCod = 42;
-            Empresas.SalvarNovaEmpresa(empresa, "03657739000169", "Infoger Sistemas");
+            try
+            {
+                var empresa = RetornaEmpresa(true);
+                Empresas.SalvarNovaEmpresa(empresa, "03657739000169", "Infoger Sistemas");
+
+                Core.Empresa.CarregarEmpresasConfiguradas();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            System.Net.ServicePointManager.Expect100Continue = false;
+            Layouts.Betha.EnviarLoteRpsEnvio envio = RetornarRps();
+            Core.Empresa empresa = RetornaEmpresa(false);
+
+            var envioCompleto = new Envio.EnvioCompleto();
+            envioCompleto.EnviarLoteRps(empresa, envio);
         }
     }
 }

@@ -47,17 +47,16 @@ namespace NFSE.Net
         /// </summary>
         /// <param name="Arquivo"></param>
         /// <param name="Erro"></param>
-        public void GravarArqErroERP(string Arquivo, string Erro)
+        public void GravarArqErroERP(Core.Empresa empresa, string Arquivo, string Erro)
         {
-            int emp = Functions.FindEmpresaByThread();
             if (!string.IsNullOrEmpty(Arquivo))
             {
                 try
                 {
-                    if (Empresa.Configuracoes[emp].PastaRetorno != string.Empty)
+                    if (empresa.PastaRetornoNFse != string.Empty)
                     {
                         //Grava arquivo de ERRO para o ERP
-                        string cArqErro = Empresa.Configuracoes[emp].PastaRetorno + "\\" + Path.GetFileName(Arquivo);
+                        string cArqErro = empresa.PastaRetornoNFse + "\\" + Path.GetFileName(Arquivo);
                         File.WriteAllText(cArqErro, Erro, Encoding.Default);
                     }
                 }
@@ -145,61 +144,7 @@ namespace NFSE.Net
         }
         #endregion
 
-        #region MoveArqErro
-        /// <summary>
-        /// Move arquivos XML com erro para uma pasta de xml´s com erro configurados no UniNFe.
-        /// </summary>
-        /// <param name="cArquivo">Nome do arquivo a ser movido para a pasta de XML´s com erro</param>
-        /// <example>this.MoveArqErro(this.vXmlNfeDadosMsg)</example>
-        public void MoveArqErro(string Arquivo)
-        {
-            this.MoveArqErro(Arquivo, Path.GetExtension(Arquivo));
-        }
-        #endregion
-
-        #region MoveArqErro()
-        /// <summary>
-        /// Move arquivos com a extensão informada e que está com erro para uma pasta de xml´s/arquivos com erro configurados no UniNFe.
-        /// </summary>
-        /// <param name="cArquivo">Nome do arquivo a ser movido para a pasta de XML´s com erro</param>
-        /// <param name="ExtensaoArq">Extensão do arquivo que vai ser movido. Ex: .xml</param>
-        /// <example>this.MoveArqErro(this.vXmlNfeDadosMsg, ".xml")</example>
-        public void MoveArqErro(string Arquivo, string ExtensaoArq)
-        {
-            int emp = Functions.FindEmpresaByThread();
-
-            if (File.Exists(Arquivo))
-            {
-                FileInfo oArquivo = new FileInfo(Arquivo);
-
-                if (Directory.Exists(Empresa.Configuracoes[emp].PastaErro))
-                {
-                    string vNomeArquivo = Empresa.Configuracoes[emp].PastaErro + "\\" + Functions.ExtrairNomeArq(Arquivo, ExtensaoArq) + ExtensaoArq;
-
-                    Functions.Move(Arquivo, vNomeArquivo);
-
-                    Auxiliar.WriteLog("O arquivo " + Arquivo + " foi movido para a pasta de XML com problemas.", true);
-
-                    /*
-                    //Deletar o arquivo da pasta de XML com erro se o mesmo existir lá para evitar erros na hora de mover. Wandrey
-                    if (File.Exists(vNomeArquivo))
-                        this.DeletarArquivo(vNomeArquivo);
-
-                    //Mover o arquivo da nota fiscal para a pasta do XML com erro
-                    oArquivo.MoveTo(vNomeArquivo);
-                    */
-                }
-                else
-                {
-                    //Antes estava deletando o arquivo, agora vou retornar uma mensagem de erro
-                    //pois não podemos excluir, pode ser coisa importante. Wandrey 25/02/2011
-                    throw new Exception("A pasta de XML´s com erro informada nas configurações não existe, por favor verifique.");
-                    //oArquivo.Delete();
-                }
-            }
-        }
-        #endregion
-
+            
 
         #region ArquivosPasta()
         /// <summary>
@@ -210,7 +155,7 @@ namespace NFSE.Net
         /// <returns>Retorna a lista dos arquivos da pasta</returns>
         /// <by>Wandrey Mundin Ferreira</by>
         /// <date>15/04/2009</date>
-        public List<string> ArquivosPasta(string strPasta, string strMascara)
+        public List<string> ArquivosPasta(Core.Empresa empresa, string strPasta, string strMascara)
         {
             //Criar uma Lista dos arquivos existentes na pasta
             List<string> lstArquivos = new List<string>();
@@ -232,7 +177,7 @@ namespace NFSE.Net
                 }
                 if (!string.IsNullOrEmpty(cError))
                 {
-                    new Auxiliar().GravarArqErroERP(string.Format(Propriedade.NomeArqERRUniNFe, DateTime.Now.ToString("yyyyMMddTHHmmss")), cError);
+                    new Auxiliar().GravarArqErroERP(empresa, string.Format(Propriedade.NomeArqERRUniNFe, DateTime.Now.ToString("yyyyMMddTHHmmss")), cError);
                     lstArquivos.Clear();
                 }
             }

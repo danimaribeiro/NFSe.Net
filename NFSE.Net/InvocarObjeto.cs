@@ -44,10 +44,9 @@ namespace NFSE.Net
                             string cFinalArqEnvio,
                             string cFinalArqRetorno,
                             PadroesNFSe padraoNFSe,
-                            Servicos servicoNFSe)
-        {
-            int emp = Functions.FindEmpresaByThread();
-
+                            Servicos servicoNFSe,
+                            Core.Empresa empresa)
+        {            
             XmlDocument docXML = new XmlDocument();
 
             // Definir o tipo de serviço da NFe
@@ -57,10 +56,10 @@ namespace NFSE.Net
             string XmlNfeDadosMsg = (string)(typeServicoNFe.InvokeMember("NomeArquivoXML", System.Reflection.BindingFlags.GetProperty, null, oServicoNFe, null));
 
             // Exclui o Arquivo de Erro
-            Functions.DeletarArquivo(Empresa.Configuracoes[emp].PastaRetorno + "\\" + Functions/*oAux*/.ExtrairNomeArq(XmlNfeDadosMsg, cFinalArqEnvio + ".xml") + cFinalArqRetorno + ".err");
+            Functions.DeletarArquivo(empresa.PastaRetornoNFse + "\\" + Functions/*oAux*/.ExtrairNomeArq(XmlNfeDadosMsg, cFinalArqEnvio + ".xml") + cFinalArqRetorno + ".err");
 
             // Validar o Arquivo XML
-            ValidarXML validar = new ValidarXML(XmlNfeDadosMsg, Empresa.Configuracoes[emp].UFCod);
+            ValidarXML validar = new ValidarXML(XmlNfeDadosMsg, empresa.UFCod);
             string cResultadoValidacao = validar.ValidarArqXML(XmlNfeDadosMsg);
             if (cResultadoValidacao != "")
             {
@@ -97,27 +96,27 @@ namespace NFSE.Net
                     switch (cMetodo)
                     {
                         case "ConsultarSituacaoLoteRps":
-                            strRetorno = oWSProxy.Betha.ConsultarSituacaoLoteRps(docXML, Empresa.Configuracoes[emp].tpAmb);
+                            strRetorno = oWSProxy.Betha.ConsultarSituacaoLoteRps(docXML, empresa.tpAmb);
                             break;
 
                         case "ConsultarLoteRps":
-                            strRetorno = oWSProxy.Betha.ConsultarLoteRps(docXML, Empresa.Configuracoes[emp].tpAmb);
+                            strRetorno = oWSProxy.Betha.ConsultarLoteRps(docXML, empresa.tpAmb);
                             break;
 
                         case "CancelarNfse":
-                            strRetorno = oWSProxy.Betha.CancelarNfse(docXML, Empresa.Configuracoes[emp].tpAmb);
+                            strRetorno = oWSProxy.Betha.CancelarNfse(docXML, empresa.tpAmb);
                             break;
 
                         case "ConsultarNfse":
-                            strRetorno = oWSProxy.Betha.ConsultarNfse(docXML, Empresa.Configuracoes[emp].tpAmb);
+                            strRetorno = oWSProxy.Betha.ConsultarNfse(docXML, empresa.tpAmb);
                             break;
 
                         case "ConsultarNfsePorRps":
-                            strRetorno = oWSProxy.Betha.ConsultarNfsePorRps(docXML, Empresa.Configuracoes[emp].tpAmb);
+                            strRetorno = oWSProxy.Betha.ConsultarNfsePorRps(docXML, empresa.tpAmb);
                             break;
 
                         case "RecepcionarLoteRps":
-                            strRetorno = oWSProxy.Betha.RecepcionarLoteRps(docXML, Empresa.Configuracoes[emp].tpAmb);
+                            strRetorno = oWSProxy.Betha.RecepcionarLoteRps(docXML, empresa.tpAmb);
                             break;
                     }
                     break;
@@ -126,7 +125,7 @@ namespace NFSE.Net
                 #region Padrão ISSONLINE
                 case PadroesNFSe.ISSONLINE:
                     int operacao;
-                    string senhaWs = Functions.GetMD5Hash(Empresa.Configuracoes[emp].SenhaWS);
+                    string senhaWs = Functions.GetMD5Hash(empresa.SenhaWS);
 
                     switch (servicoNFSe)
                     {
@@ -141,7 +140,7 @@ namespace NFSE.Net
                             break;
                     }
 
-                    strRetorno = oWSProxy.InvokeStr(oServicoWS, cMetodo, new object[] { Convert.ToSByte(operacao), Empresa.Configuracoes[emp].UsuarioWS, senhaWs, docXML.OuterXml });
+                    strRetorno = oWSProxy.InvokeStr(oServicoWS, cMetodo, new object[] { Convert.ToSByte(operacao), empresa.UsuarioWS, senhaWs, docXML.OuterXml });
                     break;
                 #endregion
 
@@ -180,7 +179,7 @@ namespace NFSE.Net
             // Registra o retorno de acordo com o status obtido
             if (cFinalArqEnvio != string.Empty && cFinalArqRetorno != string.Empty)
             {
-                typeServicoNFe.InvokeMember("XmlRetorno", System.Reflection.BindingFlags.InvokeMethod, null, oServicoNFe, new Object[] { cFinalArqEnvio + ".xml", cFinalArqRetorno + ".xml" });
+                typeServicoNFe.InvokeMember("XmlRetorno", System.Reflection.BindingFlags.InvokeMethod, null, oServicoNFe, new Object[] { cFinalArqEnvio + ".xml", cFinalArqRetorno + ".xml", empresa });
             }
         }
         #endregion

@@ -2402,8 +2402,8 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/tipos_complexos.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd", IsNullable = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public class ListaMensagemRetorno
     {
 
@@ -2429,7 +2429,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcMensagemRetorno
     {
 
@@ -2497,7 +2497,7 @@ namespace NFSE.Net.Layouts.Betha
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/servico_enviar_lote_rps_resposta.xsd", IncludeInSchema = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "", IncludeInSchema = false)]
     public enum ItemsChoiceType3
     {
 
@@ -2520,7 +2520,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/servico_consultar_lote_rps_resposta.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
     public class ConsultarLoteRpsRespostaListaNfse
     {
 

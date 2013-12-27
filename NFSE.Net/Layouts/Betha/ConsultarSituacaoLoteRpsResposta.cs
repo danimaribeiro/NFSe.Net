@@ -11,8 +11,8 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/servico_consultar_situacao_lote_rps_resposta.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://tempuri.org/servico_consultar_situacao_lote_rps_resposta.xsd", IsNullable = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public class ConsultarSituacaoLoteRpsResposta
     {
 
@@ -21,7 +21,7 @@ namespace NFSE.Net.Layouts.Betha
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("NumeroLote", typeof(string), DataType = "nonNegativeInteger")]
         [System.Xml.Serialization.XmlElementAttribute("Situacao", typeof(sbyte))]
-        [System.Xml.Serialization.XmlElementAttribute("ListaMensagemRetorno", typeof(ListaMensagemRetorno), Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+        [System.Xml.Serialization.XmlElementAttribute("ListaMensagemRetorno", typeof(ListaMensagemRetorno), Namespace = "")]
         public object[] Items
         {
             get

@@ -166,10 +166,8 @@ namespace NFSE.Net.Validacoes
         /// <param name="Certificado">Certificado digital a ser utilizado na validação</param>
         /// <by>Wandrey Mundin Ferreira</by>
         /// <date>28/05/2009</date>
-        public void ValidarAssinarXML(string Arquivo)
+        public void ValidarAssinarXML(string Arquivo, Core.Empresa empresa)
         {
-            int emp = Functions.FindEmpresaByThread();
-
             Boolean Assinou = true;
 
             //Assinar o XML se tiver tag para assinar
@@ -177,23 +175,14 @@ namespace NFSE.Net.Validacoes
 
             try
             {
-                oAD.Assinar(Arquivo, emp, Empresa.Configuracoes[emp].UFCod);
+                oAD.Assinar(Arquivo, empresa, empresa.UFCod);
 
                 Assinou = true;
             }
             catch (Exception ex)
             {
                 Assinou = false;
-                try
-                {
-                    GravarXMLRetornoValidacao(Arquivo, "2", "Ocorreu um erro ao assinar o XML: " + ex.Message);
-                    new Auxiliar().MoveArqErro(Arquivo);
-                }
-                catch
-                {
-                    //Se deu algum erro na hora de gravar o retorno do erro para o ERP, infelizmente não posso fazer nada.
-                    //Isso pode acontecer se falhar rede, hd, problema de permissão de pastas, etc... Wandrey 23/03/2010
-                }
+                GravarXMLRetornoValidacao(empresa, Arquivo, "2", "Ocorreu um erro ao assinar o XML: " + ex.Message);
             }
 
             if (Assinou)
@@ -206,59 +195,21 @@ namespace NFSE.Net.Validacoes
                         Validar(Arquivo);
                         if (Retorno != 0)
                         {
-                            this.GravarXMLRetornoValidacao(Arquivo, "3", "Ocorreu um erro ao validar o XML: " + RetornoString);
-                            new Auxiliar().MoveArqErro(Arquivo);
+                            this.GravarXMLRetornoValidacao(empresa, Arquivo, "3", "Ocorreu um erro ao validar o XML: " + RetornoString);                            
                         }
                         else
                         {
-                            if (!Directory.Exists(Empresa.Configuracoes[emp].PastaValidar + "\\Validado"))
-                            {
-                                Directory.CreateDirectory(Empresa.Configuracoes[emp].PastaValidar + "\\Validado");
-                            }
-
-                            string ArquivoNovo = Empresa.Configuracoes[emp].PastaValidar + "\\Validado\\" + Functions.ExtrairNomeArq(Arquivo, ".xml") + ".xml";
-
-                            Functions.Move(Arquivo, ArquivoNovo);
-                            /*
-                            if (File.Exists(ArquivoNovo))
-                            {
-                                FileInfo oArqNovo = new FileInfo(ArquivoNovo);
-                                oArqNovo.Delete();
-                            }
-
-                            FileInfo oArquivo = new FileInfo(Arquivo);
-                            oArquivo.MoveTo(ArquivoNovo);
-                            */
-
-                            this.GravarXMLRetornoValidacao(Arquivo, "1", "XML assinado e validado com sucesso.");
+                            this.GravarXMLRetornoValidacao(empresa, Arquivo, "1", "XML assinado e validado com sucesso.");
                         }
                     }
                     catch (Exception ex)
                     {
-                        try
-                        {
-                            this.GravarXMLRetornoValidacao(Arquivo, "4", "Ocorreu um erro ao validar o XML: " + ex.Message);
-                            new Auxiliar().MoveArqErro(Arquivo);
-                        }
-                        catch
-                        {
-                            //Se deu algum erro na hora de gravar o retorno do erro para o ERP, infelizmente não posso fazer nada.
-                            //Isso pode acontecer se falhar rede, hd, problema de permissão de pastas, etc... Wandrey 23/03/2010
-                        }
+                        this.GravarXMLRetornoValidacao(empresa, Arquivo, "4", "Ocorreu um erro ao validar o XML: " + ex.Message);
                     }
                 }
                 else
                 {
-                    try
-                    {
-                        this.GravarXMLRetornoValidacao(Arquivo, "5", "Ocorreu um erro ao validar o XML: " + TipoArqXml.cRetornoTipoArq);
-                        new Auxiliar().MoveArqErro(Arquivo);
-                    }
-                    catch
-                    {
-                        //Se deu algum erro na hora de gravar o retorno do erro para o ERP, infelizmente não posso fazer nada.
-                        //Isso pode acontecer se falhar rede, hd, problema de permissão de pastas, etc... Wandrey 23/03/2010
-                    }
+                    this.GravarXMLRetornoValidacao(empresa, Arquivo, "5", "Ocorreu um erro ao validar o XML: " + TipoArqXml.cRetornoTipoArq);                    
                 }
             }
         }
@@ -274,10 +225,8 @@ namespace NFSE.Net.Validacoes
         /// <param name="xMotivo">Status descritivo da validação</param>
         /// <by>Wandrey Mundin Ferreira</by>
         /// <date>28/05/2009</date>
-        private void GravarXMLRetornoValidacao(string Arquivo, string cStat, string xMotivo)
+        private void GravarXMLRetornoValidacao(Core.Empresa empresa, string Arquivo, string cStat, string xMotivo)
         {
-            int emp = Functions.FindEmpresaByThread();
-
             //Definir o nome do arquivo de retorno
             string ArquivoRetorno = Functions.ExtrairNomeArq(Arquivo, ".xml") + "-ret.xml";
 
@@ -296,7 +245,7 @@ namespace NFSE.Net.Validacoes
             try
             {
                 //Agora vamos criar um XML Writer
-                oXmlGravar = XmlWriter.Create(Empresa.Configuracoes[emp].PastaRetorno + "\\" + ArquivoRetorno);
+                oXmlGravar = XmlWriter.Create(empresa.PastaRetornoNFse + "\\" + ArquivoRetorno);
 
                 //Agora vamos gravar os dados
                 oXmlGravar.WriteStartDocument();

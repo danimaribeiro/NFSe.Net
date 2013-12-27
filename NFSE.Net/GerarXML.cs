@@ -32,10 +32,9 @@ namespace NFSE.Net
         /// <remarks>
         /// Autor: Wandrey Mundin Ferreira
         /// </remarks>        
-        public void XmlRetorno(string finalArqEnvio, string finalArqRetorno, string conteudoXMLRetorno)
+        public void XmlRetorno(string finalArqEnvio, string finalArqRetorno, string conteudoXMLRetorno, Core.Empresa empresa)
         {
-            int emp = Functions.FindEmpresaByThread();
-            XmlRetorno(finalArqEnvio, finalArqRetorno, conteudoXMLRetorno, Empresa.Configuracoes[emp].PastaRetorno);
+            XmlRetorno(finalArqEnvio, finalArqRetorno, conteudoXMLRetorno, empresa.PastaRetornoNFse, empresa);
         }
         #endregion
 
@@ -56,18 +55,12 @@ namespace NFSE.Net
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 25/11/2010
         /// </remarks>        
-        public void XmlRetorno(string finalArqEnvio, string finalArqRetorno, string conteudoXMLRetorno, string pastaGravar)
+        public void XmlRetorno(string finalArqEnvio, string finalArqRetorno, string conteudoXMLRetorno, string pastaGravar, Core.Empresa empresa)
         {
-            int emp = Functions.FindEmpresaByThread();
-
             StreamWriter SW = null;
 
             try
-            {
-                //Deletar o arquivo XML da pasta de temporários de XML´s com erros se 
-                //o mesmo existir
-                Functions.DeletarArquivo(Empresa.Configuracoes[emp].PastaErro + "\\" + Functions.ExtrairNomeArq(this.NomeXMLDadosMsg, ".xml") + ".xml");
-
+            {   
                 //Gravar o arquivo XML de retorno
                 string ArqXMLRetorno = pastaGravar + "\\" +
                                        Functions.ExtrairNomeArq(this.NomeXMLDadosMsg, finalArqEnvio) +
@@ -75,7 +68,7 @@ namespace NFSE.Net
                 SW = File.CreateText(ArqXMLRetorno);
                 SW.Write(conteudoXMLRetorno);
                 SW.Close();
-                SW = null;           
+                SW = null;
             }
             finally
             {
@@ -85,7 +78,7 @@ namespace NFSE.Net
                     SW = null;
                 }
             }
-          
+
         }
         #endregion
     }

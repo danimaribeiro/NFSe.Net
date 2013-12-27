@@ -35,7 +35,7 @@ namespace NFSE.Net.Certificado
             string tagAssinatura,
             string tagAtributoId,
             X509Certificate2 x509Cert,
-            int empresa)
+            Core.Empresa empresa)
         {
 
             StreamReader SR = null;
@@ -176,16 +176,16 @@ namespace NFSE.Net.Certificado
         /// <param name="x509Certificado">Certificado a ser utilizado na assinatura</param>
         /// <by>Wandrey Mundin Ferreira</by>
         /// <date>16/04/2009</date>
-        public void Assinar(string arqXMLAssinar, int emp, int UFCod)
+        public void Assinar(string arqXMLAssinar, Core.Empresa emp, int UFCod)
         {
             TipoArquivoXML v = new TipoArquivoXML(arqXMLAssinar, UFCod);
 
             if (!String.IsNullOrEmpty(v.TagAssinatura))
-                this.Assinar(arqXMLAssinar, v.TagAssinatura, v.TagAtributoId, Empresa.Configuracoes[emp].X509Certificado, emp);
+                this.Assinar(arqXMLAssinar, v.TagAssinatura, v.TagAtributoId, emp.X509Certificado, emp);
 
             //Assinar o lote
             if (!String.IsNullOrEmpty(v.TagLoteAssinatura))
-                this.Assinar(arqXMLAssinar, v.TagLoteAssinatura, v.TagLoteAtributoId, Empresa.Configuracoes[emp].X509Certificado, emp);
+                this.Assinar(arqXMLAssinar, v.TagLoteAssinatura, v.TagLoteAtributoId, emp.X509Certificado, emp);
         }
     }
 }

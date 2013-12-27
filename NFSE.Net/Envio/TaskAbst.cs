@@ -52,7 +52,7 @@ namespace NFSE.Net.Envio
             }
             protected set
             {
-                this.mServico = value;                
+                this.mServico = value;
             }
         }
 
@@ -81,7 +81,7 @@ namespace NFSE.Net.Envio
             string retorna = string.Empty;
 
             switch (Propriedade.TipoAplicativo)
-            {                
+            {
                 case TipoAplicativo.Nfse:
                     retorna = NomeClasseWSNFSe(servico, cUF);
                     break;
@@ -90,7 +90,7 @@ namespace NFSE.Net.Envio
             return retorna;
         }
         #endregion
-               
+
 
         #region NomeClasseWSNFSe()
         /// <summary>
@@ -326,21 +326,21 @@ namespace NFSE.Net.Envio
         /// <param name="servico">Servico</param>
         /// <param name="cUF">Código da UF</param>
         /// <returns>nome do método da classe de serviço</returns>
-        protected string NomeMetodoWS(Servicos servico, int cUF)
+        protected string NomeMetodoWS(Servicos servico, int cUF, int tipoAmb)
         {
             string retorna = string.Empty;
 
             switch (Propriedade.TipoAplicativo)
             {
                 case TipoAplicativo.Nfse:
-                    retorna = NomeMetodoWSNFSe(servico, cUF);
+                    retorna = NomeMetodoWSNFSe(servico, cUF, tipoAmb);
                     break;
             }
 
             return retorna;
         }
         #endregion
-                
+
 
         #region NomeMetodoWSNFSe()
         /// <summary>
@@ -349,7 +349,7 @@ namespace NFSE.Net.Envio
         /// <param name="servico">Servico</param>
         /// <param name="cMunicipio">Código do Municipio UF</param>
         /// <returns>Nome da classe</returns>
-        private string NomeMetodoWSNFSe(Servicos servico, int cMunicipio)
+        private string NomeMetodoWSNFSe(Servicos servico, int cMunicipio, int tipoAmb)
         {
             string retorna = string.Empty;
 
@@ -514,7 +514,7 @@ namespace NFSE.Net.Envio
                             retorna = "CancelamentoNFe";
                             break;
                         case Servicos.RecepcionarLoteRps:
-                            if (Empresa.Configuracoes[Functions.FindEmpresaByThread()].tpAmb == Propriedade.TipoAmbiente.taHomologacao)
+                            if (tipoAmb == Propriedade.TipoAmbiente.taHomologacao)
                                 retorna = "TesteEnvioLoteRPS";
                             else
                                 retorna = "EnvioLoteRPS";
@@ -653,7 +653,7 @@ namespace NFSE.Net.Envio
                             retorna = "CancelamentoNFe";
                             break;
                         case Servicos.RecepcionarLoteRps:
-                            if (Empresa.Configuracoes[Functions.FindEmpresaByThread()].tpAmb == Propriedade.TipoAmbiente.taHomologacao)
+                            if (tipoAmb == Propriedade.TipoAmbiente.taHomologacao)
                                 retorna = "TesteEnvioLoteRPS";
                             else
                                 retorna = "EnvioLoteRPS";
@@ -750,7 +750,7 @@ namespace NFSE.Net.Envio
 
         #endregion
 
-        
+
         #region XmlRetorno()
         /// <summary>
         /// Auxiliar na geração do arquivo XML de retorno para o ERP quando estivermos utilizando o InvokeMember para chamar o método
@@ -759,10 +759,10 @@ namespace NFSE.Net.Envio
         /// <param name="pFinalArqRetorno">Final do nome do arquivo que é para ser gravado o retorno.</param>
         /// <date>07/08/2009</date>
         /// <by>Wandrey Mundin Ferreira</by>
-        public void XmlRetorno(string pFinalArqEnvio, string pFinalArqRetorno)
+        public void XmlRetorno(string pFinalArqEnvio, string pFinalArqRetorno, Core.Empresa empresa)
         {
             oGerarXML.NomeXMLDadosMsg = this.NomeArquivoXML;
-            oGerarXML.XmlRetorno(pFinalArqEnvio, pFinalArqRetorno, this.vStrXmlRetorno);
+            oGerarXML.XmlRetorno(pFinalArqEnvio, pFinalArqRetorno, this.vStrXmlRetorno, empresa);
         }
         #endregion
     }

@@ -52,6 +52,7 @@
     <Compile Include="DiretorioSalvarComo.cs" />
     <Compile Include="Empresas.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Envio\EnvioCompleto.cs" />
     <Compile Include="Envio\Processar.cs" />
     <Compile Include="Envio\TaskAbst.cs" />
     <Compile Include="Envio\TaskCancelarNfse.cs" />

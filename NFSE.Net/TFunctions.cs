@@ -23,9 +23,9 @@ namespace NFSE.Net
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 02/06/2011
         /// </remarks>
-        public static void GravarArqErroServico(string arquivo, string finalArqEnvio, string finalArqErro, Exception exception)
+        public static void GravarArqErroServico(Core.Empresa empresa, string arquivo, string finalArqEnvio, string finalArqErro, Exception exception)
         {
-            GravarArqErroServico(arquivo, finalArqEnvio, finalArqErro, exception, ErroPadrao.ErroNaoDetectado, true);
+            GravarArqErroServico(empresa, arquivo, finalArqEnvio, finalArqErro, exception, ErroPadrao.ErroNaoDetectado, true);
         }
         #endregion
 
@@ -43,9 +43,9 @@ namespace NFSE.Net
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 02/06/2011
         /// </remarks>
-        public static void GravarArqErroServico(string arquivo, string finalArqEnvio, string finalArqErro, Exception exception, bool moveArqErro)
+        public static void GravarArqErroServico(Core.Empresa empresa, string arquivo, string finalArqEnvio, string finalArqErro, Exception exception, bool moveArqErro)
         {
-            GravarArqErroServico(arquivo, finalArqEnvio, finalArqErro, exception, ErroPadrao.ErroNaoDetectado, moveArqErro);
+            GravarArqErroServico(empresa, arquivo, finalArqEnvio, finalArqErro, exception, ErroPadrao.ErroNaoDetectado, moveArqErro);
         }
         #endregion
 
@@ -63,23 +63,15 @@ namespace NFSE.Net
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 02/06/2011
         /// </remarks>
-        public static void GravarArqErroServico(string arquivo, string finalArqEnvio, string finalArqErro, Exception exception, ErroPadrao erroPadrao, bool moveArqErro)
+        public static void GravarArqErroServico(Core.Empresa empresa, string arquivo, string finalArqEnvio, string finalArqErro, Exception exception, ErroPadrao erroPadrao, bool moveArqErro)
         {
-            int emp = Functions.FindEmpresaByThread();
-
-            //Qualquer erro ocorrido o aplicativo vai mover o XML com falha da pasta de envio
-            //para a pasta de XML´s com erros. Futuramente ele é excluido quando outro igual
-            //for gerado corretamente.
-            if (moveArqErro)
-                MoveArqErro(arquivo);
-
             //Grava arquivo de ERRO para o ERP
-            string arqErro = Empresa.Configuracoes[emp].PastaRetorno + "\\" +
+            string arqErro = empresa.PastaRetornoNFse + "\\" +
                               Functions.ExtrairNomeArq(arquivo, finalArqEnvio) +
                               finalArqErro;
 
             string erroMessage = exception.ToString();
-           
+
             try
             {
                 // Gerar log do erro
@@ -92,65 +84,11 @@ namespace NFSE.Net
 
             File.WriteAllText(arqErro, erroMessage, Encoding.Default);
         }
-        
-        
+
+
         #endregion
 
-        #region MoveArqErro
-        /// <summary>
-        /// Move arquivos XML com erro para uma pasta de xml´s com erro configurados no UniNFe.
-        /// </summary>
-        /// <param name="cArquivo">Nome do arquivo a ser movido para a pasta de XML´s com erro</param>
-        /// <example>this.MoveArqErro(this.vXmlNfeDadosMsg)</example>
-        public static void MoveArqErro(string Arquivo)
-        {
-            MoveArqErro(Arquivo, Path.GetExtension(Arquivo));
-        }
-        #endregion
-
-        #region MoveArqErro()
-        /// <summary>
-        /// Move arquivos com a extensão informada e que está com erro para uma pasta de xml´s/arquivos com erro configurados no UniNFe.
-        /// </summary>
-        /// <param name="cArquivo">Nome do arquivo a ser movido para a pasta de XML´s com erro</param>
-        /// <param name="ExtensaoArq">Extensão do arquivo que vai ser movido. Ex: .xml</param>
-        /// <example>this.MoveArqErro(this.vXmlNfeDadosMsg, ".xml")</example>
-        private static void MoveArqErro(string Arquivo, string ExtensaoArq)
-        {
-            int emp = Functions.FindEmpresaByThread();
-
-            if (File.Exists(Arquivo))
-            {
-                FileInfo oArquivo = new FileInfo(Arquivo);
-
-                if (Directory.Exists(Empresa.Configuracoes[emp].PastaErro))
-                {
-                    string vNomeArquivo = Empresa.Configuracoes[emp].PastaErro + "\\" + Functions.ExtrairNomeArq(Arquivo, ExtensaoArq) + ExtensaoArq;
-
-                    Functions.Move(Arquivo, vNomeArquivo);
-
-                    Auxiliar.WriteLog("O arquivo " + Arquivo + " foi movido para a pasta de XML com problemas.", true);
-
-                    /*
-                    //Deletar o arquivo da pasta de XML com erro se o mesmo existir lá para evitar erros na hora de mover. Wandrey
-                    if (File.Exists(vNomeArquivo))
-                        this.DeletarArquivo(vNomeArquivo);
-
-                    //Mover o arquivo da nota fiscal para a pasta do XML com erro
-                    oArquivo.MoveTo(vNomeArquivo);
-                    */
-                }
-                else
-                {
-                    //Antes estava deletando o arquivo, agora vou retornar uma mensagem de erro
-                    //pois não podemos excluir, pode ser coisa importante. Wandrey 25/02/2011
-                    throw new Exception("A pasta de XML´s com erro informada nas configurações não existe, por favor verifique.");
-                    //oArquivo.Delete();
-                }
-            }
-        }
-        #endregion
-
+                
         #region MoverArquivo()
         /// <summary>
         /// Move arquivos da nota fiscal eletrônica para suas respectivas pastas
@@ -162,31 +100,27 @@ namespace NFSE.Net
         /// <param name="Emissao">Data de emissão da Nota Fiscal ou Data Atual do envio do XML para separação dos XML´s em subpastas por Ano e Mês</param>
         /// <date>16/07/2008</date>
         /// <by>Wandrey Mundin Ferreira</by>
-        public static void MoverArquivo(string arquivo, PastaEnviados subPastaXMLEnviado, DateTime emissao)
+        public static void MoverArquivo(Core.Empresa empresa, string arquivo, PastaEnviados subPastaXMLEnviado, DateTime emissao)
         {
-            int emp = Functions.FindEmpresaByThread();
-
             #region Criar pastas que receberão os arquivos
-            //Criar subpastas da pasta dos XML´s enviados
-            Empresa.CriarSubPastaEnviado(emp);
-
+            
             //Criar Pasta do Mês para gravar arquivos enviados autorizados ou denegados
             string nomePastaEnviado = string.Empty;
             string destinoArquivo = string.Empty;
             switch (subPastaXMLEnviado)
             {
                 case PastaEnviados.EmProcessamento:
-                    nomePastaEnviado = Empresa.Configuracoes[emp].PastaEnviado + "\\" + PastaEnviados.EmProcessamento.ToString();
+                    nomePastaEnviado = empresa.PastaXmlConsultas + "\\" + PastaEnviados.EmProcessamento.ToString();
                     destinoArquivo = nomePastaEnviado + "\\" + Functions.ExtrairNomeArq(arquivo, ".xml") + ".xml";
                     break;
 
                 case PastaEnviados.Autorizados:
-                    nomePastaEnviado = Empresa.Configuracoes[emp].PastaEnviado + "\\" + PastaEnviados.Autorizados.ToString() + "\\" + Empresa.Configuracoes[emp].DiretorioSalvarComo.ToString(emissao);
+                    nomePastaEnviado = empresa.PastaXmlConsultas + "\\" + PastaEnviados.Autorizados.ToString() + "\\" + empresa.DiretorioSalvarComo.ToString(emissao);
                     destinoArquivo = nomePastaEnviado + "\\" + Functions.ExtrairNomeArq(arquivo, ".xml") + ".xml";
                     goto default;
 
                 case PastaEnviados.Denegados:
-                    nomePastaEnviado = Empresa.Configuracoes[emp].PastaEnviado + "\\" + PastaEnviados.Denegados.ToString() + "\\" + Empresa.Configuracoes[emp].DiretorioSalvarComo.ToString(emissao);
+                    nomePastaEnviado = empresa.PastaXmlConsultas + "\\" + PastaEnviados.Denegados.ToString() + "\\" + empresa.DiretorioSalvarComo.ToString(emissao);
                     if (arquivo.ToLower().EndsWith("-den.xml"))//danasa 11-4-2012
                         destinoArquivo = Path.Combine(nomePastaEnviado, Path.GetFileName(arquivo));
                     else
@@ -202,97 +136,6 @@ namespace NFSE.Net
             }
             #endregion
 
-            //Se conseguiu criar a pasta ele move o arquivo, caso contrário
-            if (Directory.Exists(nomePastaEnviado))
-            {
-                #region Mover o XML para a pasta de XML´s enviados
-                //Se for para mover para a Pasta EmProcessamento
-                if (subPastaXMLEnviado == PastaEnviados.EmProcessamento)
-                {
-                    //Se já existir o arquivo na pasta EmProcessamento vamos mover 
-                    //ele para a pasta com erro antes para evitar exceção. Wandrey 05/07/2011
-                    if (File.Exists(destinoArquivo))
-                    {
-                        string destinoErro = Empresa.Configuracoes[emp].PastaErro + "\\" + Functions.ExtrairNomeArq(arquivo, ".xml") + ".xml";
-                        File.Move(destinoArquivo, destinoErro);
-
-                        //danasa 11-4-2012
-                        Auxiliar.WriteLog("Arquivo \"" + destinoArquivo + "\" movido para a pasta \"" + Empresa.Configuracoes[emp].PastaErro + "\".", true);
-                    }
-                    File.Move(arquivo, destinoArquivo);
-                }
-                else
-                {
-                    //Se já existir o arquivo na pasta autorizados ou denegado, não vou mover o novo arquivo para lá, pois posso estar sobrepondo algum arquivo importante
-                    //Sendo assim se o usuário quiser forçar mover, tem que deletar da pasta autorizados ou denegados manualmente, com isso evitamos perder um XML importante.
-                    //Wandrey 05/07/2011
-                    if (!File.Exists(destinoArquivo))
-                    {
-                        File.Move(arquivo, destinoArquivo);
-                    }
-                    else
-                    {
-                        string destinoErro = Empresa.Configuracoes[emp].PastaErro + "\\" + Functions.ExtrairNomeArq(arquivo, ".xml") + ".xml";
-                        File.Move(arquivo, destinoErro);
-
-                        //danasa 11-4-2012
-                        Auxiliar.WriteLog("Arquivo \"" + arquivo + "\" movido para a pasta \"" + Empresa.Configuracoes[emp].PastaErro + "\".", true);
-                    }
-                }
-                #endregion
-
-                if (subPastaXMLEnviado == PastaEnviados.Autorizados || subPastaXMLEnviado == PastaEnviados.Denegados)
-                {
-                    #region Copiar XML para a pasta de BACKUP
-                    //Fazer um backup do XML que foi copiado para a pasta de enviados
-                    //para uma outra pasta para termos uma maior segurança no arquivamento
-                    //Normalmente esta pasta é em um outro computador ou HD
-                    if (Empresa.Configuracoes[emp].PastaBackup.Trim() != "")
-                    {
-                        //Criar Pasta do Mês para gravar arquivos enviados
-                        string nomePastaBackup = string.Empty;
-                        switch (subPastaXMLEnviado)
-                        {
-                            case PastaEnviados.Autorizados:
-                                nomePastaBackup = Empresa.Configuracoes[emp].PastaBackup + "\\" + PastaEnviados.Autorizados + "\\" + Empresa.Configuracoes[emp].DiretorioSalvarComo.ToString(emissao);
-                                goto default;
-
-                            case PastaEnviados.Denegados:
-                                nomePastaBackup = Empresa.Configuracoes[emp].PastaBackup + "\\" + PastaEnviados.Denegados + "\\" + Empresa.Configuracoes[emp].DiretorioSalvarComo.ToString(emissao);
-                                goto default;
-
-                            default:
-                                if (!Directory.Exists(nomePastaBackup))
-                                {
-                                    System.IO.Directory.CreateDirectory(nomePastaBackup);
-                                }
-                                break;
-                        }
-
-                        //Se conseguiu criar a pasta ele move o arquivo, caso contrário
-                        if (Directory.Exists(nomePastaBackup))
-                        {
-                            //Mover o arquivo da nota fiscal para a pasta de backup
-                            string destinoBackup = nomePastaBackup + "\\" + Functions.ExtrairNomeArq(arquivo, ".xml") + ".xml";
-                            if (File.Exists(destinoBackup))
-                            {
-                                File.Delete(destinoBackup);
-                            }
-                            File.Copy(destinoArquivo, destinoBackup);
-                        }
-                        else
-                        {
-                            throw new Exception("Pasta de backup informada nas configurações não existe. (Pasta: " + nomePastaBackup + ")");
-                        }
-                    }
-                    #endregion               
-                  
-                }
-            }
-            else
-            {
-                throw new Exception("Pasta para arquivamento dos XML´s enviados não existe. (Pasta: " + nomePastaEnviado + ")");
-            }
         }
         #endregion
 
@@ -305,13 +148,13 @@ namespace NFSE.Net
         /// <param name="SubPastaXMLEnviado">SubPasta de XML´s enviados para onde será movido o arquivo</param>
         /// <date>05/08/2009</date>
         /// <by>Wandrey Mundin Ferreira</by>
-        public static void MoverArquivo(string Arquivo, PastaEnviados SubPastaXMLEnviado)
+        public static void MoverArquivo(Core.Empresa empresa, string Arquivo, PastaEnviados SubPastaXMLEnviado)
         {
-            MoverArquivo(Arquivo, SubPastaXMLEnviado, DateTime.Now);
+            MoverArquivo(empresa, Arquivo, SubPastaXMLEnviado, DateTime.Now);
         }
         #endregion
 
-        
+
 
         #region ExecutaUniDanfe()
 
@@ -364,7 +207,7 @@ namespace NFSE.Net
 
 
         #endregion
-        
+
         #region RemoveSomenteLeitura()
         /// <summary>
         /// Metodo que remove atributo de Somente Leitura do Arquivo caso o mesmo estiver marcado, evitando problemas no acesso do arquivo.
@@ -388,7 +231,7 @@ namespace NFSE.Net
             return attributes & ~attributesToRemove;
         }
         #endregion
-        
+
     }
 }
 

@@ -11,26 +11,39 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/servico_consultar_lote_rps_envio.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://tempuri.org/servico_consultar_lote_rps_envio.xsd", IsNullable = false)]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.betha.com.br/e-nota-contribuinte-ws", IsNullable = false)]
     public class ConsultarLoteRpsEnvio
     {
+        private tcIdentificacaoPrestador prestadorField;
 
-        private object itemField;
+        private string protocoloField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Prestador", typeof(tcIdentificacaoPrestador))]
-        [System.Xml.Serialization.XmlElementAttribute("Protocolo", typeof(string))]
-        public object Item
+        public tcIdentificacaoPrestador Prestador
         {
             get
             {
-                return this.itemField;
+                return this.prestadorField;
             }
             set
             {
-                this.itemField = value;
+                this.prestadorField = value;
             }
         }
+
+        /// <remarks/>
+        public string Protocolo
+        {
+            get
+            {
+                return this.protocoloField;
+            }
+            set
+            {
+                this.protocoloField = value;
+            }
+        }
+
     }
 }

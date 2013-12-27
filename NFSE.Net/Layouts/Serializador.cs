@@ -12,6 +12,8 @@ namespace NFSE.Net.Layouts
     {
         public void SalvarXml<T>(T objeto, string caminhoSalvar)
         {
+            if (System.IO.File.Exists(caminhoSalvar))
+                System.IO.File.Delete(caminhoSalvar);
             using (var stream = new System.IO.StreamWriter(System.IO.File.Open(caminhoSalvar, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
             {
                 XmlSerializer infoSerializer = new XmlSerializer(typeof(T));
@@ -23,7 +25,7 @@ namespace NFSE.Net.Layouts
         }
 
         public T LerXml<T>(string caminhoXml)
-        {
+        {            
             using (var stream = new System.IO.StreamReader(System.IO.File.Open(caminhoXml, FileMode.Open, FileAccess.Read)))
             {
                 XmlSerializer infoSerializer = new XmlSerializer(typeof(T));
@@ -36,21 +38,23 @@ namespace NFSE.Net.Layouts
         public T TryLerXml<T>(string caminhoXml, out bool erro)
         {
             erro = false;
-            using (var stream = new System.IO.StreamReader(System.IO.File.Open(caminhoXml, FileMode.Open, FileAccess.Read)))
+            try
             {
-                try
+                using (var stream = new System.IO.StreamReader(System.IO.File.Open(caminhoXml, FileMode.Open, FileAccess.Read)))
                 {
+
                     XmlSerializer infoSerializer = new XmlSerializer(typeof(T));
                     var objeto = infoSerializer.Deserialize(stream);
                     stream.Close();
                     return (T)objeto;
                 }
-                catch
-                {
-                    erro = true;
-                    return default(T);
-                }
             }
+            catch
+            {
+                erro = true;
+                return default(T);
+            }
+
         }
 
 
