@@ -25,6 +25,6 @@ Layouts em desenvolvimento:
 * SALVADORBA
 * WEBISS	
 
-Danimar Ribeiro  -> http://www.infogersistemas.com.br
+Danimar Ribeiro  -> http://openerpbr.blogspot.com
 
 Projeto original -> http://sourceforge.net/projects/uninfe/
