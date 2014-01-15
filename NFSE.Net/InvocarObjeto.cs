@@ -55,11 +55,11 @@ namespace NFSE.Net
             // Resgatar o nome do arquivo XML a ser enviado para o webservice
             string XmlNfeDadosMsg = (string)(typeServicoNFe.InvokeMember("NomeArquivoXML", System.Reflection.BindingFlags.GetProperty, null, oServicoNFe, null));
 
-            // Exclui o Arquivo de Erro
-            Functions.DeletarArquivo(empresa.PastaRetornoNFse + "\\" + Functions/*oAux*/.ExtrairNomeArq(XmlNfeDadosMsg, cFinalArqEnvio + ".xml") + cFinalArqRetorno + ".err");
+            // Resgatar o caminho para salvar o xml de retorno
+            string caminhoSalvarXmlRetorno = (string)(typeServicoNFe.InvokeMember("SalvarXmlRetornoEm", System.Reflection.BindingFlags.GetProperty, null, oServicoNFe, null));
 
             // Validar o Arquivo XML
-            ValidarXML validar = new ValidarXML(XmlNfeDadosMsg, empresa.UFCod);
+            ValidarXML validar = new ValidarXML(XmlNfeDadosMsg, empresa.CodigoMunicipio);
             string cResultadoValidacao = validar.ValidarArqXML(XmlNfeDadosMsg);
             if (cResultadoValidacao != "")
             {
@@ -179,7 +179,7 @@ namespace NFSE.Net
             // Registra o retorno de acordo com o status obtido
             if (cFinalArqEnvio != string.Empty && cFinalArqRetorno != string.Empty)
             {
-                typeServicoNFe.InvokeMember("XmlRetorno", System.Reflection.BindingFlags.InvokeMethod, null, oServicoNFe, new Object[] { cFinalArqEnvio + ".xml", cFinalArqRetorno + ".xml", empresa });
+                typeServicoNFe.InvokeMember("XmlRetorno", System.Reflection.BindingFlags.InvokeMethod, null, oServicoNFe, new Object[] { cFinalArqEnvio + ".xml", caminhoSalvarXmlRetorno });
             }
         }
         #endregion

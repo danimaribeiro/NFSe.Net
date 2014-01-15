@@ -23,19 +23,15 @@ namespace NFSE.Net.Tests
             empresa.Nome = "Infoger Sistemas";
             empresa.CNPJ = "03657739000169";
             empresa.InscricaoMunicipal = "24082-6";
-            empresa.CertificadoArquivo = @"C:\Users\danimaribeiro\Desktop\INFOGER.pfx";
+            empresa.CertificadoArquivo = @"C:\Users\danimaribeiro\SkyDrive\Infoger\Certificados\INFOGER.pfx";
             if (criptografado)
                 empresa.CertificadoSenha = Certificado.Criptografia.criptografaSenha("123456");
             else
                 empresa.CertificadoSenha = "123456";
-            empresa.PastaEnvioRps = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastaEnvio");
-            empresa.PastaXmlConsultas = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastaEnviados");
-            empresa.PastaRetornoNFse = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastaRetorno");
             
-            empresa.CriaPastasAutomaticamente = true;
             empresa.tpAmb = 2;
             empresa.tpEmis = 1;
-            empresa.UFCod = 4204202;
+            empresa.CodigoMunicipio = 4204202;
             return empresa;
         }
 
@@ -48,7 +44,7 @@ namespace NFSE.Net.Tests
 
                 var envio = new NFSE.Net.Envio.Processar();
                 var empresa = RetornaEmpresa(false);
-                envio.ProcessaArquivo(empresa, caminhoXml, Servicos.RecepcionarLoteRps);
+                envio.ProcessaArquivo(empresa, caminhoXml, "", Servicos.RecepcionarLoteRps);
             }
             catch (Exception ex)
             {
@@ -72,12 +68,12 @@ namespace NFSE.Net.Tests
             var serializar = new Layouts.Serializador();
             serializar.SalvarXml<Layouts.Betha.ConsultarSituacaoLoteRpsEnvio>(consultaSituacaoLote, caminhoXml);
 
-            caminhoXml = @"C:\Users\danimaribeiro\Documents\Visual Studio 2012\Projects\NFSE.Net\NFSE.Net.Tests\bin\Debug\PastaRetorno\1-env.xml-ret-loterps.xml";                        
+            caminhoXml = @"C:\Users\danimaribeiro\Documents\Visual Studio 2012\Projects\NFSE.Net\NFSE.Net.Tests\bin\Debug\PastaRetorno\1-env.xml-ret-loterps.xml";
             System.Net.ServicePointManager.Expect100Continue = false;
 
-            var empresa = RetornaEmpresa(false);           
+            var empresa = RetornaEmpresa(false);
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(empresa, caminhoXml, Servicos.ConsultarSituacaoLoteRps);
+            envio.ProcessaArquivo(empresa, caminhoXml,"", Servicos.ConsultarSituacaoLoteRps);
 
         }
 
@@ -85,10 +81,10 @@ namespace NFSE.Net.Tests
         {
             SchemaXMLNFSe.CriarListaIDXML();
             System.Net.ServicePointManager.Expect100Continue = false;
-            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;            
+            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;
             NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(0, @"C:\Users\danimaribeiro\Documents\Nota_Servico\Ger\960-ped-loterps.xml", Servicos.ConsultarLoteRps);
+            envio.ProcessaArquivo(0, @"C:\Users\danimaribeiro\Documents\Nota_Servico\Ger\960-ped-loterps.xml", "", Servicos.ConsultarLoteRps);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -235,7 +231,40 @@ namespace NFSE.Net.Tests
             Core.Empresa empresa = RetornaEmpresa(false);
 
             var envioCompleto = new Envio.EnvioCompleto();
-            envioCompleto.EnviarLoteRps(empresa, envio);
+            //envioCompleto.EnviarLoteRps(empresa, envio);
+        }
+
+        private void relatoriosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Form2().ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string caminhoXml = @"C:\Users\danimaribeiro\Documents\Visual Studio 2012\Projects\NFSE.Net\NFSE.Net.Tests\bin\Debug\PastaEnvio\rps-11AA-ret-loterps.xml";
+                var empresa = RetornaEmpresa(false);
+                var envio = new NFSE.Net.Envio.Processar();
+
+                var consulta = new NFSE.Net.Layouts.Betha.ConsultarNfsePorRpsEnvio();
+                consulta.IdentificacaoRps = new Layouts.Betha.tcIdentificacaoRps();
+                consulta.IdentificacaoRps.Numero = "11";
+                consulta.IdentificacaoRps.Serie = "AA";
+                consulta.IdentificacaoRps.Tipo = 1;
+
+                consulta.Prestador = new Layouts.Betha.tcIdentificacaoPrestador();
+                consulta.Prestador.Cnpj = "03657739000169";
+                consulta.Prestador.InscricaoMunicipal = "24082-6";
+
+                var serializar = new Layouts.Serializador();
+                serializar.SalvarXml<Layouts.Betha.ConsultarNfsePorRpsEnvio>(consulta, caminhoXml);
+                envio.ProcessaArquivo(empresa, caminhoXml, "", Servicos.ConsultarNfsePorRps);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

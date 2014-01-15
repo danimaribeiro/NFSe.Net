@@ -41,32 +41,6 @@ namespace NFSE.Net
 #endif
         #endregion
 
-        #region GravarArqErroERP
-        /// <summary>
-        /// grava um arquivo de erro ao ERP
-        /// </summary>
-        /// <param name="Arquivo"></param>
-        /// <param name="Erro"></param>
-        public void GravarArqErroERP(Core.Empresa empresa, string Arquivo, string Erro)
-        {
-            if (!string.IsNullOrEmpty(Arquivo))
-            {
-                try
-                {
-                    if (empresa.PastaRetornoNFse != string.Empty)
-                    {
-                        //Grava arquivo de ERRO para o ERP
-                        string cArqErro = empresa.PastaRetornoNFse + "\\" + Path.GetFileName(Arquivo);
-                        File.WriteAllText(cArqErro, Erro, Encoding.Default);
-                    }
-                }
-                catch
-                {
-                    //TODO: V3.0 - Não deveriamos retornar a exeção com throw?
-                }
-            }
-        }
-        #endregion
 
         #region WriteLog()
         public static void WriteLog(string msg)
@@ -145,46 +119,6 @@ namespace NFSE.Net
         #endregion
 
             
-
-        #region ArquivosPasta()
-        /// <summary>
-        /// Monta uma lista dos arquivos existentes em uma determinada pasta
-        /// </summary>
-        /// <param name="strPasta">Pasta a ser verificada a existencia de arquivos</param>
-        /// <param name="strMascara">Mascara dos arquivos a serem procurados</param>
-        /// <returns>Retorna a lista dos arquivos da pasta</returns>
-        /// <by>Wandrey Mundin Ferreira</by>
-        /// <date>15/04/2009</date>
-        public List<string> ArquivosPasta(Core.Empresa empresa, string strPasta, string strMascara)
-        {
-            //Criar uma Lista dos arquivos existentes na pasta
-            List<string> lstArquivos = new List<string>();
-
-            if (strPasta.Trim() != "" && Directory.Exists(strPasta))
-            {
-                string cError = "";
-                try
-                {
-                    string[] filesInFolder = Directory.GetFiles(strPasta, strMascara);
-                    foreach (string item in filesInFolder)
-                    {
-                        lstArquivos.Add(item);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    cError = ex.Message;
-                }
-                if (!string.IsNullOrEmpty(cError))
-                {
-                    new Auxiliar().GravarArqErroERP(empresa, string.Format(Propriedade.NomeArqERRUniNFe, DateTime.Now.ToString("yyyyMMddTHHmmss")), cError);
-                    lstArquivos.Clear();
-                }
-            }
-
-            return lstArquivos;
-        }
-        #endregion
 
         #region ConversaoNovaVersao()
         /// <summary>

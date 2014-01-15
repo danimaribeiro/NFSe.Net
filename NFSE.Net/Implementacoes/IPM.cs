@@ -36,7 +36,7 @@ namespace NFSE.Net.Implementacoes
         public string Senha { get; set; }
         public int Cidade { get; set; }
         public IWebProxy Proxy { get; set; }
-        public string PastaRetorno { get; set; }
+        public string CaminhoXmlRetorno { get; set; }
         #endregion
 
         #region Construtores
@@ -45,14 +45,13 @@ namespace NFSE.Net.Implementacoes
             Usuario = usuario;
             Senha = senha;
             Cidade = cidade;
-            PastaRetorno = caminhoRetorno;
+            CaminhoXmlRetorno = caminhoRetorno;
         }
         #endregion
 
         public string EmitirNF(string file, TpAmb tpAmb, bool cancelamento = false)
         {
             string result = "";
-
             using (POSTRequest post = new POSTRequest { Proxy = Proxy })
             {
                 //                                                                                                    informe 1 para retorno em xml
@@ -63,22 +62,14 @@ namespace NFSE.Net.Implementacoes
                      {"f1", file}           //Endereço físico do arquivo
                 });
             }
-
-            if (!cancelamento)
-                GerarRetorno(file, result, Propriedade.ExtEnvio.EnvLoteRps, Propriedade.ExtRetorno.RetLoteRps);
-            else
-                GerarRetorno(file, result, Propriedade.ExtEnvio.EnvCancelamento_XML, Propriedade.ExtRetorno.CanNfse);
-
+            GerarRetorno(result);
             return result;
 
         }
 
-        public void GerarRetorno(string file, string result, string extEnvio, string extRetorno)
+        public void GerarRetorno(string result)
         {
-            FileInfo fi = new FileInfo(file);
-            string nomearq = PastaRetorno + "\\" + fi.Name.Replace(extEnvio, extRetorno);
-
-            StreamWriter write = new StreamWriter(nomearq);
+            StreamWriter write = new StreamWriter(this.CaminhoXmlRetorno);
             write.Write(result);
             write.Flush();
             write.Close();

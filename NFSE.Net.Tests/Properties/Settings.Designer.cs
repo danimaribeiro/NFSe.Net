@@ -8,22 +8,39 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NFSE.Net.Tests.Properties
-{
-
-
+namespace NFSE.Net.Tests.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("User Id=postgres;Password=ti73dejk;Host=127.0.0.1;Database=padrao;Persist Securit" +
+            "y Info=True;Initial Schema=public")]
+        public string desenvolvimentoConnectionString {
+            get {
+                return ((string)(this["desenvolvimentoConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarNfsePorRps")]
+        public string NFSE_Net_Tests_NFse_Net_Consulta_ConsultarNEPorRpsService {
+            get {
+                return ((string)(this["NFSE_Net_Tests_NFse_Net_Consulta_ConsultarNEPorRpsService"]));
             }
         }
     }

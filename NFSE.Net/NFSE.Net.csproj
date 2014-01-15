@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NFSE.Net</RootNamespace>
     <AssemblyName>NFSE.Net</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,7 @@
     <Compile Include="Certificado\CertificadoDigital.cs" />
     <Compile Include="Certificado\Criptografia.cs" />
     <Compile Include="ComboElemen.cs" />
+    <Compile Include="Core\ArquivosEnvio.cs" />
     <Compile Include="Core\Classes.cs" />
     <Compile Include="Core\ConfiguracaoApp.cs" />
     <Compile Include="Core\Empresa.cs" />
@@ -81,10 +83,12 @@
     <Compile Include="Layouts\Betha\Comuns.cs" />
     <Compile Include="Layouts\Betha\ConsultarLoteRpsEnvio.cs" />
     <Compile Include="Layouts\Betha\ConsultarLoteRpsResposta.cs" />
+    <Compile Include="Layouts\Betha\ConsultarNfseRpsResposta.cs" />
     <Compile Include="Layouts\Betha\ConsultarSituacaoLoteRpsEnvio.cs" />
     <Compile Include="Layouts\Betha\ConsultarSituacaoLoteRpsResposta.cs" />
     <Compile Include="Layouts\Betha\EnviarLoteRpsEnvio.cs" />
     <Compile Include="Layouts\Betha\EnviarLoteRpsResposta.cs" />
+    <Compile Include="Layouts\Betha\ConsultarNfseRpsEnvio.cs" />
     <Compile Include="Layouts\Serializador.cs" />
     <Compile Include="LerXML.cs" />
     <Compile Include="MsgErro.cs" />
@@ -95,7 +99,6 @@
     <Compile Include="Proxy.cs" />
     <Compile Include="SchemaXML.cs" />
     <Compile Include="SchemaXMLNFSe.cs" />
-    <Compile Include="Smf.cs" />
     <Compile Include="TFunctions.cs" />
     <Compile Include="TipoArquivoXML.cs" />
     <Compile Include="Validacoes\ValidarXML.cs" />
@@ -614,7 +617,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="schemas\WSDL\Webservice.xml" />
-    <Content Include="XML\UniNfeConfig.xml" />
+    <Content Include="XML\UniNfeConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="XML\UniNfeEmpresa.xml" />
     <Content Include="XML\UniNFeMunic.xml" />
   </ItemGroup>

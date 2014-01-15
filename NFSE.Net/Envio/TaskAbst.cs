@@ -41,6 +41,11 @@ namespace NFSE.Net.Envio
         }
 
         /// <summary>
+        /// Pasta onde será salvo o arquivo de retorno do webservice.
+        /// </summary>
+        public string SalvarXmlRetornoEm { get; set; }
+
+        /// <summary>
         /// Serviço que está sendo executado (Envio de Nota, Cancelamento, Consulta, etc...)
         /// </summary>
         private Servicos mServico;
@@ -755,14 +760,13 @@ namespace NFSE.Net.Envio
         /// <summary>
         /// Auxiliar na geração do arquivo XML de retorno para o ERP quando estivermos utilizando o InvokeMember para chamar o método
         /// </summary>
-        /// <param name="pFinalArqEnvio">Final do nome do arquivo de solicitação do serviço.</param>
+        /// <param name="arquivoEnvio">Final do nome do arquivo de solicitação do serviço.</param>
         /// <param name="pFinalArqRetorno">Final do nome do arquivo que é para ser gravado o retorno.</param>
         /// <date>07/08/2009</date>
         /// <by>Wandrey Mundin Ferreira</by>
-        public void XmlRetorno(string pFinalArqEnvio, string pFinalArqRetorno, Core.Empresa empresa)
+        public void XmlRetorno(string arquivoEnvio, string salvarArquivoRetornoEm)
         {
-            oGerarXML.NomeXMLDadosMsg = this.NomeArquivoXML;
-            oGerarXML.XmlRetorno(pFinalArqEnvio, pFinalArqRetorno, this.vStrXmlRetorno, empresa);
+            oGerarXML.XmlRetorno(arquivoEnvio, salvarArquivoRetornoEm, this.vStrXmlRetorno);
         }
         #endregion
     }

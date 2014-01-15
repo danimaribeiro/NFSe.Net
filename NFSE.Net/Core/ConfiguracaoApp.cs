@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -177,12 +176,7 @@ namespace NFSE.Net.Core
 
                 catch (Exception ex)
                 {
-                    string xMotivo = "Não foi possível atualizar pacotes de Schemas/WSDLs.";
-
-                    Auxiliar.WriteLog(ex.Message);
-                    Auxiliar oAux = new Auxiliar();
-                    oAux.GravarArqErroERP(empresa, empresa.CNPJ + ".err", xMotivo + Environment.NewLine + ex.Message);
-
+                    Auxiliar.WriteLog(ex.ToString());
                 }
             }
 
@@ -366,7 +360,7 @@ namespace NFSE.Net.Core
         /// </remarks>
         public static void CarregarDados()
         {
-            string vArquivoConfig = Propriedade.PastaExecutavel + "\\" + Propriedade.NomeArqConfig;            
+            string vArquivoConfig = Propriedade.PastaExecutavel + "\\" + Propriedade.NomeArqConfig;
             if (File.Exists(vArquivoConfig))
             {
                 //TODO Carregar as configurações do arquivo xml na classe ConfiguracaoApp   
@@ -403,25 +397,20 @@ namespace NFSE.Net.Core
             string key = servico + " " + cUF + " " + tpAmb + " " + tpEmis;
             while (true)
             {
-                lock (Smf.WebProxy)
+                if (emp.WSProxy.ContainsKey(key))
                 {
-                    if (emp.WSProxy.ContainsKey(key))
-                    {
-                        wsProxy = emp.WSProxy[key];
-                    }
-                    else
-                    {
-                        //Definir a URI para conexão com o Webservice
-                        string Url = ConfiguracaoApp.DefLocalWSDL(cUF, tpAmb, tpEmis, servico);
-
-                        wsProxy = new WebServiceProxy(Url, emp.X509Certificado, padraoNFSe);
-                        emp.WSProxy.Add(key, wsProxy);
-                    }
-
-                    break;
+                    wsProxy = emp.WSProxy[key];
                 }
-            }
+                else
+                {
+                    //Definir a URI para conexão com o Webservice
+                    string Url = ConfiguracaoApp.DefLocalWSDL(cUF, tpAmb, tpEmis, servico);
 
+                    wsProxy = new WebServiceProxy(Url, emp.X509Certificado, padraoNFSe);
+                    emp.WSProxy.Add(key, wsProxy);
+                }
+                break;
+            }
             return wsProxy;
         }
 
@@ -550,179 +539,58 @@ namespace NFSE.Net.Core
         /// </summary>
         /// <param name="validarCertificado">Se valida se tem certificado informado ou não nas configurações</param>
         public static void ValidarConfig(Empresa empresaValidar)
-        {
-            bool validou = true;
+        {            
             empresaValidar.ErrosValidacao.Clear();
 
-            #region Verificar a duplicação de nome de pastas que não pode existir
-            if (validou)
+            #region Verificar se o certificado foi informado
+            string aplicacao = "NF-e";
+            switch (Propriedade.TipoAplicativo)
             {
-                List<FolderCompare> fc = new List<FolderCompare>();
-                fc.Add(new FolderCompare(0, empresaValidar.PastaEnvioRps));
-                fc.Add(new FolderCompare(2, empresaValidar.PastaRetornoNFse));
-                fc.Add(new FolderCompare(3, empresaValidar.PastaXmlConsultas));
-
-                foreach (FolderCompare fc1 in fc)
+                case TipoAplicativo.Nfse:
+                    aplicacao = "NFS-e";
+                    break;
+            }
+            if (empresaValidar.CertificadoInstalado && empresaValidar.CertificadoThumbPrint.Equals(string.Empty))
+            {
+                empresaValidar.ErrosValidacao.Add("Selecione o certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);                
+            }
+            if (!empresaValidar.CertificadoInstalado)
+            {
+                if (empresaValidar.CertificadoArquivo.Equals(string.Empty))
                 {
-                    if (string.IsNullOrEmpty(fc1.folder))
-                        continue;
-
-                    foreach (FolderCompare fc2 in fc)
+                    empresaValidar.ErrosValidacao.Add("Informe o local de armazenamento do certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);                    
+                }
+                else if (!File.Exists(empresaValidar.CertificadoArquivo))
+                {
+                    empresaValidar.ErrosValidacao.Add("Arquivo do certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + " não foi encontrado.\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);                    
+                }
+                else if (empresaValidar.CertificadoSenha.Equals(string.Empty))
+                {
+                    empresaValidar.ErrosValidacao.Add("Informe a senha do certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);                    
+                }
+                else
+                {
+                    try
                     {
-                        if (string.IsNullOrEmpty(fc2.folder))
-                            continue;
-                        if (fc1.id != fc2.id)
+                        using (FileStream fs = new FileStream(empresaValidar.CertificadoArquivo, FileMode.Open))
                         {
-                            if (fc1.folder.ToLower().Equals(fc2.folder.ToLower()))
-                            {
-                                empresaValidar.ErrosValidacao.Add("Não é permitido a utilização de pasta idênticas na mesma ou entre as empresas..");
-                                validou = false;
-                                break;
-                            }
+                            byte[] buffer = new byte[fs.Length];
+                            fs.Read(buffer, 0, buffer.Length);
+                            empresaValidar.X509Certificado = new X509Certificate2(buffer, empresaValidar.CertificadoSenha);
                         }
                     }
-                    if (!validou)
-                        break;
+                    catch (System.Security.Cryptography.CryptographicException ex)
+                    {
+                        empresaValidar.ErrosValidacao.Add(ex.Message + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);                        
+                    }
+                    catch (Exception ex)
+                    {
+                        empresaValidar.ErrosValidacao.Add(ex.Message + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);                     
+                    }
                 }
             }
+
             #endregion
-
-            if (validou)
-            {
-                List<string> diretorios = new List<string>();
-                List<string> mensagens = new List<string>();
-
-                #region Verificar se tem alguma pasta em branco
-                diretorios.Clear(); mensagens.Clear();
-                diretorios.Add(empresaValidar.PastaXmlConsultas); mensagens.Add("Informe a pasta para arquivamento dos arquivos XML enviados.");
-                diretorios.Add(empresaValidar.PastaEnvioRps); mensagens.Add("Informe a pasta de envio dos arquivos XML.");
-                diretorios.Add(empresaValidar.PastaRetornoNFse); mensagens.Add("Informe a pasta de retorno dos arquivos XML.");
-
-                for (int b = 0; b < diretorios.Count; b++)
-                {
-                    if (string.IsNullOrWhiteSpace(diretorios[b]))
-                    {
-                        empresaValidar.ErrosValidacao.Add(mensagens[b].Trim() + "\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                        validou = false;
-                        break;
-                    }
-                }
-                #endregion
-
-                #region Verificar se o certificado foi informado
-                if (validou)
-                {
-                    string aplicacao = "NF-e";
-                    switch (Propriedade.TipoAplicativo)
-                    {
-                        case TipoAplicativo.Nfse:
-                            aplicacao = "NFS-e";
-                            break;
-                    }
-                    if (empresaValidar.CertificadoInstalado && empresaValidar.CertificadoThumbPrint.Equals(string.Empty))
-                    {
-                        empresaValidar.ErrosValidacao.Add("Selecione o certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                        validou = false;
-                    }
-                    if (!empresaValidar.CertificadoInstalado)
-                    {
-                        if (empresaValidar.CertificadoArquivo.Equals(string.Empty))
-                        {
-                            empresaValidar.ErrosValidacao.Add("Informe o local de armazenamento do certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                            validou = false;
-                        }
-                        else if (!File.Exists(empresaValidar.CertificadoArquivo))
-                        {
-                            empresaValidar.ErrosValidacao.Add("Arquivo do certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + " não foi encontrado.\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                            validou = false;
-                        }
-                        else if (empresaValidar.CertificadoSenha.Equals(string.Empty))
-                        {
-                            empresaValidar.ErrosValidacao.Add("Informe a senha do certificado digital a ser utilizado na autenticação dos serviços da " + aplicacao + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                            validou = false;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                using (FileStream fs = new FileStream(empresaValidar.CertificadoArquivo, FileMode.Open))
-                                {
-                                    byte[] buffer = new byte[fs.Length];
-                                    fs.Read(buffer, 0, buffer.Length);
-                                    empresaValidar.X509Certificado = new X509Certificate2(buffer, empresaValidar.CertificadoSenha);
-                                }
-                            }
-                            catch (System.Security.Cryptography.CryptographicException ex)
-                            {
-                                empresaValidar.ErrosValidacao.Add(ex.Message + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                                validou = false;
-                            }
-                            catch (Exception ex)
-                            {
-                                empresaValidar.ErrosValidacao.Add(ex.Message + ".\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                                validou = false;
-                            }
-                        }
-                    }
-                }
-                #endregion
-
-                #region Verificar se as pastas informadas existem
-                if (validou)
-                {
-
-                    if (empresaValidar.PastaEnvioRps.ToLower().EndsWith("temp"))
-                    {
-                        empresaValidar.ErrosValidacao.Add("Pasta de envio não pode terminar com a subpasta 'temp'.\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                        validou = false;
-                    }
-
-                    if (validou)
-                    {
-                        diretorios.Clear(); mensagens.Clear();
-                        diretorios.Add(empresaValidar.PastaEnvioRps.Trim()); mensagens.Add("A pasta de envio dos arquivos XML informada não existe.");
-                        diretorios.Add(empresaValidar.PastaRetornoNFse.Trim()); mensagens.Add("A pasta de retorno dos arquivos XML informada não existe.");
-                        diretorios.Add(empresaValidar.PastaXmlConsultas.Trim()); mensagens.Add("A pasta para arquivamento dos arquivos XML enviados informada não existe.");
-
-                        for (int b = 0; b < diretorios.Count; b++)
-                        {
-                            if (!string.IsNullOrEmpty(diretorios[b]))
-                            {
-                                if (!Directory.Exists(diretorios[b]))
-                                {
-                                    if (empresaValidar.CriaPastasAutomaticamente)
-                                    {
-                                        Directory.CreateDirectory(diretorios[b]);
-                                    }
-                                    else
-                                    {
-                                        empresaValidar.ErrosValidacao.Add(mensagens[b].Trim() + "\r\n" + empresaValidar.Nome + "\r\n" + empresaValidar.CNPJ);
-                                        validou = false;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    #region Criar pasta Temp dentro da pasta de envio, envio em lote e validar
-                    //Criar pasta Temp dentro da pasta de envio, envio em Lote e Validar. Wandrey 03/08/2011
-                    if (validou)
-                    {
-                        if (Directory.Exists(empresaValidar.PastaEnvioRps.Trim()))
-                        {
-                            if (!Directory.Exists(empresaValidar.PastaEnvioRps.Trim() + "\\Temp"))
-                            {
-                                Directory.CreateDirectory(empresaValidar.PastaEnvioRps.Trim() + "\\Temp");
-                            }
-                        }
-
-                    }
-                    #endregion
-                }
-                #endregion
-
-            }
 
             if (empresaValidar.ErrosValidacao.Count > 0)
             {

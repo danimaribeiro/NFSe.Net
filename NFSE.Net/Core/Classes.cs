@@ -23,7 +23,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = empresa.tpEmis;
             tpAmb = empresa.tpAmb;
-            cMunicipio = empresa.UFCod;
+            cMunicipio = empresa.CodigoMunicipio;
         }
     }
     #endregion
@@ -42,7 +42,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = empresa.tpEmis;
             tpAmb = empresa.tpAmb;
-            cMunicipio = empresa.UFCod;
+            cMunicipio = empresa.CodigoMunicipio;
         }
     }
     #endregion
@@ -61,7 +61,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = empresa.tpEmis;
             tpAmb = empresa.tpAmb;
-            cMunicipio = empresa.UFCod;
+            cMunicipio = empresa.CodigoMunicipio;
         }
     }
     #endregion
@@ -80,7 +80,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = empresa.tpEmis;
             tpAmb = empresa.tpAmb;
-            cMunicipio = empresa.UFCod;
+            cMunicipio = empresa.CodigoMunicipio;
         }
     }
     #endregion
@@ -99,7 +99,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = empresa.tpEmis;
             tpAmb = empresa.tpAmb;
-            cMunicipio = empresa.UFCod;
+            cMunicipio = empresa.CodigoMunicipio;
         }
     }
     #endregion
@@ -118,7 +118,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = emp.tpEmis;
             tpAmb = emp.tpAmb;
-            cMunicipio = emp.UFCod;
+            cMunicipio = emp.CodigoMunicipio;
         }
     }
     #endregion
@@ -137,7 +137,7 @@ namespace NFSE.Net.Core
         {
             tpEmis = empresa.tpEmis;
             tpAmb = empresa.tpAmb;
-            cMunicipio = empresa.UFCod;
+            cMunicipio = empresa.CodigoMunicipio;
         }
     }
     #endregion

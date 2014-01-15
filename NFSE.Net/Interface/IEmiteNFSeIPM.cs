@@ -24,8 +24,8 @@ namespace NFSE.Net
         IWebProxy Proxy { get; set; }
 
         /// <summary>
-        /// Pasta para gerar o retorno do XML
+        ///Caminho para salvar o xml de retorno
         /// </summary>
-        string PastaRetorno { get; set; }
+        string CaminhoXmlRetorno { get; set; }
     }
 }

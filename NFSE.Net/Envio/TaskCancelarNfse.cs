@@ -42,7 +42,7 @@ namespace NFSE.Net.Envio
                 case PadroesNFSe.IPM:
                     //código da cidade da receita federal, este arquivo pode ser encontrado em ~\uninfe\doc\Codigos_Cidades_Receita_Federal.xls</para>
                     //O código da cidade está hardcoded pois ainda está sendo usado apenas para campo mourão
-                    IPM ipm = new IPM(empresa.UsuarioWS, empresa.SenhaWS, 7483, empresa.PastaRetornoNFse);
+                    IPM ipm = new IPM(empresa.UsuarioWS, empresa.SenhaWS, 7483, this.SalvarXmlRetornoEm);
                     ipm.EmitirNF(NomeArquivoXML, (TpAmb)empresa.tpAmb, true);
                     break;
 

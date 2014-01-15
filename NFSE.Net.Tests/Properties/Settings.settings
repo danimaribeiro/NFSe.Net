@@ -1,7 +1,17 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NFSE.Net.Tests.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="desenvolvimentoConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;User Id=postgres;Password=ti73dejk;Host=127.0.0.1;Database=padrao;Persist Security Info=True;Initial Schema=public&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;Devart.Data.PostgreSql&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">User Id=postgres;Password=ti73dejk;Host=127.0.0.1;Database=padrao;Persist Security Info=True;Initial Schema=public</Value>
+    </Setting>
+    <Setting Name="NFSE_Net_Tests_NFse_Net_Consulta_ConsultarNEPorRpsService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://e-gov.betha.com.br/e-nota-contribuinte-test-ws/consultarNfsePorRps</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -21,47 +21,7 @@ namespace NFSE.Net.Core
     /// Data: 28/07/2010
     /// </remarks>
     public class Empresa
-    {
-        #region Propriedades
-
-        #region Propriedades das pastas configuradas para utilização pelo UniNFe
-        #region Ticket: #110
-        /* 
-         * Marcelo
-         * 03/06/2013
-         */
-        /// <summary>
-        /// Pasta base onde todas as outras estão configuradas. 
-        /// <para>Diretório Root</para>
-        /// </summary>
-        /// <remarks>Esta propriedade tem como base a pasta envio</remarks>
-        public string PastaBase
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(PastaEnvioRps))
-                {
-                    return System.IO.Path.GetDirectoryName(PastaEnvioRps);
-                }
-                return string.Empty;
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// Pasta onde deve ser gravado os XML´s a serem enviados
-        /// </summary>
-        public string PastaEnvioRps { get; set; }
-        /// <summary>
-        /// Pasta onde será gravado os XML´s de retorno para o ERP
-        /// </summary>
-        public string PastaRetornoNFse { get; set; }
-        /// <summary>
-        /// Pasta onde será gravado os XML´s enviados
-        /// </summary>
-        public string PastaXmlConsultas { get; set; }
-        #endregion
-
+    {       
         #region Propriedades diversas
         /// <summary>
         /// CNPJ da Empresa
@@ -74,7 +34,7 @@ namespace NFSE.Net.Core
         /// <summary>
         /// Código da unidade Federativa da Empresa
         /// </summary>
-        public int UFCod { get; set; }
+        public int CodigoMunicipio { get; set; }
         /// <summary>
         /// Inscrição municipal da empresa
         /// </summary>
@@ -113,10 +73,6 @@ namespace NFSE.Net.Core
         [System.Xml.Serialization.XmlIgnore]
         public X509Certificate2 X509Certificado { get; set; }
         /// <summary>
-        /// Tempo para execução da consulta do recibo após o envio do lote
-        /// </summary>
-        public int TempoConsulta { get; set; }
-        /// <summary>
         /// Usuário de acesso ao webservice (Utilizado pelo UniNFS-e para algumas prefeituras)
         /// </summary>
         public string UsuarioWS { get; set; }
@@ -124,10 +80,6 @@ namespace NFSE.Net.Core
         /// Senha de acesso ao webservice (Utilizado pelo UniNFS-e para algumas prefeituras)
         /// </summary>
         public string SenhaWS { get; set; }
-        /// <summary>
-        /// Serviço que está sendo monitorado na configuração da empresa
-        /// </summary>
-        public TipoAplicativo Servico { get; set; }
         #endregion
 
         #region Propriedades da parte das configurações por empresa
@@ -141,8 +93,6 @@ namespace NFSE.Net.Core
         /// Nome do arquivo XML das configurações da empresa
         /// </summary>
         public string NomeArquivoConfig { get; set; }
-
-        public bool CriaPastasAutomaticamente { get; set; }
 
         #endregion
 
@@ -178,7 +128,6 @@ namespace NFSE.Net.Core
         }
         #endregion
 
-        #endregion
 
         #region Coleções
         /// <summary>
@@ -201,25 +150,10 @@ namespace NFSE.Net.Core
         /// danasa 20-9-2010
         /// </summary>
         public Empresa()
-        {
-            this.CriaPastasAutomaticamente = false;
-            this.TempoConsulta = 2;
-            this.Servico = TipoAplicativo.Nfse;
+        {              
             this.ErrosValidacao = new List<string>();
         }
-
-        public void CriarPastas()
-        {
-            if (!string.IsNullOrEmpty(this.PastaEnvioRps) && !Directory.Exists(this.PastaEnvioRps))
-                Directory.CreateDirectory(this.PastaEnvioRps);
-
-            if (!string.IsNullOrEmpty(this.PastaRetornoNFse) && !Directory.Exists(this.PastaRetornoNFse))
-                Directory.CreateDirectory(this.PastaRetornoNFse);
-
-            if (!string.IsNullOrEmpty(this.PastaXmlConsultas) && !Directory.Exists(this.PastaXmlConsultas))
-                Directory.CreateDirectory(this.PastaXmlConsultas);
-        }
-
+     
         #region "Carrega Configurações de empresa"
 
         /// <summary>

@@ -23,22 +23,22 @@ namespace NFSE.Net.Envio
             Propriedade.TipoAplicativo = TipoAplicativo.Nfse;
         }
 
-        public void ProcessaArquivo(int emp, string arquivo, Servicos servico)
+        public void ProcessaArquivo(int emp, string arquivoXmlEnvio, string localSalvarXmlRetorno, Servicos servico)
         {
             if (Empresa.Configuracoes.Count == 0)
                 Empresa.CarregarEmpresasConfiguradas();
 
             if (Empresa.Configuracoes.Count > emp)
-                ProcessaArquivo(Empresa.Configuracoes[emp], arquivo, servico);
+                ProcessaArquivo(Empresa.Configuracoes[emp], arquivoXmlEnvio, localSalvarXmlRetorno, servico);
             else
                 throw new Exception("Você não configurou nenhuma empresa.");
         }
 
         #region ProcessaArquivo()
-        public void ProcessaArquivo(Empresa empresa, string arquivo, Servicos servico)
+        public void ProcessaArquivo(Empresa empresa, string arquivoXmlEnvio, string localSalvarXmlRetorno, Servicos servico)
         {
             if (servico == Servicos.Nulo)
-                throw new Exception("Não pode identificar o tipo de serviço baseado no arquivo " + arquivo);
+                throw new Exception("Não pode identificar o tipo de serviço baseado no arquivo " + arquivoXmlEnvio);
 
             NFSE.Net.Core.ConfiguracaoApp.ValidarConfig(empresa);
             NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
@@ -50,43 +50,43 @@ namespace NFSE.Net.Envio
                     case Servicos.ConsultarLoteRps:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarLoteRps());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskConsultarLoteRps());
                         break;
 
                     case Servicos.CancelarNfse:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskCancelarNfse());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskCancelarNfse());
                         break;
 
                     case Servicos.ConsultarSituacaoLoteRps:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultaSituacaoLoteRps());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskConsultaSituacaoLoteRps());
                         break;
 
                     case Servicos.ConsultarNfse:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarNfse());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskConsultarNfse());
                         break;
 
                     case Servicos.ConsultarNfsePorRps:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarNfsePorRps());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskConsultarNfsePorRps());
                         break;
 
                     case Servicos.RecepcionarLoteRps:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskRecepcionarLoteRps());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskRecepcionarLoteRps());
                         break;
 
                     case Servicos.ConsultarURLNfse:
                         CertVencido(empresa);
                         IsConnectedToInternet();
-                        this.DirecionarArquivo(empresa, arquivo, new TaskConsultarURLNfse());
+                        this.DirecionarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, new TaskConsultarURLNfse());
                         break;
                 }
                 #endregion
@@ -94,26 +94,6 @@ namespace NFSE.Net.Envio
         }
         #endregion
 
-        #endregion
-
-        #region DirecionarArquivo()
-        /// <summary>
-        /// Direcionar os arquivos encontrados na pasta de envico corretamente
-        /// </summary>
-        /// <param name="arquivos">Lista de arquivos</param>
-        /// <param name="metodo">Método a ser executado do serviço da NFe</param>
-        /// <param name="nfe">Objeto do serviço da NFe a ser executado</param>
-        /// <remarks>
-        /// Autor: Wandrey Mundin Ferreira
-        /// Data: 18/04/2011
-        /// </remarks>
-        private void DirecionarArquivo(Empresa empresa, List<string> arquivos, object nfe, string metodo)
-        {
-            for (int i = 0; i < arquivos.Count; i++)
-            {
-                DirecionarArquivo(empresa, arquivos[i], nfe, metodo);
-            }
-        }
         #endregion
 
         #region DirecionarArquivo()
@@ -127,16 +107,16 @@ namespace NFSE.Net.Envio
         /// Autor: Wandrey Mundin Ferreira
         /// Data: 18/04/2011
         /// </remarks>
-        private void DirecionarArquivo(Empresa empresa, string arquivo, object taskClass)
+        private void DirecionarArquivo(Empresa empresa, string arquivoXmlEnvio, string localSalvarXmlRetorno, object taskClass)
         {
             //Processa ou envia o XML
-            EnviarArquivo(empresa, arquivo, taskClass, "Execute");
+            EnviarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, taskClass, "Execute");
         }
 
-        private void DirecionarArquivo(Empresa empresa, string arquivo, object nfe, string metodo)
+        private void DirecionarArquivo(Empresa empresa, string arquivoXmlEnvio, string localSalvarXmlRetorno, object nfe, string metodo)
         {
             //Processa ou envia o XML
-            EnviarArquivo(empresa, arquivo, nfe, metodo);
+            EnviarArquivo(empresa, arquivoXmlEnvio, localSalvarXmlRetorno, nfe, metodo);
         }
         #endregion
 
@@ -146,13 +126,14 @@ namespace NFSE.Net.Envio
         /// </summary>
         /// <param name="cArquivo">Nome do arquivo XML a ser enviado ou analisado</param>
         /// <param name="oNfe">Objeto da classe UniNfeClass a ser utilizado nas operações</param>
-        private void EnviarArquivo(Empresa empresa, string arquivo, Object nfe, string metodo)
+        private void EnviarArquivo(Empresa empresa, string arquivoXmlEnvio, string localSalvarXmlRetorno, Object nfe, string metodo)
         {
             //Definir o tipo do serviço
             Type tipoServico = nfe.GetType();
 
             //Definir o arquivo XML para a classe UniNfeClass
-            tipoServico.InvokeMember("NomeArquivoXML", System.Reflection.BindingFlags.SetProperty, null, nfe, new object[] { arquivo });
+            tipoServico.InvokeMember("NomeArquivoXML", System.Reflection.BindingFlags.SetProperty, null, nfe, new object[] { arquivoXmlEnvio });
+            tipoServico.InvokeMember("SalvarXmlRetornoEm", System.Reflection.BindingFlags.SetProperty, null, nfe, new object[] { localSalvarXmlRetorno });
             tipoServico.InvokeMember(metodo, System.Reflection.BindingFlags.InvokeMethod, null, nfe, new[] { empresa });
         }
         #endregion

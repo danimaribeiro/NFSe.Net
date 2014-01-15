@@ -168,100 +168,11 @@ namespace NFSE.Net.Validacoes
         /// <date>28/05/2009</date>
         public void ValidarAssinarXML(string Arquivo, Core.Empresa empresa)
         {
-            Boolean Assinou = true;
-
             //Assinar o XML se tiver tag para assinar
             AssinaturaDigital oAD = new AssinaturaDigital();
-
-            try
-            {
-                oAD.Assinar(Arquivo, empresa, empresa.UFCod);
-
-                Assinou = true;
-            }
-            catch (Exception ex)
-            {
-                Assinou = false;
-                GravarXMLRetornoValidacao(empresa, Arquivo, "2", "Ocorreu um erro ao assinar o XML: " + ex.Message);
-            }
-
-            if (Assinou)
-            {
-                // Validar o Arquivo XML
-                if (TipoArqXml.nRetornoTipoArq >= 1 && TipoArqXml.nRetornoTipoArq <= SchemaXML.MaxID)
-                {
-                    try
-                    {
-                        Validar(Arquivo);
-                        if (Retorno != 0)
-                        {
-                            this.GravarXMLRetornoValidacao(empresa, Arquivo, "3", "Ocorreu um erro ao validar o XML: " + RetornoString);                            
-                        }
-                        else
-                        {
-                            this.GravarXMLRetornoValidacao(empresa, Arquivo, "1", "XML assinado e validado com sucesso.");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        this.GravarXMLRetornoValidacao(empresa, Arquivo, "4", "Ocorreu um erro ao validar o XML: " + ex.Message);
-                    }
-                }
-                else
-                {
-                    this.GravarXMLRetornoValidacao(empresa, Arquivo, "5", "Ocorreu um erro ao validar o XML: " + TipoArqXml.cRetornoTipoArq);                    
-                }
-            }
+            oAD.Assinar(Arquivo, empresa, empresa.CodigoMunicipio);
         }
         #endregion
 
-        #region GravarXMLRetornoValidacao()
-        /// <summary>
-        /// Na tentativa de somente validar ou assinar o XML se encontrar um erro vai ser retornado um XML para o ERP
-        /// </summary>
-        /// <param name="Arquivo">Nome do arquivo XML validado</param>
-        /// <param name="PastaXMLRetorno">Pasta de retorno para ser gravado o XML</param>
-        /// <param name="cStat">Status da validação</param>
-        /// <param name="xMotivo">Status descritivo da validação</param>
-        /// <by>Wandrey Mundin Ferreira</by>
-        /// <date>28/05/2009</date>
-        private void GravarXMLRetornoValidacao(Core.Empresa empresa, string Arquivo, string cStat, string xMotivo)
-        {
-            //Definir o nome do arquivo de retorno
-            string ArquivoRetorno = Functions.ExtrairNomeArq(Arquivo, ".xml") + "-ret.xml";
-
-            XmlWriterSettings oSettings = new XmlWriterSettings();
-            UTF8Encoding c = new UTF8Encoding(false);
-
-            //Para começar, vamos criar um XmlWriterSettings para configurar nosso XML
-            oSettings.Encoding = c;
-            oSettings.Indent = true;
-            oSettings.IndentChars = "";
-            oSettings.NewLineOnAttributes = false;
-            oSettings.OmitXmlDeclaration = false;
-
-            XmlWriter oXmlGravar = null;
-
-            try
-            {
-                //Agora vamos criar um XML Writer
-                oXmlGravar = XmlWriter.Create(empresa.PastaRetornoNFse + "\\" + ArquivoRetorno);
-
-                //Agora vamos gravar os dados
-                oXmlGravar.WriteStartDocument();
-                oXmlGravar.WriteStartElement("Validacao");
-                oXmlGravar.WriteElementString("cStat", cStat);
-                oXmlGravar.WriteElementString("xMotivo", xMotivo);
-                oXmlGravar.WriteEndElement(); //nfe_configuracoes
-                oXmlGravar.WriteEndDocument();
-                oXmlGravar.Flush();
-            }
-            finally
-            {
-                if (oXmlGravar != null)
-                    oXmlGravar.Close();
-            }
-        }
-        #endregion
     }
 }

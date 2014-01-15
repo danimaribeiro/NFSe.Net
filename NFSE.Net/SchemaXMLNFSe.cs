@@ -653,7 +653,7 @@ namespace NFSE.Net
             bool usaParobeRS = false;
             foreach (var item in Empresa.Configuracoes)
             {
-                if (item.UFCod == 4314050)
+                if (item.CodigoMunicipio == 4314050)
                     usaParobeRS = true;
             }
 
