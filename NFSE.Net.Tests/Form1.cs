@@ -20,14 +20,14 @@ namespace NFSE.Net.Tests
         private Core.Empresa RetornaEmpresa(bool criptografado)
         {
             var empresa = new Core.Empresa();
-            empresa.Nome = "Infoger Sistemas";
+            empresa.Nome = "Empresa teste";
             empresa.CNPJ = "03657739000169";
             empresa.InscricaoMunicipal = "24082-6";
             empresa.CertificadoArquivo = @"C:\Users\danimaribeiro\SkyDrive\Infoger\Certificados\INFOGER.pfx";
             if (criptografado)
                 empresa.CertificadoSenha = Certificado.Criptografia.criptografaSenha("123456");
             else
-                empresa.CertificadoSenha = "123456";
+                empresa.CertificadoSenha = "senha";
             
             empresa.tpAmb = 2;
             empresa.tpEmis = 1;
@@ -214,7 +214,7 @@ namespace NFSE.Net.Tests
             try
             {
                 var empresa = RetornaEmpresa(true);
-                Empresas.SalvarNovaEmpresa(empresa, "03657739000169", "Infoger Sistemas");
+                Empresas.SalvarNovaEmpresa(empresa, "03657739000169", "Empresa Teste");
 
                 Core.Empresa.CarregarEmpresasConfiguradas();
             }
