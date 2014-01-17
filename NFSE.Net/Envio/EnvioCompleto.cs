@@ -20,19 +20,23 @@ namespace NFSE.Net.Envio
             serializar.SalvarXml<Layouts.Betha.EnviarLoteRpsEnvio>(lote, localArquivos.SalvarEnvioLoteEm);
         }
 
-        public Layouts.Betha.ConsultarLoteRpsResposta EnviarLoteRps(Core.Empresa empresa, Core.ArquivosEnvio localArquivos)
+        public Core.RespostaEnvioNFSe EnviarLoteRps(Core.Empresa empresa, Core.ArquivosEnvio localArquivos)
         {
             var serializar = new Layouts.Serializador();
             var envio = new NFSE.Net.Envio.Processar();
+            var lote = serializar.LerXml<Layouts.Betha.EnviarLoteRpsEnvio>(localArquivos.SalvarEnvioLoteEm);
             envio.ProcessaArquivo(empresa, localArquivos.SalvarEnvioLoteEm, localArquivos.SalvarRetornoEnvioLoteEm, Servicos.RecepcionarLoteRps);
 
             bool erro = false;
             var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.EnviarLoteRpsResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
             var respostaSituacao = ConsultarSituacaoLote(empresa, respostaEnvioLote, localArquivos);
             if (respostaSituacao.Items[0] is ListaMensagemRetorno)
-                return new ConsultarLoteRpsResposta() { ListaMensagemRetorno = (ListaMensagemRetorno)respostaSituacao.Items[0] }; 
+            {
+                return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null);
+            }
 
-            return ConsultarLote(empresa, respostaEnvioLote, localArquivos);
+            var respostaLote = ConsultarLote(empresa, respostaEnvioLote, localArquivos);
+            return MontarResposta(lote, null, respostaLote.ListaNfse);
         }
 
         private Layouts.Betha.ConsultarSituacaoLoteRpsResposta ConsultarSituacaoLote(Core.Empresa empresa, EnviarLoteRpsResposta protocolo, Core.ArquivosEnvio localArquivos)
@@ -74,5 +78,45 @@ namespace NFSE.Net.Envio
 
         }
 
+
+        private Core.RespostaEnvioNFSe MontarResposta(Layouts.Betha.EnviarLoteRpsEnvio lote, ListaMensagemRetorno listaRetorno, ConsultarLoteRpsRespostaListaNfse respostaConsulta)
+        {
+            var resposta = new Core.RespostaEnvioNFSe();
+            int indice = 0;
+            foreach (var item in lote.LoteRps.ListaRps)
+            {
+                var resp = new Core.ItemResposta();
+                resp.LoteEnvio = lote.LoteRps.NumeroLote;
+                resp.NumeroRps = item.InfRps.IdentificacaoRps.Numero;
+                resp.Serie = item.InfRps.IdentificacaoRps.Serie;
+                resp.Identificacao = item.InfRps.Id;
+
+                if (listaRetorno != null)
+                {
+                    resp.Sucesso = false;
+                    if (indice > 0 && listaRetorno.MensagemRetorno.Length > 1)
+                    {
+                        resp.CodigoErro = listaRetorno.MensagemRetorno[indice].Codigo;
+                        resp.MensagemErro = listaRetorno.MensagemRetorno[indice].Mensagem;
+                        resp.Correcao = listaRetorno.MensagemRetorno[indice].Correcao;
+                    }
+                    else
+                    {
+                        resp.CodigoErro = listaRetorno.MensagemRetorno[0].Codigo;
+                        resp.MensagemErro = listaRetorno.MensagemRetorno[0].Mensagem;
+                        resp.Correcao = listaRetorno.MensagemRetorno[0].Correcao;
+                    }
+                }
+                else if (respostaConsulta != null)
+                {
+                    resp.Sucesso = true;
+                    resp.IdentificacaoRetorno = respostaConsulta.CompNfse[indice].Nfse.InfNfse.CodigoVerificacao;
+                    resp.UrlConsulta = "https://e-gov.betha.com.br/";
+                }
+                resposta.Add(resp);
+                indice++;
+            }
+            return resposta;
+        }
     }
 }

@@ -29,9 +29,8 @@ namespace NFSE.Net.Implementacoes
 
             string XMLRetorno = RequestWS(xml, url, "#CancelarNEV01Service");
 
-            MemoryStream stream = Functions.StringXmlToStream(XMLRetorno);
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            doc.Load(new System.IO.StringReader(XMLRetorno));
 
             XmlNodeList xmlList = doc.GetElementsByTagName("CancelarNfseReposta");
             retornar.Append(xmlList[0].OuterXml);
@@ -58,9 +57,8 @@ namespace NFSE.Net.Implementacoes
 
             string XMLRetorno = RequestWS(xml, url, "#ConsultarLoteRpsService");
 
-            MemoryStream stream = Functions.StringXmlToStream(XMLRetorno);
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            doc.Load(new System.IO.StringReader(XMLRetorno));
 
             XmlNodeList xmlList = doc.GetElementsByTagName("ConsultarLoteRpsResposta");
             retornar.Append(xmlList[0].OuterXml);
@@ -87,9 +85,8 @@ namespace NFSE.Net.Implementacoes
 
             string XMLRetorno = RequestWS(xml, url, "#ConsultarSituacaoLoteRpsService");
 
-            MemoryStream stream = Functions.StringXmlToStream(XMLRetorno);
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            doc.Load(new System.IO.StringReader(XMLRetorno));
 
             XmlNodeList xmlList = doc.GetElementsByTagName("ConsultarSituacaoLoteRpsResposta");
             retornar.Append(xmlList[0].OuterXml);
@@ -117,9 +114,8 @@ namespace NFSE.Net.Implementacoes
 
             string XMLRetorno = RequestWS(xml, url, "#RecepcionarLoteRpsService");
 
-            MemoryStream stream = Functions.StringXmlToStream(XMLRetorno);
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            doc.Load(new System.IO.StringReader(XMLRetorno));
 
             XmlNodeList xmlList = doc.GetElementsByTagName("EnviarLoteRpsResposta");
             retornar.Append(xmlList[0].OuterXml);
@@ -208,9 +204,8 @@ namespace NFSE.Net.Implementacoes
 
             string XMLRetorno = RequestWS(xml, url, "#ConsultarNfseService");
 
-            MemoryStream stream = Functions.StringXmlToStream(XMLRetorno);
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            doc.Load(new System.IO.StringReader(XMLRetorno));
 
             XmlNodeList xmlList = doc.GetElementsByTagName("ConsultarNfseResposta");
             retornar.Append(xmlList[0].OuterXml);
@@ -237,9 +232,8 @@ namespace NFSE.Net.Implementacoes
 
             string XMLRetorno = RequestWS(xml, url, "#ConsultarNfsePorRpsService");
 
-            MemoryStream stream = Functions.StringXmlToStream(XMLRetorno);
             XmlDocument doc = new XmlDocument();
-            doc.Load(stream);
+            doc.Load(new System.IO.StringReader(XMLRetorno));
 
             XmlNodeList xmlList = doc.GetElementsByTagName("ConsultarNfseRpsResposta");
             retornar.Append(xmlList[0].OuterXml);

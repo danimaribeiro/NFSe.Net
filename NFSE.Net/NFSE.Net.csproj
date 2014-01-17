@@ -51,6 +51,7 @@
     <Compile Include="Core\Classes.cs" />
     <Compile Include="Core\ConfiguracaoApp.cs" />
     <Compile Include="Core\Empresa.cs" />
+    <Compile Include="Core\RespostaEnvioNFSe.cs" />
     <Compile Include="DiretorioSalvarComo.cs" />
     <Compile Include="Empresas.cs" />
     <Compile Include="Enums.cs" />

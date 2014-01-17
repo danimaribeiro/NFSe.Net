@@ -27,7 +27,7 @@ namespace NFSE.Net.Tests
             if (criptografado)
                 empresa.CertificadoSenha = Certificado.Criptografia.criptografaSenha("123456");
             else
-                empresa.CertificadoSenha = "senha";
+                empresa.CertificadoSenha = "123456";
             
             empresa.tpAmb = 2;
             empresa.tpEmis = 1;
@@ -231,7 +231,14 @@ namespace NFSE.Net.Tests
             Core.Empresa empresa = RetornaEmpresa(false);
 
             var envioCompleto = new Envio.EnvioCompleto();
-            //envioCompleto.EnviarLoteRps(empresa, envio);
+
+            var localSalvarArquivo = Core.ArquivosEnvio.GerarCaminhos(envio.LoteRps.Id, System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NotaServico"));
+            envioCompleto.SalvarLoteRps(envio, localSalvarArquivo);
+            var resposta =  envioCompleto.EnviarLoteRps(empresa, localSalvarArquivo);
+            foreach (var item in resposta)
+            {
+                MessageBox.Show(item.MensagemErro);
+            }
         }
 
         private void relatoriosToolStripMenuItem_Click(object sender, EventArgs e)
