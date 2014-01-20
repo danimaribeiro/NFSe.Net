@@ -29,12 +29,19 @@ namespace NFSE.Net.Envio
 
             bool erro = false;
             var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.EnviarLoteRpsResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
-            var respostaSituacao = ConsultarSituacaoLote(empresa, respostaEnvioLote, localArquivos);
-            if (respostaSituacao.Items[0] is ListaMensagemRetorno)
+            while (true)
             {
-                return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null);
+                System.Threading.Thread.Sleep(500);
+                var respostaSituacao = ConsultarSituacaoLote(empresa, respostaEnvioLote, localArquivos);
+                if (respostaSituacao.Items[0] is ListaMensagemRetorno)
+                {
+                    if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E92")  //Lote ainda em processamento, tentando denovo.
+                        continue;
+                    return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null);
+                }
+                else
+                    break;
             }
-
             var respostaLote = ConsultarLote(empresa, respostaEnvioLote, localArquivos);
             return MontarResposta(lote, null, respostaLote.ListaNfse);
         }
