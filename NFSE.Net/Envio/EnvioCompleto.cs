@@ -25,25 +25,35 @@ namespace NFSE.Net.Envio
             var serializar = new Layouts.Serializador();
             var envio = new NFSE.Net.Envio.Processar();
             var lote = serializar.LerXml<Layouts.Betha.EnviarLoteRpsEnvio>(localArquivos.SalvarEnvioLoteEm);
-            envio.ProcessaArquivo(empresa, localArquivos.SalvarEnvioLoteEm, localArquivos.SalvarRetornoEnvioLoteEm, Servicos.RecepcionarLoteRps);
+
+            ExecutarConsultas(() =>
+            {
+                envio.ProcessaArquivo(empresa, localArquivos.SalvarEnvioLoteEm, localArquivos.SalvarRetornoEnvioLoteEm, Servicos.RecepcionarLoteRps);
+            });
 
             bool erro = false;
             var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.EnviarLoteRpsResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
             while (true)
             {
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(1000);
                 var respostaSituacao = ConsultarSituacaoLote(empresa, respostaEnvioLote, localArquivos);
                 if (respostaSituacao.Items[0] is ListaMensagemRetorno)
                 {
                     if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E92")  //Lote ainda em processamento, tentando denovo.
                         continue;
-                    return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null);
+                    else if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E10")  //RPS já enviado, passar para o Consulta RPS e verificar se a data de emissão é a mesma
+                    {
+                        var respostaRps = ConsultarRps(empresa, lote.LoteRps.ListaRps[0].InfRps.IdentificacaoRps, localArquivos);
+                        var listaErros = new ListaMensagemRetorno() { MensagemRetorno = respostaRps.ListaMensagemRetorno.Length > 0 ? respostaRps.ListaMensagemRetorno : null };
+                        return MontarResposta(lote, listaErros, null, respostaRps);
+                    }
+                    return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null, null);
                 }
                 else
                     break;
             }
             var respostaLote = ConsultarLote(empresa, respostaEnvioLote, localArquivos);
-            return MontarResposta(lote, null, respostaLote.ListaNfse);
+            return MontarResposta(lote, null, respostaLote.ListaNfse, null);
         }
 
         private Layouts.Betha.ConsultarSituacaoLoteRpsResposta ConsultarSituacaoLote(Core.Empresa empresa, EnviarLoteRpsResposta protocolo, Core.ArquivosEnvio localArquivos)
@@ -58,11 +68,12 @@ namespace NFSE.Net.Envio
             serializar.SalvarXml<Layouts.Betha.ConsultarSituacaoLoteRpsEnvio>(consultaSituacaoLote, localArquivos.SalvarConsultaSituacaoLoteEm);
 
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(empresa, localArquivos.SalvarConsultaSituacaoLoteEm, localArquivos.SalvarRetornoConsultaSituacaoLoteEm, Servicos.ConsultarSituacaoLoteRps);
+            ExecutarConsultas(() =>
+            {
+                envio.ProcessaArquivo(empresa, localArquivos.SalvarConsultaSituacaoLoteEm, localArquivos.SalvarRetornoConsultaSituacaoLoteEm, Servicos.ConsultarSituacaoLoteRps);
+            });
 
-            bool erro = false;
-            var resposta = serializar.TryLerXml<Layouts.Betha.ConsultarSituacaoLoteRpsResposta>(localArquivos.SalvarRetornoConsultaSituacaoLoteEm, out erro);
-            return resposta;
+            return serializar.LerXml<Layouts.Betha.ConsultarSituacaoLoteRpsResposta>(localArquivos.SalvarRetornoConsultaSituacaoLoteEm);
         }
 
         private Layouts.Betha.ConsultarLoteRpsResposta ConsultarLote(Core.Empresa empresa, EnviarLoteRpsResposta protocolo, Core.ArquivosEnvio localArquivos)
@@ -77,16 +88,37 @@ namespace NFSE.Net.Envio
             serializar.SalvarXml<Layouts.Betha.ConsultarLoteRpsEnvio>(consultaSituacaoLote, localArquivos.SalvarConsultaLoteRpsEnvioEm);
 
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(empresa, localArquivos.SalvarConsultaLoteRpsEnvioEm, localArquivos.SalvarConsultaLoteRpsRespostaEm, Servicos.ConsultarLoteRps);
 
-            bool erro = false;
-            var resposta = serializar.TryLerXml<Layouts.Betha.ConsultarLoteRpsResposta>(localArquivos.SalvarConsultaLoteRpsRespostaEm, out erro);
-            return resposta;
+            ExecutarConsultas(() =>
+            {
+                envio.ProcessaArquivo(empresa, localArquivos.SalvarConsultaLoteRpsEnvioEm, localArquivos.SalvarConsultaLoteRpsRespostaEm, Servicos.ConsultarLoteRps);
+            });
 
+            return serializar.LerXml<Layouts.Betha.ConsultarLoteRpsResposta>(localArquivos.SalvarConsultaLoteRpsRespostaEm);
         }
 
+        private Layouts.Betha.ConsultarNfseRpsResposta ConsultarRps(Core.Empresa empresa, tcIdentificacaoRps rps, Core.ArquivosEnvio localArquivos)
+        {
+            var consultaRps = new Layouts.Betha.ConsultarNfsePorRpsEnvio();
+            consultaRps.Prestador = new tcIdentificacaoPrestador();
+            consultaRps.Prestador.Cnpj = empresa.CNPJ;
+            consultaRps.Prestador.InscricaoMunicipal = empresa.InscricaoMunicipal;
+            consultaRps.IdentificacaoRps = rps;
 
-        private Core.RespostaEnvioNFSe MontarResposta(Layouts.Betha.EnviarLoteRpsEnvio lote, ListaMensagemRetorno listaRetorno, ConsultarLoteRpsRespostaListaNfse respostaConsulta)
+            var serializar = new Layouts.Serializador();
+            serializar.SalvarXml<Layouts.Betha.ConsultarNfsePorRpsEnvio>(consultaRps, localArquivos.SalvarConsultaLoteRpsEnvioEm);
+
+            var envio = new NFSE.Net.Envio.Processar();
+
+            ExecutarConsultas(() =>
+            {
+                envio.ProcessaArquivo(empresa, localArquivos.SalvarConsultaLoteRpsEnvioEm, localArquivos.SalvarConsultaLoteRpsRespostaEm, Servicos.ConsultarNfsePorRps);
+            });
+
+            return serializar.LerXml<Layouts.Betha.ConsultarNfseRpsResposta>(localArquivos.SalvarConsultaLoteRpsRespostaEm);
+        }
+
+        private Core.RespostaEnvioNFSe MontarResposta(Layouts.Betha.EnviarLoteRpsEnvio lote, ListaMensagemRetorno listaRetorno, ConsultarLoteRpsRespostaListaNfse respostaConsulta, ConsultarNfseRpsResposta respostaRps)
         {
             var resposta = new Core.RespostaEnvioNFSe();
             int indice = 0;
@@ -98,7 +130,7 @@ namespace NFSE.Net.Envio
                 resp.Serie = item.InfRps.IdentificacaoRps.Serie;
                 resp.Identificacao = item.InfRps.Id;
 
-                if (listaRetorno != null)
+                if (listaRetorno != null && listaRetorno.MensagemRetorno != null)
                 {
                     resp.Sucesso = false;
                     if (indice > 0 && listaRetorno.MensagemRetorno.Length > 1)
@@ -117,13 +149,40 @@ namespace NFSE.Net.Envio
                 else if (respostaConsulta != null)
                 {
                     resp.Sucesso = true;
-                    resp.IdentificacaoRetorno = respostaConsulta.CompNfse[indice].Nfse.InfNfse.CodigoVerificacao;
-                    resp.UrlConsulta = "https://e-gov.betha.com.br/";
+                    resp.IdentificacaoRetorno = respostaConsulta.ComplNfse[indice].Nfse.InfNfse.CodigoVerificacao;
+                    resp.UrlConsulta = respostaConsulta.ComplNfse[indice].Nfse.InfNfse.OutrasInformacoes;
+                }
+                else if (respostaRps != null)
+                {
+                    resp.Sucesso = true;
+                    resp.Identificacao = respostaRps.ComplNfse.Nfse.InfNfse.CodigoVerificacao;
+                    resp.UrlConsulta = respostaRps.ComplNfse.Nfse.InfNfse.OutrasInformacoes;
                 }
                 resposta.Add(resp);
                 indice++;
             }
             return resposta;
         }
+
+        private void ExecutarConsultas(Action acao)
+        {
+            int tentativas = 0;
+            while (true)
+            {
+                try
+                {
+                    acao.Invoke();
+                    break;
+                }
+                catch (Exception)
+                {
+                    if (tentativas == 5)
+                        throw;
+                    tentativas++;
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
+        }
+
     }
 }

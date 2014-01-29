@@ -28,7 +28,7 @@ namespace NFSE.Net.Tests
                 empresa.CertificadoSenha = Certificado.Criptografia.criptografaSenha("123456");
             else
                 empresa.CertificadoSenha = "123456";
-            
+
             empresa.tpAmb = 2;
             empresa.tpEmis = 1;
             empresa.CodigoMunicipio = 4204202;
@@ -73,18 +73,28 @@ namespace NFSE.Net.Tests
 
             var empresa = RetornaEmpresa(false);
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(empresa, caminhoXml,"", Servicos.ConsultarSituacaoLoteRps);
+            envio.ProcessaArquivo(empresa, caminhoXml, "", Servicos.ConsultarSituacaoLoteRps);
 
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {
-            SchemaXMLNFSe.CriarListaIDXML();
+        {            
             System.Net.ServicePointManager.Expect100Continue = false;
-            Propriedade.TipoAplicativo = TipoAplicativo.Nfse;
-            NFSE.Net.Core.ConfiguracaoApp.CarregarDados();
+
+
+            string caminhoXml = @"C:\NotasEletronicas\30-JeF DISTRIBUIDORA DE\nfse\513-ped-loterps.xml";
+            string caminhoSalvar = @"C:\NotasEletronicas\30-JeF DISTRIBUIDORA DE\nfse\513-lote-final.xml";
+            var empresa = RetornaEmpresa(false);
+
             var envio = new NFSE.Net.Envio.Processar();
-            envio.ProcessaArquivo(0, @"C:\Users\danimaribeiro\Documents\Nota_Servico\Ger\960-ped-loterps.xml", "", Servicos.ConsultarLoteRps);
+            
+            envio.ProcessaArquivo(empresa, caminhoXml, caminhoSalvar, Servicos.ConsultarLoteRps);
+            
+            var serializar = new Layouts.Serializador();
+            var retorno = serializar.LerXml<Layouts.Betha.ConsultarLoteRpsResposta>(caminhoSalvar);
+
+            System.Diagnostics.Process.Start(retorno.ListaNfse.ComplNfse[0].Nfse.InfNfse.OutrasInformacoes);            
+            
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -234,7 +244,7 @@ namespace NFSE.Net.Tests
 
             var localSalvarArquivo = Core.ArquivosEnvio.GerarCaminhos(envio.LoteRps.Id, System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NotaServico"));
             envioCompleto.SalvarLoteRps(envio, localSalvarArquivo);
-            var resposta =  envioCompleto.EnviarLoteRps(empresa, localSalvarArquivo);
+            var resposta = envioCompleto.EnviarLoteRps(empresa, localSalvarArquivo);
             foreach (var item in resposta)
             {
                 MessageBox.Show(item.MensagemErro);
@@ -267,6 +277,26 @@ namespace NFSE.Net.Tests
                 var serializar = new Layouts.Serializador();
                 serializar.SalvarXml<Layouts.Betha.ConsultarNfsePorRpsEnvio>(consulta, caminhoXml);
                 envio.ProcessaArquivo(empresa, caminhoXml, "", Servicos.ConsultarNfsePorRps);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string caminhoXml = @"C:\NotasEletronicas\30-JeF DISTRIBUIDORA DE\nfse\496-ped-loterps.xml";
+                string caminhoSalvar = @"C:\NotasEletronicas\30-JeF DISTRIBUIDORA DE\nfse\496-consulta-por-rps.xml";
+                var empresa = RetornaEmpresa(false);
+                var envio = new NFSE.Net.Envio.Processar();
+                envio.ProcessaArquivo(empresa, caminhoXml, caminhoSalvar, Servicos.ConsultarNfsePorRps);
+                var serializar = new Layouts.Serializador();
+                var retorno = serializar.LerXml<Layouts.Betha.ConsultarNfseRpsResposta>(caminhoSalvar);
+                System.Diagnostics.Process.Start(retorno.ComplNfse.Nfse.InfNfse.OutrasInformacoes);
             }
             catch (Exception ex)
             {

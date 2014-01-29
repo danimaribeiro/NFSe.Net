@@ -382,7 +382,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlRootAttribute("CompNfse", IsNullable = false)]
+    [System.Xml.Serialization.XmlRootAttribute("ComplNfse", IsNullable = false)]
     public class tcCompNfse
     {
 
@@ -562,9 +562,7 @@ namespace NFSE.Net.Layouts.Betha
                 this.identificacaoRpsField = value;
             }
         }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+                        
         public System.DateTime DataEmissaoRps
         {
             get
@@ -2527,8 +2525,8 @@ namespace NFSE.Net.Layouts.Betha
         private tcCompNfse[] compNfseField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("CompNfse")]
-        public tcCompNfse[] CompNfse
+        [System.Xml.Serialization.XmlElementAttribute("ComplNfse")]
+        public tcCompNfse[] ComplNfse
         {
             get
             {

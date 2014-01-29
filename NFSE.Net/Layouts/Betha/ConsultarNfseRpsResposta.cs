@@ -10,8 +10,8 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.betha.com.br/e-nota-contribuinte-ws")]
-    public partial class consultarNfseRpsResposta
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
+    public class ConsultarNfseRpsResposta
     {
 
         private tcCompNfse complNfseField;

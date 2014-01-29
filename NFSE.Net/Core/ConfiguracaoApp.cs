@@ -576,7 +576,7 @@ namespace NFSE.Net.Core
                         {
                             byte[] buffer = new byte[fs.Length];
                             fs.Read(buffer, 0, buffer.Length);
-                            empresaValidar.X509Certificado = new X509Certificate2(buffer, empresaValidar.CertificadoSenha);
+                            empresaValidar.X509Certificado = new X509Certificate2(buffer, empresaValidar.CertificadoSenha, X509KeyStorageFlags.MachineKeySet);
                         }
                     }
                     catch (System.Security.Cryptography.CryptographicException ex)
