@@ -22,38 +22,45 @@ namespace NFSE.Net.Envio
 
         public Core.RespostaEnvioNFSe EnviarLoteRps(Core.Empresa empresa, Core.ArquivosEnvio localArquivos)
         {
-            var serializar = new Layouts.Serializador();
-            var envio = new NFSE.Net.Envio.Processar();
-            var lote = serializar.LerXml<Layouts.Betha.EnviarLoteRpsEnvio>(localArquivos.SalvarEnvioLoteEm);
-
-            ExecutarConsultas(() =>
+            try
             {
-                envio.ProcessaArquivo(empresa, localArquivos.SalvarEnvioLoteEm, localArquivos.SalvarRetornoEnvioLoteEm, Servicos.RecepcionarLoteRps);
-            });
+                var serializar = new Layouts.Serializador();
+                var envio = new NFSE.Net.Envio.Processar();
+                var lote = serializar.LerXml<Layouts.Betha.EnviarLoteRpsEnvio>(localArquivos.SalvarEnvioLoteEm);
 
-            bool erro = false;
-            var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.EnviarLoteRpsResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
-            while (true)
-            {
-                System.Threading.Thread.Sleep(1000);
-                var respostaSituacao = ConsultarSituacaoLote(empresa, respostaEnvioLote, localArquivos);
-                if (respostaSituacao.Items[0] is ListaMensagemRetorno)
+                ExecutarConsultas(() =>
                 {
-                    if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E92")  //Lote ainda em processamento, tentando denovo.
-                        continue;
-                    else if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E10")  //RPS já enviado, passar para o Consulta RPS e verificar se a data de emissão é a mesma
+                    envio.ProcessaArquivo(empresa, localArquivos.SalvarEnvioLoteEm, localArquivos.SalvarRetornoEnvioLoteEm, Servicos.RecepcionarLoteRps);
+                });
+
+                bool erro = false;
+                var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.EnviarLoteRpsResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
+                while (true)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    var respostaSituacao = ConsultarSituacaoLote(empresa, respostaEnvioLote, localArquivos);
+                    if (respostaSituacao.Items[0] is ListaMensagemRetorno)
                     {
-                        var respostaRps = ConsultarRps(empresa, lote.LoteRps.ListaRps[0].InfRps.IdentificacaoRps, localArquivos);
-                        var listaErros = new ListaMensagemRetorno() { MensagemRetorno = respostaRps.ListaMensagemRetorno.Length > 0 ? respostaRps.ListaMensagemRetorno : null };
-                        return MontarResposta(lote, listaErros, null, respostaRps);
+                        if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E92")  //Lote ainda em processamento, tentando denovo.
+                            continue;
+                        else if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E10")  //RPS já enviado, passar para o Consulta RPS e verificar se a data de emissão é a mesma
+                        {
+                            var respostaRps = ConsultarRps(empresa, lote.LoteRps.ListaRps[0].InfRps.IdentificacaoRps, localArquivos);
+                            var listaErros = new ListaMensagemRetorno() { MensagemRetorno = respostaRps.ListaMensagemRetorno.Length > 0 ? respostaRps.ListaMensagemRetorno : null };
+                            return MontarResposta(lote, listaErros, null, respostaRps);
+                        }
+                        return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null, null);
                     }
-                    return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null, null);
+                    else
+                        break;
                 }
-                else
-                    break;
+                var respostaLote = ConsultarLote(empresa, respostaEnvioLote, localArquivos);
+                return MontarResposta(lote, null, respostaLote.ListaNfse, null);
             }
-            var respostaLote = ConsultarLote(empresa, respostaEnvioLote, localArquivos);
-            return MontarResposta(lote, null, respostaLote.ListaNfse, null);
+            catch (System.Reflection.TargetInvocationException e)
+            {
+                throw e.InnerException;
+            }
         }
 
         private Layouts.Betha.ConsultarSituacaoLoteRpsResposta ConsultarSituacaoLote(Core.Empresa empresa, EnviarLoteRpsResposta protocolo, Core.ArquivosEnvio localArquivos)

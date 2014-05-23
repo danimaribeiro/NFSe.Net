@@ -94,12 +94,8 @@ namespace NFSE.Net.Validacoes
                 this.RetornoString = "";
                 if (cErro != "")
                 {
-                    this.Retorno = 1;
-                    this.RetornoString = "Início da validação...\r\n\r\n";
-                    this.RetornoString += "Arquivo XML: " + cRotaArqXML + "\r\n";
-                    this.RetornoString += "Arquivo SCHEMA: " + caminhoDoSchema + "\r\n\r\n";
-                    this.RetornoString += this.cErro;
-                    this.RetornoString += "\r\n...Final da validação";
+                    this.Retorno = 1;                    
+                    this.RetornoString = this.cErro;                    
                 }
             }
             else

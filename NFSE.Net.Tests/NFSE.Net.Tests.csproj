@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarcodeTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BarcodeTest.Designer.cs">
+      <DependentUpon>BarcodeTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="desenvolvimentoDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,6 +81,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BarcodeTest.resx">
+      <DependentUpon>BarcodeTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
