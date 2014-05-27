@@ -52,7 +52,7 @@ namespace NFSE.Net.Certificado
                 XmlDocument doc = new XmlDocument();
 
                 // Format the document to ignore white spaces.
-                doc.PreserveWhitespace = false;
+                doc.PreserveWhitespace = false ;
 
                 // Load the passed XML file using it’s name.
                 doc.LoadXml(xmlString);
@@ -96,8 +96,10 @@ namespace NFSE.Net.Certificado
                                 reference.Uri = "#" + childElemen.GetAttributeNode("id").Value;
                             }
 
+                            XmlDocument documentoNovo = new XmlDocument();
+                            documentoNovo.LoadXml(nodes.OuterXml);
                             // Create a SignedXml object.
-                            SignedXml signedXml = new SignedXml(doc);
+                            SignedXml signedXml = new SignedXml(documentoNovo);
 
                             // Add the key to the SignedXml document
                             signedXml.SigningKey = x509Cert.PrivateKey;
@@ -128,7 +130,7 @@ namespace NFSE.Net.Certificado
                             XmlElement xmlDigitalSignature = signedXml.GetXml();
 
                             // Gravar o elemento no documento XML
-                            nodes.AppendChild(doc.ImportNode(xmlDigitalSignature, true));
+                            nodes.AppendChild(doc.ImportNode(xmlDigitalSignature, true));                            
                         }
                     }
 

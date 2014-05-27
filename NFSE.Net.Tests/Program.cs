@@ -16,7 +16,7 @@ namespace NFSE.Net.Tests
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BarcodeTest());
+            Application.Run(new Form1());
         }
     }
 }
