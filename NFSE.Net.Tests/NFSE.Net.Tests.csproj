@@ -57,11 +57,6 @@
     <Compile Include="BarcodeTest.Designer.cs">
       <DependentUpon>BarcodeTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="desenvolvimentoDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>desenvolvimentoDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,17 +98,6 @@
     <EmbeddedResource Include="Report2.rdlc" />
     <EmbeddedResource Include="Report3.rdlc" />
     <EmbeddedResource Include="Report4.rdlc" />
-    <None Include="desenvolvimentoDataSet.xsc">
-      <DependentUpon>desenvolvimentoDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="desenvolvimentoDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>desenvolvimentoDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="desenvolvimentoDataSet.xss">
-      <DependentUpon>desenvolvimentoDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

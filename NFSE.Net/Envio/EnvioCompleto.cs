@@ -43,12 +43,12 @@ namespace NFSE.Net.Envio
                     {
                         if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E92")  //Lote ainda em processamento, tentando denovo.
                             continue;
-                        else if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E10")  //RPS já enviado, passar para o Consulta RPS e verificar se a data de emissão é a mesma
-                        {
-                            var respostaRps = ConsultarRps(empresa, lote.LoteRps.ListaRps[0].InfRps.IdentificacaoRps, localArquivos);
-                            var listaErros = new ListaMensagemRetorno() { MensagemRetorno = respostaRps.ListaMensagemRetorno.Length > 0 ? respostaRps.ListaMensagemRetorno : null };
-                            return MontarResposta(lote, listaErros, null, respostaRps);
-                        }
+                        //else if (((ListaMensagemRetorno)respostaSituacao.Items[0]).MensagemRetorno[0].Codigo == "E10")  //RPS já enviado, passar para o Consulta RPS e verificar se a data de emissão é a mesma
+                        //{
+                        //    var respostaRps = ConsultarRps(empresa, lote.LoteRps.ListaRps[0].InfRps.IdentificacaoRps, localArquivos);
+                        //    var listaErros = new ListaMensagemRetorno() { MensagemRetorno = respostaRps.ListaMensagemRetorno.Length > 0 ? respostaRps.ListaMensagemRetorno : null };
+                        //    return MontarResposta(lote, listaErros, null, respostaRps);
+                        //}
                         return MontarResposta(lote, (ListaMensagemRetorno)respostaSituacao.Items[0], null, null);
                     }
                     else

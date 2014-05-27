@@ -31,22 +31,9 @@
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.tb_conta_demonstrativo_resultadoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.desenvolvimentoDataSet = new NFSE.Net.Tests.desenvolvimentoDataSet();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.tb_conta_demonstrativo_resultadoTableAdapter = new NFSE.Net.Tests.desenvolvimentoDataSetTableAdapters.tb_conta_demonstrativo_resultadoTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.tb_conta_demonstrativo_resultadoBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.desenvolvimentoDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tb_conta_demonstrativo_resultadoBindingSource)).BeginInit();            
             this.SuspendLayout();
-            // 
-            // tb_conta_demonstrativo_resultadoBindingSource
-            // 
-            this.tb_conta_demonstrativo_resultadoBindingSource.DataMember = "tb_conta_demonstrativo_resultado";
-            this.tb_conta_demonstrativo_resultadoBindingSource.DataSource = this.desenvolvimentoDataSet;
-            // 
-            // desenvolvimentoDataSet
-            // 
-            this.desenvolvimentoDataSet.DataSetName = "desenvolvimentoDataSet";
-            this.desenvolvimentoDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // reportViewer1
             // 
@@ -59,10 +46,6 @@
             this.reportViewer1.Size = new System.Drawing.Size(988, 487);
             this.reportViewer1.TabIndex = 0;
             // 
-            // tb_conta_demonstrativo_resultadoTableAdapter
-            // 
-            this.tb_conta_demonstrativo_resultadoTableAdapter.ClearBeforeFill = true;
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -72,8 +55,7 @@
             this.Name = "Form2";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.tb_conta_demonstrativo_resultadoBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.desenvolvimentoDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tb_conta_demonstrativo_resultadoBindingSource)).EndInit();            
             this.ResumeLayout(false);
 
         }
@@ -81,8 +63,6 @@
         #endregion
 
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
-        private System.Windows.Forms.BindingSource tb_conta_demonstrativo_resultadoBindingSource;
-        private desenvolvimentoDataSet desenvolvimentoDataSet;
-        private desenvolvimentoDataSetTableAdapters.tb_conta_demonstrativo_resultadoTableAdapter tb_conta_demonstrativo_resultadoTableAdapter;
+        private System.Windows.Forms.BindingSource tb_conta_demonstrativo_resultadoBindingSource;        
     }
 }

@@ -20,7 +20,7 @@ namespace NFSE.Net.Tests
         private void Form2_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'desenvolvimentoDataSet.tb_conta_demonstrativo_resultado' table. You can move, or remove it, as needed.
-            this.tb_conta_demonstrativo_resultadoTableAdapter.Fill(this.desenvolvimentoDataSet.tb_conta_demonstrativo_resultado);
+            
 
             this.reportViewer1.RefreshReport();
         }
