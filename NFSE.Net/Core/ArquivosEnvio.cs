@@ -7,6 +7,15 @@ namespace NFSE.Net.Core
 {
     public class ArquivosEnvio
     {
+        public ArquivosEnvio()
+        {
+        }
+
+        public ArquivosEnvio(string salvarLoteEm)
+        {
+            this.SalvarEnvioLoteEm = salvarLoteEm;
+        }
+        
         public string SalvarEnvioLoteEm { get; set; }
         public string SalvarRetornoEnvioLoteEm { get; set; }
 

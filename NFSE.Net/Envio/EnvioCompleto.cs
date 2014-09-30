@@ -63,6 +63,53 @@ namespace NFSE.Net.Envio
             }
         }
 
+        public Core.RespostaCancelamentoNfse CancelarNfse(Layouts.Betha.CancelarNfseEnvio envioCancelamento, Core.Empresa empresa, Core.ArquivosEnvio localArquivos)
+        {
+            try
+            {
+                ValidarCaminhos(localArquivos);
+                var serializar = new Layouts.Serializador();
+                serializar.SalvarXml<Layouts.Betha.CancelarNfseEnvio>(envioCancelamento, localArquivos.SalvarEnvioLoteEm);
+
+                var envio = new NFSE.Net.Envio.Processar();
+                ExecutarConsultas(() =>
+                {
+                    envio.ProcessaArquivo(empresa, localArquivos.SalvarCancelarNfseEnvioEm, localArquivos.SalvarCancelarNfseRespostaEm, Servicos.RecepcionarLoteRps);
+                });
+
+                bool erro = false;
+                var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.CancelarNfseResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
+                if (respostaEnvioLote != null)
+                {
+                    if (respostaEnvioLote.Item is ListaMensagemRetorno)
+                    {
+                        var retorno = new Core.RespostaCancelamentoNfse();
+                        ListaMensagemRetorno mensagensErro = (ListaMensagemRetorno)respostaEnvioLote.Item;
+                        retorno.Sucesso = false;
+                        retorno.CodigoErro = mensagensErro.MensagemRetorno[0].Codigo;
+                        retorno.Correcao = mensagensErro.MensagemRetorno[0].Correcao;
+                        retorno.MensagemErro = mensagensErro.MensagemRetorno[0].Mensagem;
+                        return retorno;
+                    }
+                    else
+                    {
+                        var retorno = new Core.RespostaCancelamentoNfse();
+                        tcCancelamentoNfse cancelamento = (tcCancelamentoNfse)respostaEnvioLote.Item;
+                        retorno.Sucesso = cancelamento.Confirmacao.InfConfirmacaoCancelamento.Sucesso;
+                        retorno.DataHoraCancelamento = cancelamento.Confirmacao.InfConfirmacaoCancelamento.DataHora;
+                        retorno.NumeroNfse = cancelamento.Confirmacao.Pedido.InfPedidoCancelamento.IdentificacaoNfse.Numero;
+                        return retorno;
+                    }
+                }
+                else
+                    return new Core.RespostaCancelamentoNfse() { Sucesso = false, CodigoErro = "00", MensagemErro = "Erro desconhecido" };
+            }
+            catch (System.Reflection.TargetInvocationException e)
+            {
+                throw e.InnerException;
+            }
+        }
+
         private Layouts.Betha.ConsultarSituacaoLoteRpsResposta ConsultarSituacaoLote(Core.Empresa empresa, EnviarLoteRpsResposta protocolo, Core.ArquivosEnvio localArquivos)
         {
             var consultaSituacaoLote = new Layouts.Betha.ConsultarSituacaoLoteRpsEnvio();
@@ -189,6 +236,19 @@ namespace NFSE.Net.Envio
                     System.Threading.Thread.Sleep(500);
                 }
             }
+        }
+
+        private void ValidarCaminhos(Core.ArquivosEnvio localArquivos)
+        {
+            if (string.IsNullOrWhiteSpace(localArquivos.SalvarCancelarNfseEnvioEm))
+                throw new ArgumentNullException("localArquivos.SalvarEnvioLoteEm");
+            if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(localArquivos.SalvarCancelarNfseEnvioEm)))
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(localArquivos.SalvarCancelarNfseEnvioEm));
+
+            if (string.IsNullOrWhiteSpace(localArquivos.SalvarCancelarNfseRespostaEm))
+                throw new ArgumentNullException("localArquivos.SalvarEnvioLoteEm");
+            if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(localArquivos.SalvarCancelarNfseRespostaEm)))
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(localArquivos.SalvarCancelarNfseRespostaEm));
         }
 
     }

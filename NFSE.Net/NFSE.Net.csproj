@@ -47,10 +47,12 @@
     <Compile Include="Certificado\CertificadoDigital.cs" />
     <Compile Include="Certificado\Criptografia.cs" />
     <Compile Include="ComboElemen.cs" />
+    <Compile Include="Core\ArquivoEnvio.cs" />
     <Compile Include="Core\ArquivosEnvio.cs" />
     <Compile Include="Core\Classes.cs" />
     <Compile Include="Core\ConfiguracaoApp.cs" />
     <Compile Include="Core\Empresa.cs" />
+    <Compile Include="Core\RespostaCancelamentoNfse.cs" />
     <Compile Include="Core\RespostaEnvioNFSe.cs" />
     <Compile Include="DiretorioSalvarComo.cs" />
     <Compile Include="Empresas.cs" />

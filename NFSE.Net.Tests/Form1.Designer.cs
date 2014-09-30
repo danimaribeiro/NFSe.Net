@@ -73,7 +73,7 @@
             // 
             this.button4.Location = new System.Drawing.Point(170, 58);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(134, 23);
+            this.button4.Size = new System.Drawing.Size(138, 23);
             this.button4.TabIndex = 3;
             this.button4.Text = "Gerar RPS";
             this.button4.UseVisualStyleBackColor = true;
@@ -83,7 +83,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(369, 57);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(166, 23);
+            this.button5.Size = new System.Drawing.Size(174, 23);
             this.button5.TabIndex = 4;
             this.button5.Text = "Gravar Informação Empresa";
             this.button5.UseVisualStyleBackColor = true;
@@ -91,9 +91,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(398, 160);
+            this.button6.Location = new System.Drawing.Point(369, 160);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(137, 23);
+            this.button6.Size = new System.Drawing.Size(174, 23);
             this.button6.TabIndex = 5;
             this.button6.Text = "Envio Completo";
             this.button6.UseVisualStyleBackColor = true;
@@ -119,9 +119,9 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(348, 216);
+            this.button8.Location = new System.Drawing.Point(369, 216);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(153, 23);
+            this.button8.Size = new System.Drawing.Size(174, 23);
             this.button8.TabIndex = 8;
             this.button8.Text = "Consultar RPS";
             this.button8.UseVisualStyleBackColor = true;
