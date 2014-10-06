@@ -10,16 +10,16 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://tempuri.org/servico_cancelar_nfse_resposta.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://tempuri.org/servico_cancelar_nfse_resposta.xsd", IsNullable = false)]
-    public class CancelarNfseResposta
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    public class CancelarNfseReposta
     {
 
         private object itemField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Cancelamento", typeof(tcCancelamentoNfse))]
-        [System.Xml.Serialization.XmlElementAttribute("ListaMensagemRetorno", typeof(ListaMensagemRetorno), Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+        [System.Xml.Serialization.XmlElementAttribute("ListaMensagemRetorno", typeof(ListaMensagemRetorno), Namespace = "")]
         public object Item
         {
             get

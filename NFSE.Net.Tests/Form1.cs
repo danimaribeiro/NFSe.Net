@@ -78,7 +78,7 @@ namespace NFSE.Net.Tests
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {            
+        {
             System.Net.ServicePointManager.Expect100Continue = false;
 
 
@@ -87,14 +87,14 @@ namespace NFSE.Net.Tests
             var empresa = RetornaEmpresa(false);
 
             var envio = new NFSE.Net.Envio.Processar();
-            
+
             envio.ProcessaArquivo(empresa, caminhoXml, caminhoSalvar, Servicos.ConsultarLoteRps);
-            
+
             var serializar = new Layouts.Serializador();
             var retorno = serializar.LerXml<Layouts.Betha.ConsultarLoteRpsResposta>(caminhoSalvar);
 
-            System.Diagnostics.Process.Start(retorno.ListaNfse.ComplNfse[0].Nfse.InfNfse.OutrasInformacoes);            
-            
+            System.Diagnostics.Process.Start(retorno.ListaNfse.ComplNfse[0].Nfse.InfNfse.OutrasInformacoes);
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -119,7 +119,7 @@ namespace NFSE.Net.Tests
             envio.LoteRps.InscricaoMunicipal = "24082-6";
             envio.LoteRps.NumeroLote = "1400";
             envio.LoteRps.QuantidadeRps = 1;
-            envio.LoteRps.ListaRps = new Layouts.Betha.tcRps[1] { new Layouts.Betha.tcRps()};
+            envio.LoteRps.ListaRps = new Layouts.Betha.tcRps[1] { new Layouts.Betha.tcRps() };
             envio.LoteRps.ListaRps[0].InfRps = new Layouts.Betha.tcInfRps();
             envio.LoteRps.ListaRps[0].InfRps.Id = "rps1AA";
             envio.LoteRps.ListaRps[0].InfRps.IdentificacaoRps = new Layouts.Betha.tcIdentificacaoRps();
@@ -297,6 +297,43 @@ namespace NFSE.Net.Tests
                 var serializar = new Layouts.Serializador();
                 var retorno = serializar.LerXml<Layouts.Betha.ConsultarNfseRpsResposta>(caminhoSalvar);
                 System.Diagnostics.Process.Start(retorno.ComplNfse.Nfse.InfNfse.OutrasInformacoes);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var empresa = RetornaEmpresa(false);
+                var localArquivos = Core.ArquivosEnvio.GerarCaminhos("", @"C:\NotasEletronicas\30-JeF DISTRIBUIDORA DE\nfse\cancelamento");
+
+                var envio = new Envio.EnvioCompleto();
+
+                Layouts.Betha.CancelarNfseEnvio nfseCancelar = new Layouts.Betha.CancelarNfseEnvio();
+                nfseCancelar.Pedido = new Layouts.Betha.tcPedidoCancelamento();
+                nfseCancelar.Pedido.InfPedidoCancelamento = new Layouts.Betha.tcInfPedidoCancelamento();
+                nfseCancelar.Pedido.InfPedidoCancelamento.CodigoCancelamento = "123";
+                nfseCancelar.Pedido.InfPedidoCancelamento.Id = "123";
+                nfseCancelar.Pedido.InfPedidoCancelamento.IdentificacaoNfse = new Layouts.Betha.tcIdentificacaoNfse();
+                nfseCancelar.Pedido.InfPedidoCancelamento.IdentificacaoNfse.Cnpj = "03657739000169";
+                nfseCancelar.Pedido.InfPedidoCancelamento.IdentificacaoNfse.CodigoMunicipio = 4204202;
+                nfseCancelar.Pedido.InfPedidoCancelamento.IdentificacaoNfse.InscricaoMunicipal = "4545";
+                nfseCancelar.Pedido.InfPedidoCancelamento.IdentificacaoNfse.Numero = "125456";
+
+                var resposta = envio.CancelarNfse(nfseCancelar, empresa, localArquivos);
+
+                if (resposta.Sucesso)
+                {
+                    MessageBox.Show(resposta.DataHoraCancelamento.ToLongDateString());
+                }
+                else
+                {
+                    MessageBox.Show(resposta.CodigoErro + " - " + resposta.MensagemErro + " - " + resposta.Correcao);
+                }
             }
             catch (Exception ex)
             {

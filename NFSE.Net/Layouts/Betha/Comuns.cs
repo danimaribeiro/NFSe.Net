@@ -2057,7 +2057,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcCancelamentoNfse
     {
 
@@ -2083,7 +2083,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcConfirmacaoCancelamento
     {
 
@@ -2139,7 +2139,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcPedidoCancelamento
     {
 
@@ -2165,7 +2165,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcInfPedidoCancelamento
     {
 
@@ -2203,7 +2203,7 @@ namespace NFSE.Net.Layouts.Betha
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string id
+        public string Id
         {
             get
             {
@@ -2221,7 +2221,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcIdentificacaoNfse
     {
 
@@ -2292,7 +2292,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcInfConfirmacaoCancelamento
     {
 
@@ -2332,7 +2332,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcSubstituicaoNfse
     {
 
@@ -2358,7 +2358,7 @@ namespace NFSE.Net.Layouts.Betha
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/tipos_complexos.xsd")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "")]
     public class tcInfSubstituicaoNfse
     {
 

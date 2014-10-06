@@ -42,7 +42,6 @@ namespace NFSE.Net.Layouts
             {
                 using (var stream = new System.IO.StreamReader(System.IO.File.Open(caminhoXml, FileMode.Open, FileAccess.Read)))
                 {
-
                     XmlSerializer infoSerializer = new XmlSerializer(typeof(T));
                     var objeto = infoSerializer.Deserialize(stream);
                     stream.Close();

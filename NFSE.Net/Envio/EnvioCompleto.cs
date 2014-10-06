@@ -69,16 +69,16 @@ namespace NFSE.Net.Envio
             {
                 ValidarCaminhos(localArquivos);
                 var serializar = new Layouts.Serializador();
-                serializar.SalvarXml<Layouts.Betha.CancelarNfseEnvio>(envioCancelamento, localArquivos.SalvarEnvioLoteEm);
+                serializar.SalvarXml<Layouts.Betha.CancelarNfseEnvio>(envioCancelamento, localArquivos.SalvarCancelarNfseEnvioEm);
 
                 var envio = new NFSE.Net.Envio.Processar();
                 ExecutarConsultas(() =>
                 {
-                    envio.ProcessaArquivo(empresa, localArquivos.SalvarCancelarNfseEnvioEm, localArquivos.SalvarCancelarNfseRespostaEm, Servicos.RecepcionarLoteRps);
+                    envio.ProcessaArquivo(empresa, localArquivos.SalvarCancelarNfseEnvioEm, localArquivos.SalvarCancelarNfseRespostaEm, Servicos.CancelarNfse);
                 });
 
                 bool erro = false;
-                var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.CancelarNfseResposta>(localArquivos.SalvarRetornoEnvioLoteEm, out erro);
+                var respostaEnvioLote = serializar.TryLerXml<Layouts.Betha.CancelarNfseReposta>(localArquivos.SalvarCancelarNfseRespostaEm, out erro);
                 if (respostaEnvioLote != null)
                 {
                     if (respostaEnvioLote.Item is ListaMensagemRetorno)

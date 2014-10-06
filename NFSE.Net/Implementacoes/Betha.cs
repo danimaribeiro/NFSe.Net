@@ -134,31 +134,43 @@ namespace NFSE.Net.Implementacoes
         /// <returns>Conteúdo retornado pela prefeitura</returns>
         private string RequestWS(XmlNode xml, String url, String metodo)
         {
-            string XMLRetorno = string.Empty;
-            string xmlSoap = Envelopar(xml);
-            
-            Uri uri = new Uri(url);
+            try
+            {
+                string XMLRetorno = string.Empty;
+                string xmlSoap = Envelopar(xml);
 
-            WebRequest webRequest = WebRequest.Create(url);
-            HttpWebRequest httpWR = (HttpWebRequest)webRequest;
-            httpWR.ContentType = "text/xml; charset=ISO-8859-1";
-            httpWR.Headers.Add("SOAPAction", uri + "" + metodo);
-            httpWR.Method = "POST";
+                Uri uri = new Uri(url);
 
-            httpWR.Proxy = Proxy;
+                WebRequest webRequest = WebRequest.Create(url);
+                HttpWebRequest httpWR = (HttpWebRequest)webRequest;
+                httpWR.ContentType = "text/xml; charset=ISO-8859-1";
+                httpWR.Headers.Add("SOAPAction", uri + "" + metodo);
+                httpWR.Method = "POST";
 
-            Stream reqStream = httpWR.GetRequestStream();
-            StreamWriter streamWriter = new StreamWriter(reqStream);
-            streamWriter.Write(xmlSoap);
-            streamWriter.Close();
+                httpWR.Proxy = Proxy;
 
-            WebResponse webResponse = httpWR.GetResponse();
-            Stream respStream = webResponse.GetResponseStream();
-            StreamReader streamReader = new StreamReader(respStream);
+                Stream reqStream = httpWR.GetRequestStream();
+                StreamWriter streamWriter = new StreamWriter(reqStream);
+                streamWriter.Write(xmlSoap);
+                streamWriter.Close();
 
-            XMLRetorno = streamReader.ReadToEnd();
+                WebResponse webResponse = httpWR.GetResponse();
+                Stream respStream = webResponse.GetResponseStream();
+                StreamReader streamReader = new StreamReader(respStream);
 
-            return XMLRetorno;
+                XMLRetorno = streamReader.ReadToEnd();
+
+                return XMLRetorno;
+            }
+            catch (WebException ex)
+            {
+                using (var stream = ex.Response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    Console.WriteLine(reader.ReadToEnd());
+                }
+                throw;
+            }
         }
         #endregion
 
