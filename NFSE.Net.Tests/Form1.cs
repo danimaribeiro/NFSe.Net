@@ -99,7 +99,7 @@ namespace NFSE.Net.Tests
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string caminhoXml = @"C:\Users\danimaribeiro\Documents\Nota_Servico\NOVOS_RPS\1-env.xml";
+            string caminhoXml = @"C:\NotasEletronicas\1-Interfoc Soluções\nfse\1-env.xml";
 
             Layouts.Betha.EnviarLoteRpsEnvio envio = RetornarRps();
 
@@ -169,6 +169,16 @@ namespace NFSE.Net.Tests
             envio.LoteRps.ListaRps[0].InfRps.Tomador.Contato = new Layouts.Betha.tcContato();
             envio.LoteRps.ListaRps[0].InfRps.Tomador.Contato.Email = "email@email.com.br";
             envio.LoteRps.ListaRps[0].InfRps.Tomador.Contato.Telefone = "32386621";
+
+
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento = new Layouts.Betha.tcCondicaoPagamento ();
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento.Condicao = "3- A Prazo";
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento.QtdParcela  = 2;
+
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento.Parcelas = new Layouts.Betha.tcParcela[1] { new Layouts.Betha.tcParcela () };
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento.Parcelas[0].DataVencimento = DateTime.Now;
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento.Parcelas = new Layouts.Betha.tcParcela[1] { new Layouts.Betha.tcParcela() };
+            envio.LoteRps.ListaRps[0].InfRps.CondicaoPagamento.Parcelas[0].DataVencimento = DateTime.Now;
 
             //envio.LoteRps.ListaRps[1].InfRps = new Layouts.Betha.tcInfRps();
             //envio.LoteRps.ListaRps[1].InfRps.Id = "rps2AA";

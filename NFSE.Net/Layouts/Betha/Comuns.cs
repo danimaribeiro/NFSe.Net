@@ -131,7 +131,7 @@ namespace NFSE.Net.Layouts.Betha
                 this.infRpsField = value;
             }
         }
-              
+
     }
 
     /// <remarks/>
@@ -170,6 +170,8 @@ namespace NFSE.Net.Layouts.Betha
 
         private tcDadosConstrucaoCivil contrucaoCivilField;
 
+        private tcCondicaoPagamento condicaoPagamento;
+
         private string idField;
 
         /// <remarks/>
@@ -184,7 +186,7 @@ namespace NFSE.Net.Layouts.Betha
                 this.identificacaoRpsField = value;
             }
         }
-                
+
         [System.Xml.Serialization.XmlIgnore]
         public System.DateTime DataEmissao
         {
@@ -363,6 +365,19 @@ namespace NFSE.Net.Layouts.Betha
         }
 
         /// <remarks/>
+        public tcCondicaoPagamento CondicaoPagamento
+        {
+            get
+            {
+                return this.condicaoPagamento;
+            }
+            set
+            {
+                this.condicaoPagamento = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id
         {
@@ -440,7 +455,7 @@ namespace NFSE.Net.Layouts.Betha
     public class tcNfse
     {
 
-        private tcInfNfse infNfseField;   
+        private tcInfNfse infNfseField;
 
         /// <remarks/>
         public tcInfNfse InfNfse
@@ -453,7 +468,7 @@ namespace NFSE.Net.Layouts.Betha
             {
                 this.infNfseField = value;
             }
-        }        
+        }
     }
 
     /// <remarks/>
@@ -562,7 +577,7 @@ namespace NFSE.Net.Layouts.Betha
                 this.identificacaoRpsField = value;
             }
         }
-                        
+
         public System.DateTime DataEmissaoRps
         {
             get
@@ -1543,6 +1558,116 @@ namespace NFSE.Net.Layouts.Betha
         }
     }
 
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public class tcCondicaoPagamento
+    {
+        private string condicaoField;
+
+        private long qtdParcelaField;
+
+        private tcParcela[] parcelaField;
+
+        /// <remarks/>
+        public string Condicao
+        {
+            get
+            {
+                return this.condicaoField;
+            }
+            set
+            {
+                this.condicaoField = value;
+            }
+        }
+
+        /// <remarks/>
+        public long QtdParcela
+        {
+            get
+            {
+                return this.qtdParcelaField;
+            }
+            set
+            {
+                this.qtdParcelaField = value;
+            }
+        }
+
+
+       /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Parcelas", IsNullable = true)]
+        public tcParcela[] Parcelas
+        {
+            get
+            {
+                return this.parcelaField;
+            }
+            set
+            {
+                this.parcelaField = value;
+            }
+        }
+
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public class tcParcela
+    {
+        private long parcelaField;
+
+        private string dataVencimentoField;
+
+        private decimal valorField;
+
+        public long Parcela
+        {
+            get
+            {
+                return this.parcelaField;
+            }
+            set
+            {
+                this.parcelaField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string DataVencimento
+        {
+            get
+            {
+                return this.dataVencimentoField;
+            }
+            set
+            {
+                this.dataVencimentoField = value;
+            }
+        }
+
+        /// <remarks/>
+        public decimal Valor
+        {
+            get
+            {
+                return this.valorField;
+            }
+            set
+            {
+                this.valorField = value;
+            }
+        }
+
+    }
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.17929")]
     [System.SerializableAttribute()]
@@ -2061,7 +2186,7 @@ namespace NFSE.Net.Layouts.Betha
     public class tcCancelamentoNfse
     {
 
-        private tcConfirmacaoCancelamento confirmacaoField;      
+        private tcConfirmacaoCancelamento confirmacaoField;
 
         /// <remarks/>
         public tcConfirmacaoCancelamento Confirmacao
@@ -2075,7 +2200,7 @@ namespace NFSE.Net.Layouts.Betha
                 this.confirmacaoField = value;
             }
         }
-       
+
     }
 
     /// <remarks/>
@@ -2145,7 +2270,7 @@ namespace NFSE.Net.Layouts.Betha
 
         private tcInfPedidoCancelamento infPedidoCancelamentoField;
 
-      
+
         /// <remarks/>
         public tcInfPedidoCancelamento InfPedidoCancelamento
         {
@@ -2338,7 +2463,7 @@ namespace NFSE.Net.Layouts.Betha
 
         private tcInfSubstituicaoNfse substituicaoNfseField;
 
-           /// <remarks/>
+        /// <remarks/>
         public tcInfSubstituicaoNfse SubstituicaoNfse
         {
             get
@@ -2350,7 +2475,7 @@ namespace NFSE.Net.Layouts.Betha
                 this.substituicaoNfseField = value;
             }
         }
-    
+
     }
 
     /// <remarks/>
